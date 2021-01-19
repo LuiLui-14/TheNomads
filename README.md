@@ -1,2 +1,2 @@
 # TheNomads
-[id] Logo_Only.png "Logo"
+![alt] (Logo_Only.png)
