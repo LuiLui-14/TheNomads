@@ -1,2 +1,2 @@
 # TheNomads
-# Added this comment
+[id] Logo_Only.png "Logo"
