@@ -101,16 +101,35 @@ T: Task
    4. [T] Re-enable login/register links
    5. [T] Manually test register and login; user should easily be able to see that they are logged in
 3. [U] As a user on this webpage I want to be able to search through the information for expeditions, climbers, mountains, or other information and be able to refine my searches.
-   a. [T] Add search bar to homepage with selection list for type of information to search
-   b. [T] Add search result page that displays information in easy to read manner
-   c. [T] Include pull down menus and other refining means to limit the returned results at users input
+   1. [T] Add search bar to homepage with selection list for type of information to search
+   2. [T] Add search result page that displays information in easy to read manner
+   3. [T] Include pull down menus and other refining means to limit the returned results at users input
 4. [U] As a user on this webpage I want to be able to report relevant news.
-   a. [T] Add new page that displays news that has been reported by users in easy to read manner
-   b. [T] Add new page where users can fill out form to report news to the website
-   c. [T] Link these pages to home page and each other in easy to use manner
-5 . [U] As a hiker using this website I want to be able to have a personal account to show which expeditions I have been on and which mountains I have climbed.
-   a. [T] Enable login feature that shows if a user is logged in or not
-   b. [T] Add new personal page that shows that users information including statistics on expeditions.
+   1. [T] Add new page that displays news that has been reported by users in easy to read manner
+   2. [T] Add new page where users can fill out form to report news to the website
+   3. [T] Link these pages to home page and each other in easy to use manner
+5. [U] As a hiker using this website I want to be able to have a personal account to show which expeditions I have been on and which mountains I have climbed.
+   1. [T] Enable login feature that shows if a user is logged in or not
+   2. [T] Add new personal page that shows that users information including statistics on expeditions.
+6. [U] As a hiker using this website I want to be able to search for hikers who have qualities that I am seeking, such as location, gender, or which mountains they have climbed, so that I can contact them.
+   1. [T] Create search page for hikers who are logged in to search for other hikers.
+   2. [T] Create the approriate form to allow search by location, gender, mountain, or trekking agency.
+   3. [T] Create result page to show the results of the search in an easy to read manner.
+7. [U] As a Trekking agency I want to be able to create a calender to record dates for future and/or past expeditions.
+   1. [T] Create calender that will show registered trekking agencies scheduled expeditions.
+   2. [T] Create form for trekking agency to schedule expeditions.
+   3. [T] Place calender on home page and trekking agency account pages.
+8. [U] As a registered user (hiker or trekking agency) I want to have statistics that classify and/or catergorize me so that I may be able to see my standing amoung other users.
+   1. [T] Create statistics area to user pages that shows list of notable statistics, such as, highest peak climbed, number of climbs, etc.
+   2. [T] Create button on user page that allows user to share their statistics with other users.
+   3. [T] Add ranking list on home page that shows users ranked by statistics.
+9. [U] As a user to this webpage I would like to see which mountain has the most injuries.
+   1. [T] Create form where registered users can upload known injuries, to include which mountain, what date, how far up the mountain, etc. 
+   2. [T] Add area on homepage that shows recent injuries.
+   3. [T] Add injuries to search function.
+10. [U] As an employee to this webpage I would like the ability to moderate the information coming into the webpage. 
+   1. [T] Create employee login account, and page.
+   2. [T] Give employee access to moderate users and news articles. 
 
 ## Initial Architecture Envisioning
     Diagrams and drawings, lists of components
