@@ -68,15 +68,15 @@ Go through all the information gathered during the previous round of elicitation
 
 
 ## Initial Modeling
-    Diagrams
+    https://github.com/ApneaMan29/TheNomads/blob/main/2.%20Milestone%202/Diagrams/Himalayan%20Database.pdf
 
 ### Use Case Diagrams
-    Diagrams
+    https://github.com/ApneaMan29/TheNomads/blob/main/2.%20Milestone%202/Use_Case_Diagram.png
 
 ### Sequence Diagrams
 
 ### Other Modeling
-    Diagrams, UI wireframes, page flows, ...
+    https://github.com/ApneaMan29/TheNomads/blob/main/2.%20Milestone%202/Diagrams/visual%20deployment%20diagram.png
 
 ## Identify Non-Functional Requirements
 1. English is the default language, but we must support visitors and data in other character sets
