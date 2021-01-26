@@ -1328,4 +1328,4 @@ C:\Users\Stephens\Documents\Winter2021\CS461\461HW\TheNomads\3. Milestone 3\Expe
 C:\Users\Stephens\Documents\Winter2021\CS461\461HW\TheNomads\3. Milestone 3\Expeditions (Solution)\obj\Release\netcoreapp3.1\Expeditions.genruntimeconfig.cache
 C:\Users\Stephens\Documents\Winter2021\CS461\461HW\TheNomads\3. Milestone 3\Expeditions (Solution)\obj\Release\netcoreapp3.1\Razor\Views\TeamMember\Index.cshtml.g.cs
 C:\Users\Stephens\Documents\Winter2021\CS461\461HW\TheNomads\3. Milestone 3\Expeditions (Solution)\obj\Release\netcoreapp3.1\Razor\Views\TeamMember\NothingHere.cshtml.g.cs
-C:\Users\Stephens\Documents\Winter2021\CS461\461HW\TheNomads\3. Milestone 3\Expeditions (Solution)\obj\Release\netcoreapp3.1\Razor\Views\TeamMember\SearchResults.cshtml.g.cs
+C:\Users\Stephens\Documents\Winter2021\CS461\461HW\TheNomads\3. Milestone 3\Expeditions (Solution)\obj\Release\netcoreapp3.1\Razor\Views\TeamMember\SearchTeamMember.cshtml.g.cs
