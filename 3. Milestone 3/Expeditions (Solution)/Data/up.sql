@@ -21,14 +21,30 @@ CREATE TABLE [Expedition] (
 )
 GO
 
-ALTER TABLE [Expedition]
-  ADD [InjurySustained] BIT
-  DEFAULT 0
-GO
-
 CREATE TABLE [TrekkingAgency] (
   [ID]    INT PRIMARY KEY IDENTITY(1, 1),
   [Name]  NVARCHAR(100)
+)
+GO
+CREATE TABLE [NewsArticle] (
+  [ID]			INT PRIMARY KEY IDENTITY(1, 1),
+  [Title]		NVARCHAR(100),
+  [Description]	NVARCHAR(500),
+  [Date]		DATE
+  )
+  GO
+
+CREATE TABLE [TeamMember] (
+  [ID] INT PRIMARY KEY IDENTITY(1, 1),
+  [FirstName] NVARCHAR(30),
+  [LastName] NVARCHAR(30),
+  [Age]		 INT
+  )
+GO
+
+CREATE TABLE [Nation](
+  [ID] INT PRIMARY KEY IDENTITY(1, 1),
+  [Name]	NVARCHAR(30)
 )
 GO
 

@@ -24,22 +24,12 @@ namespace Expeditions.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
+            IEnumerable<Expedition> info = _db.Expeditions
+                .Include(x => x.Peak).OrderBy(y => Guid.NewGuid())
+                .Take(35)
+                .ToList();
 
-        [HttpPost]
-        public IActionResult DisplayInjuries()
-        {
-            string[] info = { };
-            int counter = 0;
-
-            foreach (var expo in _db.Expeditions)
-            {
-                if (expo.InjurySustained == false) continue;
-                var nameAndYear = (expo.Peak.Name + " " + expo.Year);
-                info[counter] = nameAndYear;
-                ++counter;
-            }
+            ViewBag.News = _db.NewsArticles;
 
             return View("Index", info);
         }

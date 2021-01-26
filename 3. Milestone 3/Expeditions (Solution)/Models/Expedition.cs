@@ -18,8 +18,6 @@ namespace Expeditions.Models
         public DateTime? StartDate { get; set; }
         [StringLength(80)]
         public string TerminationReason { get; set; }
-        //Added Injury Boolean
-        public bool InjurySustained { get; set; }
         public bool? OxygenUsed { get; set; }
         [Column("PeakID")]
         public int? PeakId { get; set; }
