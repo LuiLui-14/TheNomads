@@ -41,5 +41,24 @@
 </table>
     </div>
 
-
+<table class="table table-striped table-dark">
+    <thead>
+    <tr>
+        <th scope="col">Name and Year</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        @if (!item.TerminationReason.Contains("Success"))
+        {
+            <tr>
+                <th scope="row">@item.Peak.Name</th>
+                <td>@item.TerminationReason</td>
+                <td>@item.Year</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
 <small>Data and idea for this app: Binit Shrestha, WOU Senior project class 2020. Photo above <a href="https://en.wikipedia.org/wiki/Mount_Everest#/media/File:Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg">from Wikipedia</a>.  Data from <a href="https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-09-22/readme.md">R for Data Science TidyTuesday: Himalayan Climbing Expeditions</a></small>
