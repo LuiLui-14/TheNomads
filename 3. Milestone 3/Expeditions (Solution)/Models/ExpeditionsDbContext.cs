@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Expeditions.Models
 {
@@ -14,15 +16,15 @@ namespace Expeditions.Models
         }
 
         public virtual DbSet<Expedition> Expeditions { get; set; }
+        public virtual DbSet<NewsArticle> NewsArticles { get; set; }
         public virtual DbSet<Peak> Peaks { get; set; }
         public virtual DbSet<TrekkingAgency> TrekkingAgencies { get; set; }
-        public virtual DbSet<NewsArticle> NewsArticles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Name=Expeditions");
+                optionsBuilder.UseSqlServer("Name=ExpeditionConnectionAzure");
             }
         }
 
