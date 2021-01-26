@@ -11661,4 +11661,17 @@ INSERT INTO [Expedition](Season,Year,StartDate,TerminationReason,OxygenUsed,Peak
 INSERT INTO [Expedition](Season,Year,StartDate,TerminationReason,OxygenUsed,PeakID,TrekkingAgencyID) VALUES('Spring',2019,'2019-04-11','Lack (or loss) of supplies or equipment',0,191,264);
 INSERT INTO [Expedition](Season,Year,StartDate,TerminationReason,OxygenUsed,PeakID,TrekkingAgencyID) VALUES('Spring',2019,'2019-04-05','Success (main peak)',0,464,748);
 
+
 INSERT INTO [NewsArticle](Date,Title,Description) VALUES('2019-04-05','Test #1','First Test of News');
+
+INSERT INTO [TeamMember](FirstName, LastName, Age) VALUES('Eugene','Sinclair',34);
+INSERT INTO [TeamMember](FirstName, LastName, Age) VALUES('Randall','Carter',29);
+INSERT INTO [TeamMember](FirstName, LastName, Age) VALUES('Sarah','Russell',37);
+INSERT INTO [TeamMember](FirstName, LastName, Age) VALUES('Michelle','Christiansen',42);
+INSERT INTO [TeamMember](FirstName, LastName, Age) VALUES('Tristan','Rivera',25);
+INSERT INTO [TeamMember](FirstName, LastName, Age) VALUES('Peter','Rivera',28);
+
+
+
+
+
