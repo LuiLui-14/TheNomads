@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 
 namespace Expeditions.Controllers
 {
@@ -48,6 +49,39 @@ namespace Expeditions.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Search_Database(string id)
+        {
+            ViewBag.CurrentFilter = id;
+
+            var mountains = _db.Peaks
+                .Include(x => x.Expeditions)
+                .AsQueryable();
+
+            if (!String.IsNullOrEmpty(id))
+            {
+                id = UppercaseFirst(id);
+                mountains = mountains.Where(s => s.Name.StartsWith(id));
+            }
+            else
+            {
+                mountains = mountains.Where(s => s.Name.Contains(null));
+
+                return View(await mountains.ToListAsync());
+            }
+
+            return View(await mountains.ToListAsync());
+        }
+
+        private string UppercaseFirst(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return string.Empty;
+            }
+            return char.ToUpper(id[0]) + id.Substring(1);
         }
     }
 }
