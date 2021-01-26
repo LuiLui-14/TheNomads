@@ -57,8 +57,13 @@ namespace Expeditions.Controllers
             ViewBag.CurrentFilter = id;
 
             var mountains = _db.Peaks
+<<<<<<< HEAD
                                 .Include(x => x.Expeditions)
                                 .AsQueryable();
+=======
+                .Include(x => x.Expeditions)
+                .AsQueryable();
+>>>>>>> 3b9a34d3e7a86c4880d4412c39979a07a5e41d01
 
             if (!String.IsNullOrEmpty(id))
             {
