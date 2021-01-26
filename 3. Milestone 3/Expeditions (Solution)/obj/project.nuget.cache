@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "RWmPsvVAMOvWqJE9k3/lOPzuHTLt4lNBywceXRJDUNejS9FaXtLPZRuT+6swQVP7DG9oOR7F4kdzSRWjjYNVDA==",
+  "dgSpecHash": "YN0Zb5sbiyB9np2ua1YZRUL04VcEGOf0Frc5FKTUF1u7a9hBIXdPeVFCZOm1XpRqDGqH2B0MwuDf47X4uR8lQQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\bspen\\TheNomads\\3. Milestone 3\\Expeditions (Solution)\\Expeditions.csproj",
   "expectedPackageFiles": [
@@ -174,7 +174,9 @@
     "C:\\Users\\bspen\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\bspen\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\bspen\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\bspen\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    "C:\\Users\\bspen\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
+    "C:\\Users\\bspen\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\bspen\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512"
   ],
   "logs": []
 }
