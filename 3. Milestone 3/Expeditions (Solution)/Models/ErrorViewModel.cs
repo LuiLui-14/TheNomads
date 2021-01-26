@@ -1,5 +1,3 @@
-using System;
-
 namespace Expeditions.Models
 {
     public class ErrorViewModel
