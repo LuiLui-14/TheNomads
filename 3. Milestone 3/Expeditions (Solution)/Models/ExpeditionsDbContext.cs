@@ -19,7 +19,8 @@ namespace Expeditions.Models
         public virtual DbSet<NewsArticle> NewsArticles { get; set; }
         public virtual DbSet<Peak> Peaks { get; set; }
         public virtual DbSet<TrekkingAgency> TrekkingAgencies { get; set; }
-
+        public virtual DbSet<TeamMember> TeamMembers { get; set; }
+        public virtual DbSet<Nation> Nations { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -42,6 +43,7 @@ namespace Expeditions.Models
                     .HasForeignKey(d => d.TrekkingAgencyId)
                     .HasConstraintName("Expedition_FK_TrekkingAgency");
             });
+
 
             OnModelCreatingPartial(modelBuilder);
         }
