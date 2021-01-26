@@ -1,22 +1,16 @@
 ﻿<Properties StartupConfiguration="{F124C7DC-8487-47CF-A422-C674B78F10E2}|Default">
   <MonoDevelop.Ide.ItemProperties.Expeditions PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Home/Search_Database.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/HomeController.cs">
     <Files>
-      <File FileName="Controllers/HomeController.cs" Line="9" Column="30" />
-      <File FileName="Views/Home/Index.cshtml" />
-      <File FileName="Views/Home/Search_Database.cshtml" Line="18" Column="6" />
+      <File FileName="Controllers/HomeController.cs" Line="11" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Expeditions" expanded="True">
             <Node name="Expeditions" expanded="True">
-              <Node name="Dependencies" expanded="True" />
-              <Node name="Controllers" expanded="True" />
-              <Node name="Views" expanded="True">
-                <Node name="Home" expanded="True">
-                  <Node name="Search_Database.cshtml" selected="True" />
-                </Node>
+              <Node name="Controllers" expanded="True">
+                <Node name="HomeController.cs" selected="True" />
               </Node>
             </Node>
           </Node>

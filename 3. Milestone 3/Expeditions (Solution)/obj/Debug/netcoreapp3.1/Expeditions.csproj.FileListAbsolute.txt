@@ -440,6 +440,17 @@ C:/Users/Daniel/Documents/GitHub/TheNomads/3. Milestone 3/Expeditions (Solution)
 C:/Users/Daniel/Documents/GitHub/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.dll
 C:/Users/Daniel/Documents/GitHub/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.pdb
 C:/Users/Daniel/Documents/GitHub/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.genruntimeconfig.cache
+/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.csprojAssemblyReference.cache
+/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.AssemblyInfoInputs.cache
+/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.AssemblyInfo.cs
+/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.csproj.CoreCompileInputs.cache
+/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.MvcApplicationPartsAssemblyInfo.cs
+/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.MvcApplicationPartsAssemblyInfo.cache
+/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.RazorAssemblyInfo.cache
+/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.RazorAssemblyInfo.cs
+/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/EFCorePluralizer.cs
+/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.dll
+/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.pdb
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/bin/Debug/netcoreapp3.1/appsettings.Development.json
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/bin/Debug/netcoreapp3.1/appsettings.json
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/bin/Debug/netcoreapp3.1/Expeditions.deps.json
@@ -853,15 +864,6 @@ C:/Users/Daniel/Documents/GitHub/TheNomads/3. Milestone 3/Expeditions (Solution)
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/bin/Debug/netcoreapp3.1/runtimes/unix/lib/netcoreapp2.0/System.Runtime.Caching.dll
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/bin/Debug/netcoreapp3.1/runtimes/win/lib/netcoreapp2.0/System.Runtime.Caching.dll
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/bin/Debug/netcoreapp3.1/runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll
-/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.csprojAssemblyReference.cache
-/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.AssemblyInfoInputs.cache
-/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.AssemblyInfo.cs
-/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.csproj.CoreCompileInputs.cache
-/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.MvcApplicationPartsAssemblyInfo.cs
-/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.MvcApplicationPartsAssemblyInfo.cache
-/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.RazorAssemblyInfo.cache
-/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.RazorAssemblyInfo.cs
-/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/EFCorePluralizer.cs
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/staticwebassets/Expeditions.StaticWebAssets.Manifest.cache
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/staticwebassets/Expeditions.StaticWebAssets.xml
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/scopedcss/bundle/Expeditions.styles.css
@@ -869,6 +871,7 @@ C:/Users/Daniel/Documents/GitHub/TheNomads/3. Milestone 3/Expeditions (Solution)
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.TagHelpers.output.cache
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.RazorCoreGenerate.cache
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Razor/Views/Home/Index.cshtml.g.cs
+/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Razor/Views/Home/Search_Database.cshtml.g.cs
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Razor/Views/Shared/Error.cshtml.g.cs
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_Layout.cshtml.g.cs
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_ValidationScriptsPartial.cshtml.g.cs
@@ -878,7 +881,4 @@ C:/Users/Daniel/Documents/GitHub/TheNomads/3. Milestone 3/Expeditions (Solution)
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.RazorTargetAssemblyInfo.cs
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.Views.pdb
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.csproj.CopyComplete
-/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.dll
-/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.pdb
 /Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Expeditions.genruntimeconfig.cache
-/Users/luilui/Documents/WOU - Senior Sequence/WOU - Winter Term/CS 461/TheNomads/3. Milestone 3/Expeditions (Solution)/obj/Debug/netcoreapp3.1/Razor/Views/Home/Search_Database.cshtml.g.cs
