@@ -21,6 +21,11 @@ CREATE TABLE [Expedition] (
 )
 GO
 
+ALTER TABLE [Expedition]
+  ADD [InjurySustained] BIT
+  DEFAULT 0
+GO
+
 CREATE TABLE [TrekkingAgency] (
   [ID]    INT PRIMARY KEY IDENTITY(1, 1),
   [Name]  NVARCHAR(100)
