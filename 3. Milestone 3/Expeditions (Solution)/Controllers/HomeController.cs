@@ -24,6 +24,7 @@ namespace Expeditions.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.News = _db.NewsArticles;
             return View();
         }
 

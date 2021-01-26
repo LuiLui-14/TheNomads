@@ -13,14 +13,14 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\Users\Daniel\Documents\GitHub\TheNomads\3. Milestone 3\Expeditions (Solution)\Views\_ViewImports.cshtml"
+#line 1 "C:\Users\bspen\TheNomads\3. Milestone 3\Expeditions (Solution)\Views\_ViewImports.cshtml"
 using Expeditions;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Daniel\Documents\GitHub\TheNomads\3. Milestone 3\Expeditions (Solution)\Views\_ViewImports.cshtml"
+#line 2 "C:\Users\bspen\TheNomads\3. Milestone 3\Expeditions (Solution)\Views\_ViewImports.cshtml"
 using Expeditions.Models;
 
 #line default
@@ -75,7 +75,7 @@ using Expeditions.Models;
             __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e7d39395fffdc7fce60919e210a470f9da04230c8172", async() => {
                 WriteLiteral("\r\n    <meta charset=\"utf-8\" />\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n    <title>");
 #nullable restore
-#line 6 "C:\Users\Daniel\Documents\GitHub\TheNomads\3. Milestone 3\Expeditions (Solution)\Views\Shared\_Layout.cshtml"
+#line 6 "C:\Users\bspen\TheNomads\3. Milestone 3\Expeditions (Solution)\Views\Shared\_Layout.cshtml"
       Write(ViewData["Title"]);
 
 #line default

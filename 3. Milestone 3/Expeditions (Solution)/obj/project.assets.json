@@ -8880,19 +8880,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Daniel\\.nuget\\packages\\": {}
+    "C:\\Users\\bspen\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Daniel\\Documents\\GitHub\\TheNomads\\3. Milestone 3\\Expeditions (Solution)\\Expeditions.csproj",
+      "projectUniqueName": "C:\\Users\\bspen\\TheNomads\\3. Milestone 3\\Expeditions (Solution)\\Expeditions.csproj",
       "projectName": "Expeditions",
-      "projectPath": "C:\\Users\\Daniel\\Documents\\GitHub\\TheNomads\\3. Milestone 3\\Expeditions (Solution)\\Expeditions.csproj",
-      "packagesPath": "C:\\Users\\Daniel\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Daniel\\Documents\\GitHub\\TheNomads\\3. Milestone 3\\Expeditions (Solution)\\obj\\",
+      "projectPath": "C:\\Users\\bspen\\TheNomads\\3. Milestone 3\\Expeditions (Solution)\\Expeditions.csproj",
+      "packagesPath": "C:\\Users\\bspen\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\bspen\\TheNomads\\3. Milestone 3\\Expeditions (Solution)\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Daniel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\bspen\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8961,6 +8961,16 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[3.1.0, 3.1.0]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[3.1.0, 3.1.0]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"

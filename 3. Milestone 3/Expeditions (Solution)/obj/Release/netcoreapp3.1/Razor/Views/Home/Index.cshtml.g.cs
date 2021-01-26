@@ -82,10 +82,62 @@ using Expeditions.Models;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n        </div>\r\n    </div>\r\n</div>\r\n");
-            WriteLiteral(@"
-<div class=""row"">
+            WriteLiteral(@"<div>
+    <p> News Articles </p>
+<table class=""table table-dark table-striped table-sm w-75"" style=""margin: 0 auto; "">
+    <thead>
+        <tr>
+            <th scope=""col"" style=""text-align:center"">Date</th>
+            <th scope=""col"" style=""text-align:center"">Title</th>
+            <th scope=""col"">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+");
+#nullable restore
+#line 26 "C:\Users\bspen\TheNomads\3. Milestone 3\Expeditions (Solution)\Views\Home\Index.cshtml"
+         foreach (var t in ViewBag.News)
+        {
 
-</div>
+#line default
+#line hidden
+#nullable disable
+            WriteLiteral("<tr>\r\n    <td>\r\n        ");
+#nullable restore
+#line 30 "C:\Users\bspen\TheNomads\3. Milestone 3\Expeditions (Solution)\Views\Home\Index.cshtml"
+   Write(t.Date);
+
+#line default
+#line hidden
+#nullable disable
+            WriteLiteral("\r\n    </td>\r\n    <td>\r\n        ");
+#nullable restore
+#line 33 "C:\Users\bspen\TheNomads\3. Milestone 3\Expeditions (Solution)\Views\Home\Index.cshtml"
+   Write(t.Title);
+
+#line default
+#line hidden
+#nullable disable
+            WriteLiteral("\r\n    </td>\r\n    <td>\r\n        ");
+#nullable restore
+#line 36 "C:\Users\bspen\TheNomads\3. Milestone 3\Expeditions (Solution)\Views\Home\Index.cshtml"
+   Write(t.Description);
+
+#line default
+#line hidden
+#nullable disable
+            WriteLiteral("\r\n    </td>\r\n</tr>\r\n");
+#nullable restore
+#line 39 "C:\Users\bspen\TheNomads\3. Milestone 3\Expeditions (Solution)\Views\Home\Index.cshtml"
+}
+
+#line default
+#line hidden
+#nullable disable
+            WriteLiteral(@"    </tbody>
+</table>
+    </div>
+
 
 <small>Data and idea for this app: Binit Shrestha, WOU Senior project class 2020. Photo above <a href=""https://en.wikipedia.org/wiki/Mount_Everest#/media/File:Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg"">from Wikipedia</a>.  Data from <a href=""https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-09-22/readme.md"">R for Data Science TidyTuesday: Himalayan Climbing Expeditions</a></small>");
         }

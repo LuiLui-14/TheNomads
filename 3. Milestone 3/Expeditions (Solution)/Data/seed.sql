@@ -11660,3 +11660,5 @@ INSERT INTO [Expedition](Season,Year,StartDate,TerminationReason,OxygenUsed,Peak
 INSERT INTO [Expedition](Season,Year,StartDate,TerminationReason,OxygenUsed,PeakID,TrekkingAgencyID) VALUES('Spring',2019,'2019-05-09','Bad conditions (deep snow, avalanching, falling ice, or rock)',0,157,210);
 INSERT INTO [Expedition](Season,Year,StartDate,TerminationReason,OxygenUsed,PeakID,TrekkingAgencyID) VALUES('Spring',2019,'2019-04-11','Lack (or loss) of supplies or equipment',0,191,264);
 INSERT INTO [Expedition](Season,Year,StartDate,TerminationReason,OxygenUsed,PeakID,TrekkingAgencyID) VALUES('Spring',2019,'2019-04-05','Success (main peak)',0,464,748);
+
+INSERT INTO [NewsArticle](Date,Title,Description) VALUES('2019-04-05','Test #1','First Test of News');
