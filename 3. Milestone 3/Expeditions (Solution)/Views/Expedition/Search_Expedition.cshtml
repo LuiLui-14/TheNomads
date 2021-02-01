@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Expeditions.Models.Peak>
+
+@{ Layout = null; }
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+    <title>Display Expeditions Page</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Expeditions Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Expedition" asp-action="Search_Peak">Search Peak</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <table class="table table-bordered table-striped table-sm">
+        @foreach (Expeditions.Models.Peak peak in Model)
+        {
+            <thead>
+                <tr>
+                    <th>Expedition #</th>
+                    <th>Season</th>
+                    <th>Year</th>
+                    <th>StartDate</th>
+                    <th>Termination Reason</th>
+                    <th>Oxygen Used</th>
+                    <th>Trekking Agency</th>
+                </tr>
+            </thead>
+            @foreach (var expedition in peak.Expeditions)
+            {
+                <tbdody>
+                    <tr>
+                        <th>@expedition.Id</th>
+                        <th>@expedition.Season</th>
+                        <th>@expedition.Year</th>
+                        <th>@expedition.StartDate</th>
+                        <th>@expedition.TerminationReason</th>
+
+                        <th>
+                        @if (@expedition.OxygenUsed == true)
+                        {
+                            <p>Yes</p>
+                        }
+                        else
+                        {
+                            <p>No</p>
+                        }
+
+                        </th>
+
+                        <th>@expedition.TrekkingAgency.Name</th>
+                    </tr>
+                </tbdody>
+            }
+        }
+    </table>
+
+</body>
+</html>
