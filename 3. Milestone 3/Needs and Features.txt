@@ -1,15 +1,38 @@
 Needs
 
-1. Be able to create an account
-2. Be able to connect account with Spotify account
-3. Be able to search for keywords/tag connected to playlists
-4. Be able to add keywords/tag to playlists
-5. Be able to listen to music on playlist
+1. Create an account
+	- Create personal account
+		-Input form sheet with personal information
+		-change password
+		-Modify personal information
+		-Store information/login into database
+	- Connect to personal Spotify account
+		-Create personal account based on user Spotify information
+		-Agree Terms: Form that enables us to use their Spotify information
+		-Access Spotify Information using API
 
-Features
+2. Searching for user-created Playlists
+	- Access their Spotify playlists
+		-Connect/pull them to our app - their personal account
+		-Let user tag their own playlists with keywords/tags
+	- Keywords/Tags connected to playlist
+		-Search playlists by keywords/tags
+		-Search by one or multiple keywords in search bar
+		-Search by # in search bar
+		-Bootstrap pop-down list with keywords
 
-1. Account creation
-2. Spotify connection system
-3. Search bar
-4. Tag and save playlist
-5. Media player
+3. See recommendations of playlists 
+	- Based on listening information
+		- Use user’s spotify listening information
+	- Based on people you follow on Spotify
+	- Show recommended playlist after searching a playlist
+	
+	
+4. Be able to manage playlists
+	- Be able to listen to music on playlist
+		- Users can play music from Spotify directly
+		- Get playlists for current user
+		- Tagging playlists based criteria/genre
+		- Follow and Unfollow other Users-Playlist
+
+
