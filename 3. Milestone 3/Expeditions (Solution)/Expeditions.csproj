@@ -26,4 +26,13 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Expedition\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Views\Home\search_mountains.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\search_mountains.jpeg" />
+  </ItemGroup>
 </Project>
