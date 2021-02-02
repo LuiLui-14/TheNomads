@@ -1,9 +1,9 @@
 Vision Statement:
 
-For music enthusiasts who are in search of music, our website, (project name?) is designed 
-to serve. Our website allows users to link with their Spotify account and will bring their 
+For music enthusiasts who are in search of music, our website is designed 
+to serve. Our website brings allows users to search for music by keywords and find playlists that will suit their likes. Our website will also show recommended music based on several factors to our users. Our website allows users to link with their Spotify account and will bring their 
 playlists into our website where we are able to offer other members playlists that contain many 
-of the same tracks. Our website will also allow users to search for music and see some of the 
+of the same tracks. By linking their Spotify account with ours, we will be able to offer a more personalized experience in the form of recommended music based on playlists and listening history. Our website will also allow users to search for music and see some of the 
 playlists these tracks are attached to. This will allow members to find music that is similar 
 in nature to their own likes that they might not have known about. Our website is unique in that 
 it will allow any user to find playlists and be able to see other users playlists as well.
