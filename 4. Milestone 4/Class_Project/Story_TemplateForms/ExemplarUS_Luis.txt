@@ -38,7 +38,6 @@ for if you do this then you should expect this result, for defining the correct 
 4. If a user clicks on 'Searh_Peaks' on the nav-bar then it will redirect them to page where they
     are able to search for peaks/mountains.
 
-
 ## Tasks
 1. Make sure peaks/mountains can be searched.
 2. Make sure that peaks/mountains can be displayed based off of what was searched
