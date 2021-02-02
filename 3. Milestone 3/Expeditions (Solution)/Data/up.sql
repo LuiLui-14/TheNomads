@@ -44,7 +44,8 @@ CREATE TABLE [TeamMember] (
   [ID] INT PRIMARY KEY IDENTITY(1, 1),
   [FirstName] NVARCHAR(50),
   [LastName] NVARCHAR(50),
-  [BirthDate] DATE
+  [NationalityID] INT,
+  [Age] INT
   )
 GO
 
