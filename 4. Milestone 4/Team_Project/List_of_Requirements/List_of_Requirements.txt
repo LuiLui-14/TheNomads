@@ -1,2 +1,11 @@
 List of requirements, NFR's, outside data:
 
+1. Add user account to database.
+2. The user should be able to search for playlists that fit their specifications.
+3. The user should be able to delete their account.
+4. The user should be able modify their account.
+5. The system should provide playlists for the user to sample from various/random genres.
+6. The system should provide popular playlists for the user to sample from.
+7. The system should not share or disclose personal information of any other user, with the exception of playlist owner's username.
+8. The user should be able to save selected playlists so that they are easily available for later.
+9. The user should be able to listen to the playlist on the site.
