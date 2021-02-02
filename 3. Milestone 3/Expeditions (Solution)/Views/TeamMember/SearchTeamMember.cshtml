@@ -17,32 +17,31 @@
         </form>
     </div>
 
-
-    <table>
-        <thead>
-            <tr>
-                <th><p><strong> Search Results </strong></p></th>
-            </tr>
-        </thead>
+    <h3> Search Results </h3>
+    <table class="table table-striped table-secondary table-sm w-100 mt-3 table-bordered" style="margin: 0 auto;">
         @if (Model != null)
         {
 
             <tbody>
-
-                @foreach (var a in Model)
-                {
-                    <tr>
-                        <td>
-                            <a Asp-route-id="@a.Id">@a.FirstName</a>
-                        </td>
-                        <td>
-                            <a Asp-route-id="@a.Id">@a.LastName</a>
-                        </td>
-                        <td>
-                            <a Asp-route-id="@a.Id">@a.Age</a>
-                        </td>
-                    </tr>
-                }
+                <tr>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Age</th>
+                </tr>
+            @foreach (var a in Model)
+            {
+                <tr>
+                    <td>
+                        <a>@a.LastName</a>
+                    </td>
+                    <td>
+                        <a>@a.FirstName</a>
+                    </td>
+                    <td>
+                        <a>@a.Age</a>
+                    </td>
+                </tr>
+            }
 
             </tbody>
         }

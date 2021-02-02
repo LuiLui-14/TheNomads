@@ -59,14 +59,13 @@ namespace Expeditions.Controllers
 
             if (!String.IsNullOrEmpty(teamMemberName))
             {
-                //id = UppercaseFirst(teamMemberName);
                 climbers = climbers.Where(s => s.FirstName.StartsWith(teamMemberName)|| s.LastName.StartsWith(teamMemberName));
             }
             else
             {
-                climbers = climbers.Where(s => s.FirstName.Contains(null) || s.LastName.StartsWith(teamMemberName));
+                climbers = climbers.Where(s => s.FirstName.Contains(null) || s.LastName.StartsWith(null));
 
-                return View(await climbers.ToListAsync());
+                return View("NothingHere");
             }
 
             return View(await climbers.ToListAsync());
