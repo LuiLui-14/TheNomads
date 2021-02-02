@@ -3,3 +3,5 @@ Overall architecture design, API's needed:
 1. Using .Net Core MVC framework
 2. Using SQLServer as our databse
 3. Spotify's API
+3. Microsoft Azure
+4. Spotify Web API
