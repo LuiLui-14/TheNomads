@@ -26,7 +26,7 @@ Epics/User stories:
                 commonly used keywords, tags, or hashtags.
 
 3. As a registered user to this site, I want to be able to see a list of recommended
-    playlists for me on my account page for me see, see, and click on.
+    playlists for me on my account page for me see, and click on.
     - As a registered user of this site, I want to be able to see the searching criteria that was used when 
         displaying the recommended playlists, incase I want to change it and get different results.
     - As a registered user of this site, I want to be able to see a list of recommended playlists
