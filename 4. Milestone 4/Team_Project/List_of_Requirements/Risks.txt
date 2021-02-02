@@ -1,2 +1,4 @@
 Identification of Risks:
 
+1. If the Spotify API has more risks that we can forsee at the moment
+2. If there legal implications of using user's Spotify information

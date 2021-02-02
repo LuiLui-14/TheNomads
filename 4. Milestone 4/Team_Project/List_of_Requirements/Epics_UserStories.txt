@@ -1,2 +1,46 @@
 Epics/User stories:
 
+1. As a user, I want to be able to create a personal account for this specific website
+    - As a user, I want to be able to enter all of my relevant information 
+        into a form sheet to create/start my account.
+    - As a user, I want to be able to register for this site using my 
+        own Spotify account.
+    - As a registered user, upon creating a personal account, I want to be able to 
+        to update and modify my account information as many times as I want.
+    - As a registered user, I want to be able to see my current spotify playlists
+        and songs on the current website
+
+2. As a registered user, I want to be able to search for and see different users playlists
+    using a search engine based on criteria, keywords, or tags.
+	- As a registered user, I want to be able to access my own spotify playlists and add
+        them to my personal account.
+            - As a registerd user, I want to be able to connect and pull the playlists
+                from spotify to our app - their spotify account.
+            - As a registered user, I want to be able to tag my own playlists 
+                with specific keywords, tags, or hashtags(#)
+            
+    - As a user, I want to be able to search playlists based on specific criteria
+            - As a user, I want to be able to search for and see playlists based on certain
+                keywords, tags, or hashtags(#).
+            - As a user, I want to be able to see a pop-down list of the most 
+                commonly used keywords, tags, or hashtags.
+
+3. As a registered user to this site, I want to be able to see a list of recommended
+    playlists for me on my account page for me see, see, and click on.
+    - As a registered user of this site, I want to be able to see the searching criteria that was used when 
+        displaying the recommended playlists, incase I want to change it and get different results.
+    - As a registered user of this site, I want to be able to see a list of recommended playlists
+        at the bottom of the page after searching and clicking on a specific playlist
+    - As a registered user of this site, I want to be able to like certain playlists, and even follow
+        the account users of specific playlists.
+
+4. As a registered user to this site, I want to be able to manage the list of my current playlists
+    - As a registered user, I want to be able to add, delete, and update the list
+        of my current playlists on my account
+    - As a registered user, I want to be able to listen to music from my spotify playlists and songs
+        - As a registered user, I want to be able to play, pause, skip, and rewind my current 
+            playists and songs that directly playing from my spotify account.
+        - As a registered user, I want to be able to click on a specific button that will take me
+            directly to my spotify home page.
+    - As a registered user, I want to be able to create my own playlist within our app using 
+        specific songs to create a new playlist and designate new keywords, tags, and hashtags for it.
