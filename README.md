@@ -1,4 +1,4 @@
-﻿<center>![TheNomadsLogo](https://github.com/ApneaMan29/TheNomads/blob/main/1.%20Milestone%201/Logo/Logo%20with%20White%20Background.png)</center>
+﻿<center>![TheNomadsLogo](1. Milestone 1/Logo/Logo with White Background.png)</center>
 <h1 id="the-nomads">The Nomads</h1>
 <p>Hello there. We are the Nomads, a group of Computer Science majors at Western Oregon University who, during this Covid-19 pandemic, are spread out around the world while working together!</p>
 <h2 id="our-members">Our Members</h2>
