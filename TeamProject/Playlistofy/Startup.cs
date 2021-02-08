@@ -37,8 +37,7 @@ namespace Playlistofy
             services.AddControllersWithViews();
             services.AddAuthentication()
                 .AddSpotify(options => {
-                    options.ClientId = "88c18aa421614ee48cdad5b244bfb443";
-                    options.ClientSecret = "350665b3bd7b4fd2beaa9439d37de94e";
+                    
                     options.CallbackPath = "/callback";
                     options.Events.OnRemoteFailure = (context) =>
                         {
