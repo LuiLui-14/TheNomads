@@ -11,3 +11,8 @@
 <h2 id="our-team-repository">Our Team Repository</h2>
 <p><a href="https://github.com/ApneaMan29/TheNomads">Playlistofy, all of your playlist needs!</a> (currently only supporting Spotify)</p>
 
+<h2 id="rules-and-conventions">Rules and Conventions</h2>
+<p>To promote group synergy and to encourage efficient coordination we have agree on a documented, and standard, naming conventions. We've settled on using PascalCase for Classes/Constructors/Methods and camelCase for local variables, field names, and arguments.
+Documentation can be found here (https://github.com/ktaranov/naming-convention/blob/master/C%23%20Coding%20Standards%20and%20Naming%20Conventions.md).
+
+For git management we've settled on another documented practice that we can all refer to. This is to ensure that git networking is easy to read and allows for easier git maintained. Documentation for these methods are found here (https://codingsight.com/git-branching-naming-convention-best-practices/).</p>
