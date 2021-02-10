@@ -17,6 +17,8 @@ namespace Playlistofy
 {
     public class Startup
     {
+        private string _spotifyClientId = null;
+        private string _spotifyClientSecret = null;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -35,10 +37,12 @@ namespace Playlistofy
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+            _spotifyClientId = Configuration["Spotify:ClientId"];
+            _spotifyClientSecret = Configuration["Spotify:ClientSecret"];
             services.AddAuthentication()
                 .AddSpotify(options => {
-                    options.ClientId = "88c18aa421614ee48cdad5b244bfb443";
-                    options.ClientSecret = "350665b3bd7b4fd2beaa9439d37de94e";
+                    options.ClientId = _spotifyClientId;
+                    options.ClientSecret = _spotifyClientSecret;
                     options.CallbackPath = "/callback";
                     options.Events.OnRemoteFailure = (context) =>
                         {
@@ -46,6 +50,8 @@ namespace Playlistofy
                             return Task.CompletedTask;
                         };
                     });
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
