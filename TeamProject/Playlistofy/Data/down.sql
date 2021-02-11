@@ -1,0 +1,3 @@
+﻿DROP Table [User];
+
+ALTER TABLE [User] DROP CONSTRAINT [PK_User]; 
