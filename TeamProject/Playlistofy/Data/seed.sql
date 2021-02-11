@@ -1,0 +1,1 @@
+﻿INSERT INTO [User](Id,UserName,Email,EmailConfirmed,PasswordHash,PhoneNumber,PhoneNumberConfirmed) VALUES ('testuser','TestUser','testuser@test.com',1,'1234','503-541-6969',1);
