@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -31,6 +32,13 @@ namespace Playlistofy.Controllers
             string access = GetAccessToken().Result;//This Method call stores the access code for the user that is logged in. Only here temp until we can put this in the db
             
             return View();
+        }
+
+        public IActionResult SpotifyProfile()
+        {
+            var userToken = new Models.User();
+
+            return Redirect("https://open.spotify.com/user/" + userToken.UserName);
         }
 
         public IActionResult Privacy()

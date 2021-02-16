@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Playlistofy.Data;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ namespace Playlistofy
     {
         private string _spotifyClientId = null;
         private string _spotifyClientSecret = null;
+        private string _connectionSecret = null;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -36,6 +38,7 @@ namespace Playlistofy
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("PlaylistofyAzureCS")));
+
             services.AddDatabaseDeveloperPageExceptionFilter();
             /*----------------------------------------------------------------------------------------*/
 
