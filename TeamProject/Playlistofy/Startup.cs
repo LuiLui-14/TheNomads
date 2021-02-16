@@ -50,12 +50,13 @@ namespace Playlistofy
                 .AddSpotify(options => {
                     options.ClientId = _spotifyClientId;
                     options.ClientSecret = _spotifyClientSecret;
-                    options.CallbackPath = "/callback";
+                    options.CallbackPath = "/Index";
                     options.Events.OnRemoteFailure = (context) =>
                         {
                             // Handle failed login attempts here
                             return Task.CompletedTask;
                         };
+                    options.SaveTokens = true;
                     });
             
 
