@@ -36,16 +36,12 @@ namespace Playlistofy
 
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationDbContext>(options =>
-<<<<<<< HEAD
                 options.UseSqlServer(
                     Configuration.GetConnectionString("PlaylistofyAzureCS")));
-=======
-                options.UseSqlServer(Configuration.GetConnectionString("PlaylistofyAzureCS")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
             /*----------------------------------------------------------------------------------------*/
 
->>>>>>> ab020f0eb5c9e258711a0c08346a97708819a152
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
