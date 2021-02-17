@@ -31,12 +31,13 @@ namespace Playlistofy
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("PlaylistofyAzureCS")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
             _spotifyClientId = Configuration["Spotify:ClientId"];
             _spotifyClientSecret = Configuration["Spotify:ClientSecret"];
             services.AddAuthentication()
