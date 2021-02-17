@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Playlistofy.Data;
 using Microsoft.Extensions.Configuration;
@@ -29,9 +30,22 @@ namespace Playlistofy
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddControllersWithViews();
             services.AddDbContext<ApplicationDbContext>(options =>
+<<<<<<< HEAD
                 options.UseSqlServer(
                     Configuration.GetConnectionString("PlaylistofyAzureCS")));
+=======
+                options.UseSqlServer(Configuration.GetConnectionString("PlaylistofyAzureCS")));
+
+            services.AddDatabaseDeveloperPageExceptionFilter();
+            /*----------------------------------------------------------------------------------------*/
+
+>>>>>>> ab020f0eb5c9e258711a0c08346a97708819a152
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
