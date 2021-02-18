@@ -1,0 +1,150 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/css/AccountPage.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/AccountPage.js"></script>
+</head>
+
+<br />
+<!-- <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet"> -->
+
+<body class="profile-page sidebar-collapse">
+    <!-- Navbar -->
+    <!-- End Navbar -->
+    <div class="wrapper">
+        <div class="page-header clear-filter" filter-color="orange">
+            <div class="page-header-image" data-parallax="true" style="background-image: url('https://image.freepik.com/free-vector/abstract-background-with-spotify-logo_52683-26645.jpg'); ">
+            </div>
+            <div class="container">
+                <div class="photo-container">
+                    <img src="https://avatars.githubusercontent.com/u/66979440?s=400&u=25bec146625ac0bc98c4ef30a47cbb6d82ecbd4c&v=4" alt="">
+                </div>
+                <h2 class="title">Luis Olvera</h2>
+                <p class="category">Software Engineer</p>
+                <div class="content">
+                    <div class="social-description">
+                        <h2>10</h2>
+                        <p>Followers</p>
+                    </div>
+                    <div class="social-description">
+                        <h2>5</h2>
+                        <p>Playlists</p>
+                    </div>
+                    <div class="social-description">
+                        <h2>50</h2>
+                        <p>Likes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="button-container">
+                    @*
+                    <a href="#button" class="btn btn-primary btn-round btn-lg">Follow</a>
+                    <a href="#button" class="btn btn-default btn-round btn-lg btn-icon" rel="tooltip" title="Follow me on Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#button" class="btn btn-default btn-round btn-lg btn-icon" rel="tooltip" title="Follow me on Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    *@
+                </div>
+                <div class="row">
+                    <div class="col-md-6 ml-auto mr-auto">
+                        <h2 class="title text-center">Relevant Information</h2>
+                        <div class="nav-align-center">
+                            <ul class="nav nav-pills nav-pills-primary nav-pills-just-icons" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#profile" role="tablist">
+                                        <i class="now-ui-icons profile-2_note-02"></i>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#home" role="tablist">
+                                        <i class="now-ui-icons media-2_note-03"></i>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#messages" role="tablist">
+                                        <i class="now-ui-icons arrows-1_share-66"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Tab panes -->
+                    <div class="tab-content gallery">
+                        <div class="tab-pane active" id="home" role="tabpanel">
+                            <div class="col-md-10 ml-auto mr-auto">
+                                <center><h3>Uploaded Playlists</h3></center>
+                                <div class="row collections">
+
+                                    <div class="col-md-6">
+
+                                        <img src="https://raw.githack.com/creativetimofficial/now-ui-kit/master/assets/img/bg1.jpg" alt="" class="img-raised">
+                                        <img src="https://raw.githack.com/creativetimofficial/now-ui-kit/master/assets/img/bg3.jpg" alt="" class="img-raised">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <img src="https://raw.githack.com/creativetimofficial/now-ui-kit/master/assets/img/bg8.jpg" alt="" class="img-raised">
+                                        <img src="https://raw.githack.com/creativetimofficial/now-ui-kit/master/assets/img/bg7.jpg" alt="" class="img-raised">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="profile" role="tabpanel">
+                            <div class="col-md-10 ml-auto mr-auto">
+                                <center>
+                                    <h3>About Me</h3>
+                                    @*
+                                    <p>@Model.playlist_name</p>
+                                    <p>@Model.playlist_id</p>
+                                    <p>@Model.playlist_description</p>
+                                    *@
+                                    <h5>
+                                        An artist of considerable range, Ryan — the name
+                                        taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
+                                        and records all of his own music, giving it a warm, intimate feel with a
+                                        solid groove structure. An artist of considerable range.
+                                    </h5>
+                                </center>
+                                <div class="row collections">
+                                    <div class="col-md-6">
+                                    </div>
+                                    <div class="col-md-6">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="messages" role="tabpanel">
+                            <div class="col-md-10 ml-auto mr-auto">
+                                <center><h3>Upload Spotify Playlists</h3></center>
+                                <div class="row collections">
+
+                                    <div class="col-md-6">
+                                        <img src="https://raw.githack.com/creativetimofficial/now-ui-kit/master/assets/img/bg3.jpg" alt="" class="img-raised">
+                                        <img src="https://raw.githack.com/creativetimofficial/now-ui-kit/master/assets/img/bg8.jpg" alt="" class="img-raised">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <img src="https://raw.githack.com/creativetimofficial/now-ui-kit/master/assets/img/bg7.jpg" alt="" class="img-raised">
+                                        <img src="https://raw.githack.com/creativetimofficial/now-ui-kit/master/assets/img/bg6.jpg" class="img-raised">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+
+
+</body>

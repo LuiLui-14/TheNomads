@@ -37,7 +37,8 @@ namespace Playlistofy
 
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("PlaylistofyAzureCS")));
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("PlaylistofyAzureCS")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
             /*----------------------------------------------------------------------------------------*/
@@ -47,6 +48,7 @@ namespace Playlistofy
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
             _spotifyClientId = Configuration["Spotify:ClientId"];
             _spotifyClientSecret = Configuration["Spotify:ClientSecret"];
             services.AddAuthentication()
