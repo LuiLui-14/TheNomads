@@ -38,7 +38,7 @@ namespace Playlistofy.Controllers
                 .WithAuthenticator(new ClientCredentialsAuthenticator(_spotifyClientId, _spotifyClientSecret));
 
             var spotify = new SpotifyClient(config);
-            var playlists = await spotify.Playlists.GetUsers("t478u0ocda142ua3oybwasoig");
+            var playlists = await spotify.Playlists.GetUsers("Jose");
 
             ViewBag.Total = playlists.Total;
             foreach (var playlist in playlists.Items)
