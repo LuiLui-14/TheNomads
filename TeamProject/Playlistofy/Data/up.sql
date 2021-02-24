@@ -16,5 +16,24 @@
     [LockoutEnabled] BIT NOT NULL DEFAULT 0, 
     [AccessFailedCount] INT NULL    
 )
+GO
+
+CREATE TABLE [Playlist]
+(
+    [Id] nvarchar(450) NOT NULL,
+    [UserId] nvarchar(450) NOT NULL,
+    [Description] nvarchar(450),
+    [Href] nvarchar(max) NOT NULL,
+    [Name] nvarchar(450),
+    [Public] bit DEFAULT 0,
+    [Collaborative] bit DEFAULT 0,
+    [URI] nvarchar(max)
+)
+GO
 
 ALTER TABLE [User] ADD CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED ([Id] ASC)
+GO
+ALTER TABLE [Playlist] ADD CONSTRAINT [PK_Playlist] PRIMARY KEY CLUSTERED ([Id] ASC)
+GO
+ALTER TABLE [Playlist] ADD CONSTRAINT [Playlist_FK_USER] FOREIGN KEY ([UserId]) REFERENCES [User] ([ID])
+GO

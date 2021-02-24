@@ -1144,3 +1144,79 @@ img {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+
+
+
+
+/*FOR FUTURE USE*/
+/*h2,
+h3,
+h4,
+h5 {
+    font-weight: 400;
+}
+
+a {
+    color: #f96332;
+}
+
+    a:hover,
+    a:focus {
+        color: #f96332;
+    }
+
+h2,
+.h2 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+}
+
+h3,
+.h3 {
+    font-size: 1.825em;
+    margin-bottom: 30px;
+    line-height: 1.4em;
+}
+
+h4,
+.h4 {
+    font-size: 1.5em;
+    line-height: 1.45em;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+    h4 + .category,
+    h4.title + .category,
+    .h4 + .category,
+    .h4.title + .category {
+        margin-top: -5px;
+    }
+
+h5,
+.h5 {
+    font-size: 1.3em;
+    line-height: 1.4em;
+    margin-bottom: 15px;
+}
+
+    h5.category,
+    .h5.category {
+        font-weight: 400;
+    }
+
+p {
+    line-height: 1.61em;
+    font-weight: 300;
+    font-size: 1.2em;
+}
+
+img {
+    max-width: 100%;
+    border-radius: 1px;
+}
+
+.img-raised {
+    box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0.3);
+}*/

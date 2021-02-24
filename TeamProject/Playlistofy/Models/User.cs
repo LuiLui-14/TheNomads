@@ -11,6 +11,11 @@ namespace Playlistofy.Models
     [Table("User")]
     public partial class User
     {
+        public User()
+        {
+            Playlists = new HashSet<Playlist>();
+        }
+
         [Key]
         public string Id { get; set; }
         [StringLength(256)]
@@ -31,5 +36,8 @@ namespace Playlistofy.Models
         public DateTimeOffset? LockoutEnd { get; set; }
         public bool LockoutEnabled { get; set; }
         public int? AccessFailedCount { get; set; }
+
+        [InverseProperty(nameof(Playlist.User))]
+        public virtual ICollection<Playlist> Playlists { get; set; }
     }
 }
