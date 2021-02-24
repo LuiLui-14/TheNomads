@@ -50,13 +50,7 @@ namespace Playlistofy.Controllers
                     Description = playlist.Description,
                     Public = playlist.Public,
                     Collaborative = playlist.Collaborative,
-                    Href = playlist.Href,
-                    SnapshotId = playlist.SnapshotId,
-                    Type = playlist.Type,
-                    Uri = playlist.Uri,
-
-                    Images = playlist.Images,
-                    Tracks = playlist.Tracks
+                    Href = playlist.Href
                 });
             }
 
