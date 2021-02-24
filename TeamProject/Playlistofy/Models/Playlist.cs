@@ -23,7 +23,7 @@ namespace Playlistofy.Models
         [StringLength(450)]
         public string Name { get; set; }
         public bool? Public { get; set; }
-        public bool? Collaborative { get; set; }
+        public bool Collaborative { get; set; }
         [Column("URI")]
         public string Uri { get; set; }
 

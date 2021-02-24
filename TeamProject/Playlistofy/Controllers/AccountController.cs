@@ -14,16 +14,18 @@ namespace Playlistofy.Controllers
 {
     public class AccountController : Controller
     {
+        private SpotifyDBContext spotifyDBContext;
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
 
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public AccountController(ILogger<AccountController> logger, IConfiguration config)
+        public AccountController(ILogger<AccountController> logger, IConfiguration config, SpotifyDBContext spotifyDbContext)
         {
             _logger = logger;
             _config = config;
+            spotifyDBContext = spotifyDbContext;
 
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
@@ -38,21 +40,42 @@ namespace Playlistofy.Controllers
                 .WithAuthenticator(new ClientCredentialsAuthenticator(_spotifyClientId, _spotifyClientSecret));
 
             var spotify = new SpotifyClient(config);
-            var playlists = await spotify.Playlists.GetUsers("Jose");
+            var playlists = await spotify.Playlists.GetUsers("t478u0ocda142ua3oybwasoig");
 
-            ViewBag.Total = playlists.Total;
+            //--------------Just temp User so it works in Database ----------------
+
+            var user = new User();
+            var userInfo = await spotify.UserProfile.Get("t478u0ocda142ua3oybwasoig");
+            user.Id = userInfo.Id;
+            user.UserName = userInfo.DisplayName;
+            user.Email = "tempEmail";
+            user.EmailConfirmed = true;
+            user.PhoneNumberConfirmed = false;
+            user.TwoFactorEnabled = false;
+            user.LockoutEnabled = false;
+            spotifyDBContext.Users.Add(user);
+            spotifyDBContext.SaveChanges();
+            //------------------------------End Testing----------------------------
+
             foreach (var playlist in playlists.Items)
             {
-                spotifyPlaylists.Add(new Playlist()
+                var tempPlaylist = new Playlist()
                 {
                     Name = playlist.Name,
                     Id = playlist.Id,
                     Description = playlist.Description,
                     Public = playlist.Public,
                     Collaborative = playlist.Collaborative,
-                    Href = playlist.Href
-                });
+                    Href = playlist.Href,
+                    UserId = playlist.Owner.Id,
+                    Uri = playlist.Uri
+                };
+
+                spotifyPlaylists.Add(tempPlaylist);
+                spotifyDBContext.Playlists.Add(tempPlaylist);
+                spotifyDBContext.SaveChanges();
             }
+            
 
             return View(spotifyPlaylists);
         }

@@ -20,7 +20,7 @@ namespace Playlistofy
     {
         private string _spotifyClientId = null;
         private string _spotifyClientSecret = null;
-        private string _connectionSecret = null;
+        //private string _connectionSecret = null;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,18 +32,19 @@ namespace Playlistofy
         public void ConfigureServices(IServiceCollection services)
         {
 
-            /*var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("LuisAzureDB"));
-            builder.Password = Configuration["Spotify:DBPassword"]; */
+            var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("LuisAzureDB"));
+            builder.Password = Configuration["Spotify:DBPassword"]; 
 
             //services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseSqlServer(
             //        Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<Models.SpotifyDBContext>(options => options.UseSqlServer(builder.ConnectionString));
 
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("PlaylistofyAzureCS")));
-                    //Configuration.GetConnectionString("LuisAzureDB")));
+                    //Configuration.GetConnectionString("PlaylistofyAzureCS")));
+                    Configuration.GetConnectionString("LuisAzureDB")));
                     //builder.ConnectionString));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
