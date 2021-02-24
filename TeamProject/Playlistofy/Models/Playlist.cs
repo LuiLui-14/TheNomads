@@ -1,17 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using SpotifyAPI.Web;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+#nullable disable
 
 namespace Playlistofy.Models
 {
-    public class Playlist
+    [Table("Playlist")]
+    public partial class Playlist
     {
+        [Key]
         public string Id { get; set; }
+        [Required]
+        [StringLength(450)]
         public string UserId { get; set; }
-        public string? Description { get; set; }
+        [StringLength(450)]
+        public string Description { get; set; }
+        [Required]
         public string Href { get; set; }
-        public string? Name { get; set; }
+        [StringLength(450)]
+        public string Name { get; set; }
         public bool? Public { get; set; }
         public bool? Collaborative { get; set; }
+        [Column("URI")]
+        public string Uri { get; set; }
+
+        [ForeignKey(nameof(UserId))]
+        [InverseProperty("Playlists")]
+        public virtual User User { get; set; }
     }
 }
