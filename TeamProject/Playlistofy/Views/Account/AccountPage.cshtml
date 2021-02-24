@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Playlistofy.Models.Playlist>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -8,14 +10,10 @@
     <link href="~/css/AccountPage.css" rel="stylesheet" type="text/css" />
     <script src="~/js/AccountPage.js"></script>
 </head>
-
-<br />
-<!-- <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet"> -->
-
 <body class="profile-page sidebar-collapse">
     <!-- Navbar -->
     <!-- End Navbar -->
-    <div class="wrapper">
+    <div class="profile-page sidebar-collapse">
         <div class="page-header clear-filter" filter-color="orange">
             <div class="page-header-image" data-parallax="true" style="background-image: url('https://image.freepik.com/free-vector/abstract-background-with-spotify-logo_52683-26645.jpg'); ">
             </div>
@@ -168,14 +166,7 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-
     </div>
-
-    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
-
-
 </body>
