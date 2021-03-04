@@ -9,76 +9,104 @@ using System.Text;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity;
+using System;
+
+using System.Linq;
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Playlistofy.Controllers
 {
     public class AccountController : Controller
     {
-        private SpotifyDBContext spotifyDBContext;
+        private readonly UserManager<IdentityUser> _userManager;
+        static string privateKey;
+
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
 
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public AccountController(ILogger<AccountController> logger, IConfiguration config, SpotifyDBContext spotifyDbContext)
+        public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _logger = logger;
             _config = config;
-            spotifyDBContext = spotifyDbContext;
 
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
 
+        [HttpGet]
+        public async Task<string> GetCurrentUserId()
+        {
+            IdentityUser usr = await GetCurrentUserAsync();
+            var personalData = new Dictionary<string, string>();
+            // var user = await _userManager.GetUserAsync(User);
+            var logins = await _userManager.GetLoginsAsync(usr);
+
+            string key = "";
+            foreach (var l in logins)
+            {
+                personalData.Add($"{l.LoginProvider} external login provider key", l.ProviderKey);
+                key = l.ProviderKey;
+            }
+            foreach (var data in personalData)
+            {
+                Console.WriteLine(data);
+            }
+
+            Console.WriteLine(privateKey);
+            Console.WriteLine(usr.Id);
+            Console.WriteLine(usr.UserName);
+
+            return key;
+        }
+
+        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
         public async Task<IActionResult> AccountPage()
         {
+            string temp1 = await GetCurrentUserId();
+
             List<Playlist> spotifyPlaylists = new List<Playlist>();
 
             var config = SpotifyClientConfig
                 .CreateDefault()
                 .WithAuthenticator(new ClientCredentialsAuthenticator(_spotifyClientId, _spotifyClientSecret));
 
+            //var conf = SpotifyClientConfig.CreateDefault(privateKey);
+            //string temp = privateKey.ToString();
             var spotify = new SpotifyClient(config);
-            var playlists = await spotify.Playlists.GetUsers("t478u0ocda142ua3oybwasoig");
+            //var playlists = await spotify.Playlists.CurrentUsers();
+            if(temp1 == null || temp1 == "")
+            {
+                return View("~/Views/Home/Privacy.cshtml");
+            }
+            var playlists = await spotify.Playlists.GetUsers(temp1);
 
-            //--------------Just temp User so it works in Database ----------------
+            //var user = await spotify.UserProfile.Get(temp1);
 
-            var user = new User();
-            var userInfo = await spotify.UserProfile.Get("t478u0ocda142ua3oybwasoig");
-            user.Id = userInfo.Id;
-            user.UserName = userInfo.DisplayName;
-            user.Email = "tempEmail";
-            user.EmailConfirmed = true;
-            user.PhoneNumberConfirmed = false;
-            user.TwoFactorEnabled = false;
-            user.LockoutEnabled = false;
-            spotifyDBContext.Users.Add(user);
-            spotifyDBContext.SaveChanges();
-            //------------------------------End Testing----------------------------
-
+            ViewBag.Total = playlists.Total;
             foreach (var playlist in playlists.Items)
             {
-                var tempPlaylist = new Playlist()
+                spotifyPlaylists.Add(new Playlist()
                 {
                     Name = playlist.Name,
                     Id = playlist.Id,
                     Description = playlist.Description,
                     Public = playlist.Public,
                     Collaborative = playlist.Collaborative,
-                    Href = playlist.Href,
-                    UserId = playlist.Owner.Id,
-                    Uri = playlist.Uri
-                };
-
-                spotifyPlaylists.Add(tempPlaylist);
-                spotifyDBContext.Playlists.Add(tempPlaylist);
-                spotifyDBContext.SaveChanges();
+                    Href = playlist.Href
+                });
             }
-            
 
+            Console.WriteLine(privateKey);
             return View(spotifyPlaylists);
-        }
+        } 
+        
     }
 }
 
