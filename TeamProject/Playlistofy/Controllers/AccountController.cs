@@ -9,23 +9,30 @@ using System.Text;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity;
+using System;
+
+using System.Linq;
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Playlistofy.Controllers
 {
     public class AccountController : Controller
     {
-        private SpotifyDBContext spotifyDBContext;
+        private readonly UserManager<IdentityUser> _userManager;
+
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
 
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public AccountController(ILogger<AccountController> logger, IConfiguration config, SpotifyDBContext spotifyDbContext)
+        public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _logger = logger;
             _config = config;
-            spotifyDBContext = spotifyDbContext;
 
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
@@ -33,52 +40,20 @@ namespace Playlistofy.Controllers
 
         public async Task<IActionResult> AccountPage()
         {
-            List<Playlist> spotifyPlaylists = new List<Playlist>();
+            IdentityUser usr = await GetCurrentUserAsync();
+            if (usr == null) { return View("~/Views/Home/Privacy.cshtml"); }
 
-            var config = SpotifyClientConfig
-                .CreateDefault()
-                .WithAuthenticator(new ClientCredentialsAuthenticator(_spotifyClientId, _spotifyClientSecret));
+            var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
+            string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(usr);
 
-            var spotify = new SpotifyClient(config);
-            var playlists = await spotify.Playlists.GetUsers("t478u0ocda142ua3oybwasoig");
+            if (_userSpotifyId == null || _userSpotifyId == "") { return View("~/Views/Home/Privacy.cshtml"); }
 
-            //--------------Just temp User so it works in Database ----------------
+            var _spotifyClient = getUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var _userPlaylists = await getUserPlaylists.GetCurrentUserPlaylists(_spotifyClient, _userSpotifyId);
 
-            var user = new User();
-            var userInfo = await spotify.UserProfile.Get("t478u0ocda142ua3oybwasoig");
-            user.Id = userInfo.Id;
-            user.UserName = userInfo.DisplayName;
-            user.Email = "tempEmail";
-            user.EmailConfirmed = true;
-            user.PhoneNumberConfirmed = false;
-            user.TwoFactorEnabled = false;
-            user.LockoutEnabled = false;
-            spotifyDBContext.Users.Add(user);
-            spotifyDBContext.SaveChanges();
-            //------------------------------End Testing----------------------------
-
-            foreach (var playlist in playlists.Items)
-            {
-                var tempPlaylist = new Playlist()
-                {
-                    Name = playlist.Name,
-                    Id = playlist.Id,
-                    Description = playlist.Description,
-                    Public = playlist.Public,
-                    Collaborative = playlist.Collaborative,
-                    Href = playlist.Href,
-                    UserId = playlist.Owner.Id,
-                    Uri = playlist.Uri
-                };
-
-                spotifyPlaylists.Add(tempPlaylist);
-                spotifyDBContext.Playlists.Add(tempPlaylist);
-                spotifyDBContext.SaveChanges();
-            }
-            
-
-            return View(spotifyPlaylists);
+            return View(_userPlaylists);
         }
+
+        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }
-
