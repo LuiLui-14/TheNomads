@@ -34,21 +34,21 @@ namespace Playlistofy
             /*var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("LuisAzureDB"));
             builder.Password = Configuration["Spotify:DBPassword"]; */
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddControllersWithViews();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("PlaylistofyAzureCS")));
+                    Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddControllersWithViews();
+            //services.AddDbContext<ApplicationDbContext>(options =>
+                //options.UseSqlServer(
+                    //Configuration.GetConnectionString("PlaylistofyAzureCS")));
                     //Configuration.GetConnectionString("LuisAzureDB")));
                     //builder.ConnectionString));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
             /*----------------------------------------------------------------------------------------*/
 
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            // services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -68,8 +68,6 @@ namespace Playlistofy
                         };
                     options.SaveTokens = true;
                     });
-            
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
