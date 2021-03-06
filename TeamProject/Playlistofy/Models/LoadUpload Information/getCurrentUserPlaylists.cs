@@ -61,7 +61,8 @@ namespace Playlistofy.Models
                     Description = playlist.Description,
                     Public = playlist.Public,
                     Collaborative = playlist.Collaborative,
-                    Href = playlist.Href
+                    Href = playlist.Href,
+                    Uri = playlist.Uri
                 });
             }
 
