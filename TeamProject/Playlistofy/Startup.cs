@@ -20,7 +20,10 @@ namespace Playlistofy
     {
         private string _spotifyClientId = null;
         private string _spotifyClientSecret = null;
+<<<<<<< HEAD
         //private string _connectionSecret = null;
+=======
+>>>>>>> a83c632fec7a5bb72166b83346c11deff57a4911
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
