@@ -41,13 +41,12 @@ namespace Playlistofy.Controllers
         public async Task<IActionResult> AccountPage()
         {
             IdentityUser usr = await GetCurrentUserAsync();
+            if (usr == null) { return View("~/Views/Home/Privacy.cshtml"); }
+
             var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
             string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(usr);
 
-            if (_userSpotifyId == null || _userSpotifyId == "")
-            {
-                return View("~/Views/Home/Privacy.cshtml");
-            }
+            if (_userSpotifyId == null || _userSpotifyId == "") { return View("~/Views/Home/Privacy.cshtml"); }
 
             var _spotifyClient = getUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
             var _userPlaylists = await getUserPlaylists.GetCurrentUserPlaylists(_spotifyClient, _userSpotifyId);
