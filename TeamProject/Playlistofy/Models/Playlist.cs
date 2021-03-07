@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using SpotifyAPI.Web;
 
 #nullable disable
 
@@ -26,12 +27,13 @@ namespace Playlistofy.Models
         public bool? Collaborative { get; set; }
         [Column("URI")]
         public string Uri { get; set; }
+        public int trackCount { get; set; }
 
         [ForeignKey(nameof(UserId))]
         [InverseProperty("Playlists")]
         public virtual User User { get; set; }
 
         //Still need to add to Database schema//
-        public virtual ICollection<Track> Tracks { get; set; }
+        public virtual List<Track> Tracks { get; set; }
     }
 }
