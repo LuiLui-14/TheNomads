@@ -25,7 +25,14 @@ namespace Playlistofy.Models
             User currentSpotifyUserInfo = new User();
             var userInfo = await spotifyClient.UserProfile.Get(userSpotifyId);
 
-            currentSpotifyUserInfo.UserName = userInfo.Uri;
+            currentSpotifyUserInfo.DisplayName = userInfo.DisplayName;
+            currentSpotifyUserInfo.Followers = userInfo.Followers.Total;
+            currentSpotifyUserInfo.Images = userInfo.Images;
+            currentSpotifyUserInfo.SpotifyUserId = userInfo.Id;
+            foreach(var next in currentSpotifyUserInfo.Images)
+            {
+                currentSpotifyUserInfo.ImageUrl = next.Url;
+            }
 
             return currentSpotifyUserInfo;
         }

@@ -37,6 +37,14 @@ namespace Playlistofy.Models
         public bool LockoutEnabled { get; set; }
         public int? AccessFailedCount { get; set; }
 
+        //--------ADDED------------------------------
+        public int Followers { get; set; }
+        public string DisplayName { get; set; }
+        public List<SpotifyAPI.Web.Image> Images { get; set; }
+        public string ImageUrl { get; set; }
+        public string SpotifyUserId { get; set; }
+        //-------------------------------------------
+
         [InverseProperty(nameof(Playlist.User))]
         public virtual ICollection<Playlist> Playlists { get; set; }
     }

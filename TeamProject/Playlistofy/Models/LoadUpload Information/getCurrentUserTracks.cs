@@ -22,7 +22,7 @@ namespace Playlistofy.Models
 
 
 
-        public async Task<List<Track>> GetCurrentUserTrack(SpotifyClient spotifyClient, string userSpotifyId)
+        public async Task<List<Track>> GetPlaylistTrack(SpotifyClient spotifyClient, string userSpotifyId)
         {
             List<Track> spotifyPlaylists = new List<Track>();
             var playlists = await spotifyClient.Playlists.GetUsers(userSpotifyId);
