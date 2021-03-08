@@ -56,16 +56,19 @@ namespace Playlistofy.Models
             {
                 spotifyPlaylists.Add(new Playlist()
                 {
+
                     Name = playlist.Name,
                     Id = playlist.Id,
                     Description = playlist.Description,
                     Public = playlist.Public,
                     Collaborative = playlist.Collaborative,
-                    Href = playlist.Href
-                });
+                    Href = playlist.Href,
+                    Uri = playlist.Uri,
+                    trackCount = (int)playlist.Tracks.Total
+                }) ;
             }
 
             return spotifyPlaylists;
         }
-    }
+    }  
 }

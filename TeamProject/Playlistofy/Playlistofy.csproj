@@ -34,5 +34,6 @@
   <ItemGroup>
     <Folder Include="Models\LoadUpload Information\" />
     <Folder Include="Views\Account\" />
+    <Folder Include="Models\viewModels\" />
   </ItemGroup>
 </Project>
