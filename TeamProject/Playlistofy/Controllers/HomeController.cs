@@ -114,7 +114,7 @@ namespace Playlistofy.Controllers
             List<Playlist> Playlists = await getUserPlaylists.GetCurrentUserPlaylists(_spotifyClient, _userSpotifyId);
             List<Track> Tracks = await getUserTracks.GetPlaylistTrack(_spotifyClient, _userSpotifyId);
             foreach (Playlist i in Playlists) {
-                if (_context.Playlist.Find(i.Id) == null)
+                if (!_context.Playlist.Any(x => x.Id == i.Id))
                 {
                     _context.Playlist.Add(i);
                 }
@@ -126,6 +126,12 @@ namespace Playlistofy.Controllers
                     _context.Tracks.Add(i);
                 }
             }
+
+            var userInfo = await _spotifyClient.UserProfile.Get(_userSpotifyId);
+            usr.Followers = userInfo.Followers.Total;
+            usr.DisplayName = userInfo.DisplayName;
+            usr.SpotifyUserId = userInfo.Id;
+
             _context.SaveChanges();
             var t = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
         }

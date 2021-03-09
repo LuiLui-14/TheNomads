@@ -34,14 +34,15 @@ namespace Playlistofy
             /*var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("LuisAzureDB"));
             builder.Password = Configuration["Spotify:DBPassword"]; */
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddControllersWithViews();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("PlaylistofyAzureCS")));
+                    Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddControllersWithViews();
+
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("PlaylistofyAzureCS")));
             //Configuration.GetConnectionString("LuisAzureDB")));
             //builder.ConnectionString));
 
