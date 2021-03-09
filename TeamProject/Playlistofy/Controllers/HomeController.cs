@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Playlistofy.Models;
+using SpotifyAPI.Web;
 
 namespace Playlistofy.Controllers
 {
@@ -45,23 +47,30 @@ namespace Playlistofy.Controllers
             return View();
         }
 
-        public IActionResult SpotifyProfile()
+        public async Task<IActionResult> SpotifyProfile()
         {
-            var userToken = new Models.User();
+            var spotifyUserId = await GetUserId();
 
-            return Redirect("https://open.spotify.com/user/" + userToken.UserName);
+
+            return Redirect("https://open.spotify.com/user/" + spotifyUserId);
         }
 
-        public IActionResult Privacy()
+        [HttpGet]
+        private async Task<string> GetUserId()
         {
-            return View();
+            var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
+            var usr = await GetCurrentUserAsync();
+            string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(usr);
+
+            var spotifyClient = getUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+
+            var spotifyUserInfo = await spotifyClient.UserProfile.Get(_userSpotifyId);
+
+            var user = spotifyUserInfo.Id;
+
+            return user;
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
 
         //This Method retrieves and returns the access code needed by spotify for a user to be able to access the API.
         private async Task<string> GetAccessToken()
@@ -122,6 +131,16 @@ namespace Playlistofy.Controllers
         }
         private Task<User> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 }
 
