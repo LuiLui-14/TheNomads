@@ -9,11 +9,11 @@ namespace Playlistofy.Models
 {
     public class getCurrentUserInformation
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public getCurrentUserInformation(UserManager<IdentityUser> userManager, string spotifyClientId, string spotifyClientPassword)
+        public getCurrentUserInformation(UserManager<User> userManager, string spotifyClientId, string spotifyClientPassword)
         {
             _userManager = userManager;
             _spotifyClientId = spotifyClientId;
@@ -24,15 +24,15 @@ namespace Playlistofy.Models
         {
             User currentSpotifyUserInfo = new User();
             var userInfo = await spotifyClient.UserProfile.Get(userSpotifyId);
-
+            
             currentSpotifyUserInfo.DisplayName = userInfo.DisplayName;
             currentSpotifyUserInfo.Followers = userInfo.Followers.Total;
-            currentSpotifyUserInfo.Images = userInfo.Images;
+            //currentSpotifyUserInfo.Images = userInfo.Images;
             currentSpotifyUserInfo.SpotifyUserId = userInfo.Id;
-            foreach(var next in currentSpotifyUserInfo.Images)
-            {
-                currentSpotifyUserInfo.ImageUrl = next.Url;
-            }
+            //foreach(var next in currentSpotifyUserInfo.Images)
+            //{
+            //    currentSpotifyUserInfo.ImageUrl = next.Url;
+           //}
 
             return currentSpotifyUserInfo;
         }

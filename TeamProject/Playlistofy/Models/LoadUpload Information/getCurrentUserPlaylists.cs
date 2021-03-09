@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SpotifyAPI.Web;
 
 namespace Playlistofy.Models
 {
     public class getCurrentUserPlaylists
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public getCurrentUserPlaylists(UserManager<IdentityUser> userManager, string spotifyClientId, string spotifyClientPassword)
+        public getCurrentUserPlaylists(UserManager<User> userManager, string spotifyClientId, string spotifyClientPassword)
         {
             _userManager = userManager;
             _spotifyClientId = spotifyClientId;
@@ -21,7 +22,7 @@ namespace Playlistofy.Models
         }
 
         [HttpGet]
-        public async Task<string> GetCurrentUserId(IdentityUser _user)
+        public async Task<string> GetCurrentUserId(User _user)
         {
             var personalData = new Dictionary<string, string>();
             var logins = await _userManager.GetLoginsAsync(_user);
@@ -51,22 +52,26 @@ namespace Playlistofy.Models
         {
             List<Playlist> spotifyPlaylists = new List<Playlist>();
             var playlists = await spotifyClient.Playlists.GetUsers(userSpotifyId);
-
+            FullPlaylist fullplaylist = null;
             foreach (var playlist in playlists.Items)
             {
+                fullplaylist = await spotifyClient.Playlists.Get(playlist.Id);
+                
                 spotifyPlaylists.Add(new Playlist()
                 {
 
-                    Name = playlist.Name,
-                    Id = playlist.Id,
-                    Description = playlist.Description,
-                    Public = playlist.Public,
-                    Collaborative = playlist.Collaborative,
-                    Href = playlist.Href,
-                    Uri = playlist.Uri,
-                    trackCount = (int)playlist.Tracks.Total
+                    Name = fullplaylist.Name,
+                    Id = fullplaylist.Id,
+                    Description = fullplaylist.Description,
+                    Public = fullplaylist.Public,
+                    Collaborative = fullplaylist.Collaborative,
+                    Href = fullplaylist.Href,
+                    Uri = fullplaylist.Uri
+                    
                 }) ;
+                
             }
+            
 
             return spotifyPlaylists;
         }

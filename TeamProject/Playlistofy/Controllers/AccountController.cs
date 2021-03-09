@@ -20,7 +20,7 @@ namespace Playlistofy.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
 
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
@@ -28,7 +28,7 @@ namespace Playlistofy.Controllers
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<IdentityUser> userManager)
+        public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<User> userManager)
         {
             _userManager = userManager;
             _logger = logger;
@@ -44,7 +44,7 @@ namespace Playlistofy.Controllers
             var viewModel = new userPlaylistsTracks();
 
             //Finds current logged in user using identity 
-            IdentityUser usr = await GetCurrentUserAsync();
+            User usr = await GetCurrentUserAsync();
             if (usr == null) { return View("~/Views/Home/Privacy.cshtml"); }
 
             //Instantiates the Model to call it's functions - Finds current logged in user's spotify ID
@@ -64,6 +64,6 @@ namespace Playlistofy.Controllers
             return View(viewModel);
         }
 
-        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+        private Task<User> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }
