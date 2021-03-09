@@ -7,12 +7,15 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Playlistofy.Models;
+using SpotifyAPI.Web;
 
 namespace Playlistofy.Controllers
 {
@@ -20,12 +23,21 @@ namespace Playlistofy.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _config;
+        private readonly UserManager<IdentityUser> _userManager;
+        private static string _spotifyClientId;
+        private static string _spotifyClientSecret;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration config)
+        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+        public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager)
         {
             _logger = logger;
             _config = config;
+            _userManager = userManager;
+            _spotifyClientId = config["Spotify:ClientId"];
+            _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
+
 
         public IActionResult Index()
         {
@@ -34,23 +46,37 @@ namespace Playlistofy.Controllers
             return View();
         }
 
-        public IActionResult SpotifyProfile()
+        public async Task<IActionResult> SignedInIndex()
         {
-            var userToken = new Models.User();
+            await GetUserInfo();
 
-            return Redirect("https://open.spotify.com/user/" + userToken.UserName);
-        }
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public async Task<IActionResult> SpotifyProfile()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var spotifyUserId = await GetUserId();
+
+
+            return Redirect("https://open.spotify.com/user/" + spotifyUserId);
         }
+
+        [HttpGet]
+        private async Task<string> GetUserId()
+        {
+            var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
+            var usr = await GetCurrentUserAsync();
+            string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(usr);
+
+            var spotifyClient = getUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+
+            var spotifyUserInfo = await spotifyClient.UserProfile.Get(_userSpotifyId);
+
+            var user = spotifyUserInfo.Id;
+
+            return user;
+        }
+
 
         //This Method retrieves and returns the access code needed by spotify for a user to be able to access the API.
         private async Task<string> GetAccessToken()
@@ -82,6 +108,16 @@ namespace Playlistofy.Controllers
                 }
             }
             return token.access_token;
-            }
+        }
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 }

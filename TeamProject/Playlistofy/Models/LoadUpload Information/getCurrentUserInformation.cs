@@ -24,11 +24,12 @@ namespace Playlistofy.Models
         {
             User currentSpotifyUserInfo = new User();
             var userInfo = await spotifyClient.UserProfile.Get(userSpotifyId);
-
+            
             currentSpotifyUserInfo.DisplayName = userInfo.DisplayName;
             currentSpotifyUserInfo.Followers = userInfo.Followers.Total;
             currentSpotifyUserInfo.Images = userInfo.Images;
             currentSpotifyUserInfo.SpotifyUserId = userInfo.Id;
+            currentSpotifyUserInfo.Href = userInfo.Href;
             foreach(var next in currentSpotifyUserInfo.Images)
             {
                 currentSpotifyUserInfo.ImageUrl = next.Url;
@@ -38,21 +39,21 @@ namespace Playlistofy.Models
         }
 
 
-        //[HttpGet]
-        //public async Task<string> GetCurrentUserId(IdentityUser _user)
-        //{
-        //    var personalData = new Dictionary<string, string>();
-        //    var logins = await _userManager.GetLoginsAsync(_user);
+        [HttpGet]
+        public async Task<string> GetCurrentUserId(IdentityUser _user)
+        {
+            var personalData = new Dictionary<string, string>();
+            var logins = await _userManager.GetLoginsAsync(_user);
 
-        //    string key = "";
-        //    foreach (var l in logins)
-        //    {
-        //        personalData.Add($"{l.LoginProvider} external login provider key", l.ProviderKey);
-        //        key = l.ProviderKey;
-        //    }
+            string key = "";
+            foreach (var l in logins)
+            {
+                personalData.Add($"{l.LoginProvider} external login provider key", l.ProviderKey);
+                key = l.ProviderKey;
+            }
 
-        //    return key;
-        //}
+            return key;
+        }
 
         //public SpotifyClient makeSpotifyClient(string spotifyClientId, string spotifyClientSecret)
         //{
