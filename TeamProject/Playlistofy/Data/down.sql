@@ -1,21 +1,18 @@
-﻿ALTER TABLE [AspNetRoles] DROP CONSTRAINT [PK_AspNetRoles];
-ALTER TABLE [AspNetUsers] DROP CONSTRAINT [PK_AspNetUsers];
-ALTER TABLE [AspNetRoleClaims] DROP CONSTRAINT [PK_AspNetRoleClaims];
-ALTER TABLE [AspNetUserClaims] DROP CONSTRAINT [PK_AspNetUserClaims];
-ALTER TABLE [AspNetUserLogins] DROP CONSTRAINT [PK_AspNetUserLogins];
-ALTER TABLE [AspNetUserRoles] DROP CONSTRAINT [PK_AspNetUserRoles];
-ALTER TABLE [AspNetUserTokens] DROP CONSTRAINT [PK_AspNetUserTokens];
-ALTER TABLE [Playlist] DROP CONSTRAINT [PK_Playlist];
-ALTER TABLE [Track] DROP CONSTRAINT [PK_Track];
-
-
-DROP Table [Playlist];
-DROP Table [Track];
-DROP Table [__EFMigrationsHistory];
-DROP Table [AspNetRoles];
-DROP Table [AspNetUsers];
-DROP Table [AspNetRoleClaims];
-DROP Table [AspNetUserClaims];
-DROP Table [AspNetUserLogins];
-DROP Table [AspNetUserRoles];
-DROP Table [AspNetUserTokens];
+﻿ALTER TABLE dbo.[AspNetRoleClaims] DROP CONSTRAINT [FK_AspNetRoleClaims_AspNetRoles_RoleId]
+ALTER TABLE dbo.[AspNetUserClaims] DROP CONSTRAINT [FK_AspNetUserClaims_AspNetUsers_UserId]
+ALTER TABLE dbo.[AspNetUserLogins] DROP CONSTRAINT [FK_AspNetUserLogins_AspNetUsers_UserId]
+ALTER TABLE dbo.[AspNetUserRoles] DROP CONSTRAINT [FK_AspNetUserRoles_AspNetRoles_RoleId]
+ALTER TABLE dbo.[AspNetUserRoles] DROP CONSTRAINT [FK_AspNetUserRoles_AspNetUsers_UserId]
+ALTER TABLE dbo.[AspNetUserTokens] DROP CONSTRAINT [FK_AspNetUserTokens_AspNetUsers_UserId]
+ALTER TABLE dbo.[Playlist] DROP CONSTRAINT [FK_Playlist_AspNetUsers_UserId]
+ALTER TABLE dbo.[Track] DROP CONSTRAINT [FK_Track_Playlist_PlaylistId]
+DROP TABLE dbo.[__EFMigrationsHistory]
+DROP TABLE dbo.[AspNetRoles]
+DROP TABLE dbo.[AspNetUsers]
+DROP TABLE dbo.[AspNetRoleClaims]
+DROP TABLE dbo.[AspNetUserClaims]
+DROP TABLE dbo.[AspNetUserLogins]
+DROP TABLE dbo.[AspNetUserRoles]
+DROP TABLE dbo.[AspNetUserTokens]
+DROP TABLE dbo.[Playlist]
+DROP TABLE dbo.[Track]

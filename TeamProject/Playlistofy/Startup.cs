@@ -43,7 +43,7 @@ namespace Playlistofy
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("PlaylistofyAzureCS")));
-
+            
             //Configuration.GetConnectionString("LuisAzureDB")));
             //builder.ConnectionString));
 
