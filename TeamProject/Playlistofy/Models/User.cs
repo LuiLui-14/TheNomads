@@ -23,6 +23,7 @@ namespace Playlistofy.Models
         //public List<SpotifyAPI.Web.Image> Images { get; set; }
         public string ImageUrl { get; set; }
         public string SpotifyUserId { get; set; }
+        public string Href { get; set; }
         //-------------------------------------------
 
         [InverseProperty(nameof(Playlist.User))]

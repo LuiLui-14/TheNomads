@@ -39,5 +39,9 @@ namespace Playlistofy.Models
         public string Uri { get; set; } = default!;
         public bool IsLocal { get; set; }
 
+        public string PlaylistId { get; set; }
+
+        public virtual Playlist Playlist { get; set; }
+
     }
 }

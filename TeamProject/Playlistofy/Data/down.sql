@@ -1,6 +1,13 @@
-﻿DROP Table [User];
-DROP Table [Playlist];
+﻿ALTER TABLE [Playlist] DROP CONSTRAINT [PK_Playlist];
 
-ALTER TABLE [User] DROP CONSTRAINT [PK_User];
-ALTER TABLE [Playlist] DROP CONSTRAINT [PK_Playlist];
-ALTER TABLE [Playlist] DROP CONSTRAINT [Playlist_FK_USER];
+
+DROP Table [Playlist];
+DROP Table [Track];
+DROP Table [__EFMigrationsHistory];
+DROP Table [AspNetRoles];
+DROP Table [AspNetUsers];
+DROP Table [AspNetRoleClaims];
+DROP Table [AspNetUserClaims];
+DROP Table [AspNetUserLogins];
+DROP Table [AspNetUserRoles];
+DROP Table [AspNetUserTokens];

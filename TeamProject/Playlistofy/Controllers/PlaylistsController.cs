@@ -46,7 +46,7 @@ namespace Playlistofy.Models
         // GET: Playlists/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["UserId"] = new SelectList(_context.GetUsers(), "Id", "Id");
             return View();
         }
 
@@ -63,7 +63,7 @@ namespace Playlistofy.Models
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", playlist.UserId);
+            ViewData["UserId"] = new SelectList(_context.GetUsers(), "Id", "Id", playlist.UserId);
             return View(playlist);
         }
 
@@ -80,7 +80,7 @@ namespace Playlistofy.Models
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", playlist.UserId);
+            ViewData["UserId"] = new SelectList(_context.GetUsers(), "Id", "Id", playlist.UserId);
             return View(playlist);
         }
 
@@ -116,7 +116,7 @@ namespace Playlistofy.Models
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", playlist.UserId);
+            ViewData["UserId"] = new SelectList(_context.GetUsers(), "Id", "Id", playlist.UserId);
             return View(playlist);
         }
 

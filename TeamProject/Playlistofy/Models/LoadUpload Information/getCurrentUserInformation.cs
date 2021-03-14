@@ -24,7 +24,8 @@ namespace Playlistofy.Models
         {
             User currentSpotifyUserInfo = new User();
             var userInfo = await spotifyClient.UserProfile.Get(userSpotifyId);
-            
+
+            currentSpotifyUserInfo.Href = userInfo.Href;
             currentSpotifyUserInfo.DisplayName = userInfo.DisplayName;
             currentSpotifyUserInfo.Followers = userInfo.Followers.Total;
             //currentSpotifyUserInfo.Images = userInfo.Images;
