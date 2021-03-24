@@ -10,14 +10,13 @@ using Microsoft.EntityFrameworkCore;
 namespace Playlistofy.Models
 {
     [Table("User")]
-    public partial class PUser : IdentityUser
+    public partial class PUser /*: IdentityUser*/
     {
         public PUser()
         {
             Playlists = new HashSet<Playlist>();
         }
 
-        /*
         [Key]
         public string Id { get; set; }
         [StringLength(256)]
@@ -38,7 +37,6 @@ namespace Playlistofy.Models
         public DateTimeOffset? LockoutEnd { get; set; }
         public bool LockoutEnabled { get; set; }
         public int? AccessFailedCount { get; set; }
-        */
 
         //--------ADDED------------------------------
         public int Followers { get; set; }
