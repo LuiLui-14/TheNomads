@@ -29,6 +29,9 @@ namespace Playlistofy.Models
 
         [ForeignKey(nameof(UserId))]
         [InverseProperty("Playlists")]
-        public virtual User User { get; set; }
+        public virtual PUser User { get; set; }
+
+        //Still need to add to Database schema//
+        public virtual List<Track> Tracks { get; set; }
     }
 }

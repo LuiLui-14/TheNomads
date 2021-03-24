@@ -32,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\LoadUpload Information\" />
     <Folder Include="Views\Account\" />
   </ItemGroup>
 </Project>
