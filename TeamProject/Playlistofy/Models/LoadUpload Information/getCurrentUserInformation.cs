@@ -37,33 +37,5 @@ namespace Playlistofy.Models
 
             return currentSpotifyUserInfo;
         }
-
-
-        /*[HttpGet]
-        public async Task<string> GetCurrentUserId(IdentityUser _user)
-        {
-            var personalData = new Dictionary<string, string>();
-            var logins = await _userManager.GetLoginsAsync(_user);
-
-            string key = "";
-            foreach (var l in logins)
-            {
-                personalData.Add($"{l.LoginProvider} external login provider key", l.ProviderKey);
-                key = l.ProviderKey;
-            }
-
-            return key;
-        }
-
-        public SpotifyClient makeSpotifyClient(string spotifyClientId, string spotifyClientSecret)
-        {
-            SpotifyClientConfig config = SpotifyClientConfig
-                .CreateDefault()
-                .WithAuthenticator(new ClientCredentialsAuthenticator(spotifyClientId, spotifyClientSecret));
-
-            SpotifyClient spotify = new SpotifyClient(config);
-
-            return spotify;
-        }*/
     }
 }

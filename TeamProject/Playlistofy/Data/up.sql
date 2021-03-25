@@ -14,7 +14,13 @@
     [TwoFactorEnabled] BIT NOT NULL DEFAULT 0, 
     [LockoutEnd] DATETIMEOFFSET NULL, 
     [LockoutEnabled] BIT NOT NULL DEFAULT 0, 
-    [AccessFailedCount] INT NULL    
+    [AccessFailedCount] INT NULL,
+    --Extra Added--
+    [Followers] INT NOT NULL DEFAULT 0,
+    [DisplayName] NVARCHAR(256),
+    [ImageUrl] NVARCHAR(256),
+    [SpotifyUserId] NVARCHAR(256),
+    [Href] NVARCHAR(256)
 )
 GO
 
@@ -31,9 +37,31 @@ CREATE TABLE [Playlist]
 )
 GO
 
+CREATE TABLE [Track]
+(
+    [Id] NVARCHAR(450) NOT NULL,
+    [PlaylistId] NVARCHAR(450) NOT NULL,
+    [DiscNumber] INT,
+    [DurationMs] INT NOT NULL DEFAULT 0,
+    [Explicit] BIT NOT NULL DEFAULT 0,
+    [Href] NVARCHAR(450),
+    [IsPlayable] BIT NOT NULL DEFAULT 0,
+    [Name] NVARCHAR(450),
+    [Popularity] INT,
+    [PreviewUrl] NVARCHAR(450),
+    [TrackNumber] INT NOT NULL DEFAULT 0,
+    [Uri] NVARCHAR(450),
+    [IsLocal] BIT NOT NULL DEFAULT 0
+)
+GO
+
 ALTER TABLE [User] ADD CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED ([Id] ASC)
 GO
 ALTER TABLE [Playlist] ADD CONSTRAINT [PK_Playlist] PRIMARY KEY CLUSTERED ([Id] ASC)
 GO
-ALTER TABLE [Playlist] ADD CONSTRAINT [Playlist_FK_USER] FOREIGN KEY ([UserId]) REFERENCES [User] ([ID])
+ALTER TABLE [Playlist] ADD CONSTRAINT [Playlist_FK_User] FOREIGN KEY ([UserId]) REFERENCES [User] ([ID])
+GO
+ALTER TABLE [Track] ADD CONSTRAINT [PK_Track] PRIMARY KEY CLUSTERED ([Id] ASC)
+GO
+ALTER TABLE [Track] ADD CONSTRAINT [TRACK_FK_Playlist] FOREIGN KEY ([PlaylistId]) REFERENCES [Playlist] ([ID])
 GO

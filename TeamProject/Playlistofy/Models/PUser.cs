@@ -41,7 +41,6 @@ namespace Playlistofy.Models
         //--------ADDED------------------------------
         public int Followers { get; set; }
         public string DisplayName { get; set; }
-        //public List<SpotifyAPI.Web.Image> Images { get; set; }
         public string ImageUrl { get; set; }
         public string SpotifyUserId { get; set; }
         public string Href { get; set; }

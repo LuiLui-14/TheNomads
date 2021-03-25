@@ -3,22 +3,17 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SpotifyAPI.Web;
-using Playlistofy.Models; 
 
 namespace Playlistofy.Models
 {
-    public class getCurrentUserPlaylists
+    public class getCurrentUserTracks
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private static string _spotifyClientId;
-        private static string _spotifyClientSecret;
-
-        public getCurrentUserPlaylists(UserManager<IdentityUser> userManager, string spotifyClientId, string spotifyClientPassword)
+        public getCurrentUserTracks(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
-            _spotifyClientId = spotifyClientId;
-            _spotifyClientSecret = spotifyClientPassword;
         }
 
         [HttpGet]
@@ -33,6 +28,7 @@ namespace Playlistofy.Models
                 personalData.Add($"{l.LoginProvider} external login provider key", l.ProviderKey);
                 key = l.ProviderKey;
             }
+
             return key;
         }
 
@@ -47,29 +43,39 @@ namespace Playlistofy.Models
             return spotify;
         }
 
-        public async Task<List<Playlist>> GetCurrentUserPlaylists(SpotifyClient spotifyClient, string userSpotifyId)
+        public async Task<List<Track>> GetPlaylistTrack(SpotifyClient spotifyClient, string userSpotifyId, string playlistId)
         {
-            //This creates an instance of the model getCurrentUserTracks.cs to later call below in the foreach loop
-            var playlistTracks = new getCurrentUserTracks(_userManager);
-
-            List<Playlist> spotifyPlaylists = new List<Playlist>();
+            List<Track> playlistTracks = new List<Track>();
             var playlists = await spotifyClient.Playlists.GetUsers(userSpotifyId);
-
+            FullPlaylist fullplaylist = null;
             foreach (var playlist in playlists.Items)
             {
-                spotifyPlaylists.Add(new Playlist()
+                if (playlist.Id == playlistId)
                 {
-                    Name = playlist.Name,
-                    Id = playlist.Id,
-                    Description = playlist.Description,
-                    Public = playlist.Public,
-                    Collaborative = playlist.Collaborative,
-                    Href = playlist.Href,
-                    Uri = playlist.Uri,
-                    Tracks = await playlistTracks.GetPlaylistTrack(spotifyClient, userSpotifyId, playlist.Id)
-                });
+                    fullplaylist = await spotifyClient.Playlists.Get(playlist.Id);
+                    var j = fullplaylist.Tracks;
+                    foreach (var k in j.Items)
+                    {
+                        FullTrack m = (FullTrack)k.Track;
+                        playlistTracks.Add(new Track()
+                        {
+                            DiscNumber = m.DiscNumber,
+                            DurationMs = m.DurationMs,
+                            Explicit = m.Explicit,
+                            Href = m.Href,
+                            Id = m.Id,
+                            IsPlayable = m.IsPlayable,
+                            Name = m.Name,
+                            Popularity = m.Popularity,
+                            PreviewUrl = m.PreviewUrl,
+                            TrackNumber = m.TrackNumber,
+                            Uri = m.Uri,
+                            IsLocal = m.IsLocal
+                        });
+                    }
+                }
             }
-            return spotifyPlaylists;
+            return playlistTracks;
         }
     }
 }
