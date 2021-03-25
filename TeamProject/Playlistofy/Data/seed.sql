@@ -1,4 +1,4 @@
-﻿INSERT INTO [User]([Id],[UserName],[Email],[EmailConfirmed],[PasswordHash],[PhoneNumber],[PhoneNumberConfirmed])
+﻿INSERT INTO [PUser]([Id],[UserName],[Email],[EmailConfirmed],[PasswordHash],[PhoneNumber],[PhoneNumberConfirmed])
         VALUES ('testuser','TestUser','testuser@test.com',1,'1234','503-541-6969',1);
 
 INSERT INTO [Playlist]([Id],[UserId],[Description],[Href],[Name],[Public],[Collaborative],[URI])

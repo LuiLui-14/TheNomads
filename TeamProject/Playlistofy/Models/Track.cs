@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-//using SpotifyAPI.Web;
-
 
 #nullable disable
 
@@ -15,18 +11,29 @@ namespace Playlistofy.Models
     [Table("Track")]
     public partial class Track
     {
-        public string Id { get; set; } = default!;
+        [Key]
+        public string Id { get; set; }
+        [Required]
+        [StringLength(450)]
         public string PlaylistId { get; set; }
-        public int DiscNumber { get; set; }
+        public int? DiscNumber { get; set; }
         public int DurationMs { get; set; }
         public bool Explicit { get; set; }
-        public string Href { get; set; } = default!;
+        [StringLength(450)]
+        public string Href { get; set; }
         public bool IsPlayable { get; set; }
-        public string Name { get; set; } = default!;
-        public int Popularity { get; set; }
-        public string PreviewUrl { get; set; } = default!;
+        [StringLength(450)]
+        public string Name { get; set; }
+        public int? Popularity { get; set; }
+        [StringLength(450)]
+        public string PreviewUrl { get; set; }
         public int TrackNumber { get; set; }
-        public string Uri { get; set; } = default!;
+        [StringLength(450)]
+        public string Uri { get; set; }
         public bool IsLocal { get; set; }
+
+        [ForeignKey(nameof(PlaylistId))]
+        [InverseProperty("Tracks")]
+        public virtual Playlist Playlist { get; set; }
     }
 }

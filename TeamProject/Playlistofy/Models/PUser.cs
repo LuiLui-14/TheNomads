@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
 namespace Playlistofy.Models
 {
-    [Table("User")]
-    public partial class PUser /*: IdentityUser*/
+    [Table("PUser")]
+    public partial class PUser
     {
         public PUser()
         {
@@ -37,15 +36,15 @@ namespace Playlistofy.Models
         public DateTimeOffset? LockoutEnd { get; set; }
         public bool LockoutEnabled { get; set; }
         public int? AccessFailedCount { get; set; }
-
-        //--------ADDED------------------------------
         public int Followers { get; set; }
+        [StringLength(256)]
         public string DisplayName { get; set; }
+        [StringLength(256)]
         public string ImageUrl { get; set; }
+        [StringLength(256)]
         public string SpotifyUserId { get; set; }
+        [StringLength(256)]
         public string Href { get; set; }
-        //-------------------------------------------
-
 
         [InverseProperty(nameof(Playlist.User))]
         public virtual ICollection<Playlist> Playlists { get; set; }

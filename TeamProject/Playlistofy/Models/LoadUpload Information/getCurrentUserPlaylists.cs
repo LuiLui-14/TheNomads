@@ -66,6 +66,7 @@ namespace Playlistofy.Models
                     Collaborative = playlist.Collaborative,
                     Href = playlist.Href,
                     Uri = playlist.Uri,
+                    UserId = userSpotifyId,
                     Tracks = await playlistTracks.GetPlaylistTrack(spotifyClient, userSpotifyId, playlist.Id)
                 });
             }

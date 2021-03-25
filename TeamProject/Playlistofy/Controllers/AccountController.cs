@@ -21,6 +21,7 @@ namespace Playlistofy.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private SpotifyDBContext _SpotifyDB;
 
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
@@ -28,9 +29,11 @@ namespace Playlistofy.Controllers
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<IdentityUser> userManager)
+        public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<IdentityUser> userManager, SpotifyDBContext SpotifyDB)
         {
             _userManager = userManager;
+            _SpotifyDB = SpotifyDB;
+
             _logger = logger;
             _config = config;
 
@@ -58,6 +61,18 @@ namespace Playlistofy.Controllers
             //Get current logged in user's information
             var getUserInfo = new getCurrentUserInformation(_userManager, _spotifyClientId, _spotifyClientSecret);
             viewModel.User = await getUserInfo.GetCurrentUserInformation(_spotifyClient, _userSpotifyId);
+
+            /*
+            //---------Testing With Database------------
+            _SpotifyDB.Pusers.Add(viewModel.User);
+            _SpotifyDB.SaveChanges();
+            foreach (var playlist in viewModel.Playlists)
+            {
+                _SpotifyDB.Playlists.Add(playlist);
+                _SpotifyDB.SaveChanges();
+            }
+            //---------Ending Testing----------------
+            */
 
             //return viewModel with information regarding playlists, tracks, and personal user's information
             return View(viewModel);

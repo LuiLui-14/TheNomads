@@ -30,10 +30,10 @@ namespace Playlistofy
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            /*var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("LuisAzureDB"));
+            var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("LuisAzureDB"));
             builder.Password = Configuration["LuisDB:Password"];
             services.AddDbContext<Models.SpotifyDBContext>(options =>
-                options.UseSqlServer(builder.ConnectionString));*/
+                options.UseSqlServer(builder.ConnectionString));
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

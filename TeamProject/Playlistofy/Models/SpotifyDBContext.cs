@@ -18,7 +18,8 @@ namespace Playlistofy.Models
         }
 
         public virtual DbSet<Playlist> Playlists { get; set; }
-        public virtual DbSet<PUser> Users { get; set; }
+        public virtual DbSet<PUser> Pusers { get; set; }
+        public virtual DbSet<Track> Tracks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,11 +35,24 @@ namespace Playlistofy.Models
 
             modelBuilder.Entity<Playlist>(entity =>
             {
+                entity.Property(e => e.Collaborative).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Public).HasDefaultValueSql("((0))");
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Playlists)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Playlist_FK_USER");
+                    .HasConstraintName("Playlist_FK_PUser");
+            });
+
+            modelBuilder.Entity<Track>(entity =>
+            {
+                entity.HasOne(d => d.Playlist)
+                    .WithMany(p => p.Tracks)
+                    .HasForeignKey(d => d.PlaylistId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("TRACK_FK_Playlist");
             });
 
             OnModelCreatingPartial(modelBuilder);

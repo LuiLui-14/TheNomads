@@ -70,7 +70,8 @@ namespace Playlistofy.Models
                             PreviewUrl = m.PreviewUrl,
                             TrackNumber = m.TrackNumber,
                             Uri = m.Uri,
-                            IsLocal = m.IsLocal
+                            IsLocal = m.IsLocal,
+                            PlaylistId = playlistId
                         });
                     }
                 }

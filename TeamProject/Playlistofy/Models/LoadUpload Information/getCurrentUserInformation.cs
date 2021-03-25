@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SpotifyAPI.Web;
+using Playlistofy.Models;
 
 namespace Playlistofy.Models
 {
@@ -29,7 +30,7 @@ namespace Playlistofy.Models
             currentSpotifyUserInfo.DisplayName = userInfo.DisplayName;
             currentSpotifyUserInfo.Followers = userInfo.Followers.Total;
             //currentSpotifyUserInfo.Images = userInfo.Images;
-            currentSpotifyUserInfo.SpotifyUserId = userInfo.Id;
+            currentSpotifyUserInfo.Id = userInfo.Id;
             foreach (var next in userInfo.Images)
             {
                 currentSpotifyUserInfo.ImageUrl = next.Url;
