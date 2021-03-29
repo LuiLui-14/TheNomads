@@ -22,6 +22,7 @@ namespace Playlistofy.Models
         {
         }
 
+<<<<<<< HEAD
         public virtual DbSet<User> GetUsers()
         {
             return users;
@@ -34,6 +35,9 @@ namespace Playlistofy.Models
 
         public virtual DbSet<Playlist> Playlist { get; set; }
         public virtual DbSet<Track> Tracks { get; set; }
+=======
+        public virtual DbSet<PUser> Users { get; set; }
+>>>>>>> 8957ec8a5391f5ff66626eeb479bae5f4b033815
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

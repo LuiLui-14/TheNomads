@@ -12,6 +12,11 @@ namespace Playlistofy.Models
     [Table("Playlist")]
     public partial class Playlist
     {
+        public Playlist()
+        {
+            Tracks = new HashSet<Track>();
+        }
+
         [Key]
         public string Id { get; set; }
         [Required]
@@ -30,10 +35,17 @@ namespace Playlistofy.Models
         public int trackCount { get; set; }
 
         [ForeignKey(nameof(UserId))]
+<<<<<<< HEAD
         [InverseProperty("Playlists")]
         public virtual User User { get; set; }
 
         //Still need to add to Database schema//
         public virtual List<Track> Tracks { get; set; }
+=======
+        [InverseProperty(nameof(PUser.Playlists))]
+        public virtual PUser User { get; set; }
+        [InverseProperty(nameof(Track.Playlist))]
+        public virtual ICollection<Track> Tracks { get; set; }
+>>>>>>> 8957ec8a5391f5ff66626eeb479bae5f4b033815
     }
 }

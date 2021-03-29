@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SpotifyAPI.Web;
+using Playlistofy.Models; 
 
 namespace Playlistofy.Models
 {
@@ -33,7 +34,6 @@ namespace Playlistofy.Models
                 personalData.Add($"{l.LoginProvider} external login provider key", l.ProviderKey);
                 key = l.ProviderKey;
             }
-
             return key;
         }
 
@@ -50,6 +50,9 @@ namespace Playlistofy.Models
 
         public async Task<List<Playlist>> GetCurrentUserPlaylists(SpotifyClient spotifyClient, string userSpotifyId)
         {
+            //This creates an instance of the model getCurrentUserTracks.cs to later call below in the foreach loop
+            var playlistTracks = new getCurrentUserTracks(_userManager);
+
             List<Playlist> spotifyPlaylists = new List<Playlist>();
             var playlists = await spotifyClient.Playlists.GetUsers(userSpotifyId);
             FullPlaylist fullplaylist = null;
@@ -58,6 +61,7 @@ namespace Playlistofy.Models
                 fullplaylist = await spotifyClient.Playlists.Get(playlist.Id);
                 spotifyPlaylists.Add(new Playlist()
                 {
+<<<<<<< HEAD
                     Name = fullplaylist.Name,
                     Id = fullplaylist.Id,
                     Description = fullplaylist.Description,
@@ -68,6 +72,18 @@ namespace Playlistofy.Models
                     Tracks = await GetPlaylistTrack(spotifyClient, userSpotifyId, fullplaylist.Id)
                 });
 
+=======
+                    Name = playlist.Name,
+                    Id = playlist.Id,
+                    Description = playlist.Description,
+                    Public = playlist.Public,
+                    Collaborative = playlist.Collaborative,
+                    Href = playlist.Href,
+                    Uri = playlist.Uri,
+                    UserId = userSpotifyId,
+                    Tracks = await playlistTracks.GetPlaylistTrack(spotifyClient, userSpotifyId, playlist.Id)
+                });
+>>>>>>> 8957ec8a5391f5ff66626eeb479bae5f4b033815
             }
             return spotifyPlaylists;
         }

@@ -21,6 +21,8 @@ namespace Playlistofy.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly UserManager<IdentityUser> _userManager;
+
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _config;
         private readonly UserManager<User> _userManager;
@@ -28,14 +30,28 @@ namespace Playlistofy.Controllers
         private static string _spotifyClientSecret;
         private ApplicationDbContext _context;
 
+<<<<<<< HEAD
         public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<User> userManager, ApplicationDbContext context)
+=======
+        private static string _spotifyClientId;
+        private static string _spotifyClientSecret;
+
+        public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager)
+>>>>>>> 8957ec8a5391f5ff66626eeb479bae5f4b033815
         {
+            _userManager = userManager;
             _logger = logger;
             _config = config;
+<<<<<<< HEAD
             _userManager = userManager;
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
             _context = context;
+=======
+
+            _spotifyClientId = config["Spotify:ClientId"];
+            _spotifyClientSecret = config["Spotify:ClientSecret"];
+>>>>>>> 8957ec8a5391f5ff66626eeb479bae5f4b033815
         }
 
         public async Task<IActionResult> Index()
@@ -50,9 +66,37 @@ namespace Playlistofy.Controllers
         public async Task<IActionResult> SpotifyProfile()
         {
             var spotifyUserId = await GetUserId();
+<<<<<<< HEAD
 
 
             return Redirect("https://open.spotify.com/user/" + spotifyUserId);
+=======
+
+            return Redirect("https://open.spotify.com/user/" + spotifyUserId);
+        }
+
+        [HttpGet]
+        private async Task<string> GetUserId()
+        {
+            IdentityUser usr = await GetCurrentUserAsync();
+
+            var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
+            string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(usr);
+
+            var spotifyClient = getUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+
+            var spotifyUserInfo = await spotifyClient.UserProfile.Get(_userSpotifyId);
+
+            string user = spotifyUserInfo.Id;
+
+            return user;
+        }
+
+        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+        public IActionResult Privacy()
+        {
+            return View();
+>>>>>>> 8957ec8a5391f5ff66626eeb479bae5f4b033815
         }
 
         [HttpGet]
