@@ -1,0 +1,19 @@
+What did we learn from the Sprint:
+That we need to add more detail to the user stories.
+Not to procrastinate and to get things done early.
+Different programming styles can conflict, causing unforseen problems.
+
+What isn't going well:
+Lack of communitcation from team.
+Changing core files that effect other members.
+Not starting early engough and having a hotfix snowball.
+
+
+What can the team do better next Sprint:
+Refine user stories.
+Get a sucessful deploy and error prevention.
+Creating more descriptive user stories and utilizing the tasks in PivitolTracker
+
+
+What needs to be brought up to Scot:
+N/A
