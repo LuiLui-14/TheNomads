@@ -25,7 +25,7 @@ namespace Playlistofy.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Name=LuisAzureDB");
+                optionsBuilder.UseSqlServer("Name=AzureSpotifyDB");
             }
         }
 
