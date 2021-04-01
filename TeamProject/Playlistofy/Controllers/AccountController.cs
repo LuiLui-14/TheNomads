@@ -20,12 +20,8 @@ namespace Playlistofy.Controllers
 {
     public class AccountController : Controller
     {
-<<<<<<< HEAD
-        private readonly UserManager<User> _userManager;
-=======
         private readonly UserManager<IdentityUser> _userManager;
         private SpotifyDBContext _SpotifyDB;
->>>>>>> 8957ec8a5391f5ff66626eeb479bae5f4b033815
 
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
@@ -33,11 +29,7 @@ namespace Playlistofy.Controllers
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-<<<<<<< HEAD
-        public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<User> userManager)
-=======
         public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<IdentityUser> userManager, SpotifyDBContext SpotifyDB)
->>>>>>> 8957ec8a5391f5ff66626eeb479bae5f4b033815
         {
             _userManager = userManager;
             _SpotifyDB = SpotifyDB;
@@ -51,18 +43,10 @@ namespace Playlistofy.Controllers
 
         public async Task<IActionResult> AccountPage()
         {
-<<<<<<< HEAD
-            //Instantiat viewModel
-            var viewModel = new userPlaylistsTracks();
-
-            //Finds current logged in user using identity 
-            User usr = await GetCurrentUserAsync();
-=======
             var viewModel = new userPlaylistsTracks();
 
             //Finds current logged in user using identity 
             IdentityUser usr = await GetCurrentUserAsync();
->>>>>>> 8957ec8a5391f5ff66626eeb479bae5f4b033815
             if (usr == null) { return View("~/Views/Home/Privacy.cshtml"); }
 
             //Instantiates the Model to call it's functions - Finds current logged in user's spotify ID
@@ -77,8 +61,6 @@ namespace Playlistofy.Controllers
             //Get current logged in user's information
             var getUserInfo = new getCurrentUserInformation(_userManager, _spotifyClientId, _spotifyClientSecret);
             viewModel.User = await getUserInfo.GetCurrentUserInformation(_spotifyClient, _userSpotifyId);
-<<<<<<< HEAD
-=======
 
             /*
             //---------Testing With Database------------
@@ -91,12 +73,11 @@ namespace Playlistofy.Controllers
             }
             //---------Ending Testing----------------
             */
->>>>>>> 8957ec8a5391f5ff66626eeb479bae5f4b033815
 
             //return viewModel with information regarding playlists, tracks, and personal user's information
             return View(viewModel);
         }
 
-        private Task<User> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }

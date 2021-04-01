@@ -33,6 +33,5 @@
 
   <ItemGroup>
     <Folder Include="Views\Account\" />
-    <Folder Include="Models\viewModels\" />
   </ItemGroup>
 </Project>

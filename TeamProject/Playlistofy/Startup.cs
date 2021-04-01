@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Playlistofy.Models;
+using Playlistofy.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,30 +30,32 @@ namespace Playlistofy
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("LuisAzureDB"));
-            builder.Password = Configuration["LuisDB:Password"];
+            //var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("LuisAzureDB"));
+            //builder.Password = Configuration["LuisDB:Password"];
+            //services.AddDbContext<Models.SpotifyDBContext>(options =>
+            //    options.UseSqlServer(builder.ConnectionString));
+
             services.AddDbContext<Models.SpotifyDBContext>(options =>
-                options.UseSqlServer(builder.ConnectionString));
-
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddControllersWithViews();
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("AzureSpotifyDB")));
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("PlaylistofyAzureCS")));
+                    Configuration.GetConnectionString("AzureIdentityDB")));
 
-            //Configuration.GetConnectionString("LuisAzureDB")));
-            //builder.ConnectionString));
+            services.AddControllersWithViews();
+            //services.AddDbContext<ApplicationDbContext>(options =>
+                //options.UseSqlServer(
+                    //Configuration.GetConnectionString("PlaylistofyAzureCS")));
+                    //Configuration.GetConnectionString("LuisAzureDB")));
+                    //builder.ConnectionString));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
             /*----------------------------------------------------------------------------------------*/
 
             // services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
 
