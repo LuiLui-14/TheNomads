@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Playlistofy.Data
 {
-    public class ApplicationDbContextData : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
-        public ApplicationDbContextData(DbContextOptions<ApplicationDbContextData> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
