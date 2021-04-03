@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using SpotifyAPI.Web;
 
 #nullable disable
 
@@ -12,6 +11,11 @@ namespace Playlistofy.Models
     [Table("Playlist")]
     public partial class Playlist
     {
+        public Playlist()
+        {
+            Tracks = new HashSet<Track>();
+        }
+
         [Key]
         public string Id { get; set; }
         [Required]
@@ -27,13 +31,11 @@ namespace Playlistofy.Models
         public bool? Collaborative { get; set; }
         [Column("URI")]
         public string Uri { get; set; }
-        public int trackCount { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        [InverseProperty("Playlists")]
-        public virtual User User { get; set; }
-
-        //Still need to add to Database schema//
-        public virtual List<Track> Tracks { get; set; }
+        [InverseProperty(nameof(PUser.Playlists))]
+        public virtual PUser User { get; set; }
+        [InverseProperty(nameof(Track.Playlist))]
+        public virtual ICollection<Track> Tracks { get; set; }
     }
 }
