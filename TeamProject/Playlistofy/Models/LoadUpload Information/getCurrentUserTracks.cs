@@ -10,10 +10,16 @@ namespace Playlistofy.Models
 {
     public class getCurrentUserTracks
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        public getCurrentUserTracks(UserManager<IdentityUser> userManager)
+        private readonly UserManager<IdentityUser> _userManager; 
+        private static string _spotifyClientId;
+        private static string _spotifyClientSecret;
+
+        public getCurrentUserTracks(UserManager<IdentityUser> userManager, string spotifyClientId, string spotifyClientPassword)
         {
             _userManager = userManager;
+            _spotifyClientId = spotifyClientId;
+            _spotifyClientSecret = spotifyClientPassword;
+
         }
 
         [HttpGet]
@@ -70,8 +76,7 @@ namespace Playlistofy.Models
                             PreviewUrl = m.PreviewUrl,
                             TrackNumber = m.TrackNumber,
                             Uri = m.Uri,
-                            IsLocal = m.IsLocal,
-                            PlaylistId = playlistId
+                            IsLocal = m.IsLocal                            
                         });
                     }
                 }

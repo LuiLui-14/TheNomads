@@ -13,9 +13,9 @@ namespace Playlistofy.Models
     {
         [Key]
         public string Id { get; set; }
-        [Required]
-        [StringLength(450)]
-        public string PlaylistId { get; set; }
+        //[Required]
+        //[StringLength(450)]
+        //public string PlaylistId { get; set; }
         public int? DiscNumber { get; set; }
         public int DurationMs { get; set; }
         public bool Explicit { get; set; }
@@ -32,8 +32,9 @@ namespace Playlistofy.Models
         public string Uri { get; set; }
         public bool IsLocal { get; set; }
 
-        [ForeignKey(nameof(PlaylistId))]
-        [InverseProperty("Tracks")]
-        public virtual Playlist Playlist { get; set; }
+        //[ForeignKey(nameof(PlaylistId))]
+        //[InverseProperty("Tracks")]
+        //public virtual Playlist Playlist { get; set; }
+        public virtual ICollection<PlaylistTrackMap> PlaylistTrackMaps { get; set; }
     }
 }
