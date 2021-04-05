@@ -47,10 +47,10 @@ namespace Playlistofy.Models
             return spotify;
         }
 
-        public async Task<List<Playlist>> GetCurrentUserPlaylists(SpotifyClient spotifyClient, string userSpotifyId)
+        public async Task<List<Playlist>> GetCurrentUserPlaylists(SpotifyClient spotifyClient, string userSpotifyId, string userId)
         {
             //This creates an instance of the model getCurrentUserTracks.cs to later call below in the foreach loop
-            var playlistTracks = new getCurrentUserTracks(_userManager);
+            var playlistTracks = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
 
             List<Playlist> spotifyPlaylists = new List<Playlist>();
             var playlists = await spotifyClient.Playlists.GetUsers(userSpotifyId);
@@ -66,8 +66,8 @@ namespace Playlistofy.Models
                     Collaborative = playlist.Collaborative,
                     Href = playlist.Href,
                     Uri = playlist.Uri,
-                    UserId = userSpotifyId,
-                    Tracks = await playlistTracks.GetPlaylistTrack(spotifyClient, userSpotifyId, playlist.Id)
+                    UserId = userId
+                    //Tracks = await playlistTracks.GetPlaylistTrack(spotifyClient, userSpotifyId, playlist.Id)
                 });
             }
             return spotifyPlaylists;

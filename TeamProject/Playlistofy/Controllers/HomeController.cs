@@ -23,24 +23,26 @@ namespace Playlistofy.Controllers
 
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _config;
-
+        private static SpotifyDBContext _context;
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager)
+        public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager, SpotifyDBContext context)
         {
             _userManager = userManager;
             _logger = logger;
             _config = config;
-
+            _context = context;
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            string access = GetAccessToken().Result;//This Method call stores the access code for the user that is logged in. Only here temp until we can put this in the db
-            
+            if(_userManager.GetUserId(User) != null)
+            {
+                await SetUserData();
+            }
             return View();
         }
 
@@ -80,36 +82,66 @@ namespace Playlistofy.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        //This Method retrieves and returns the access code needed by spotify for a user to be able to access the API.
-        private async Task<string> GetAccessToken()
+        public async Task SetUserData()
         {
-            SpotifyToken token = new SpotifyToken();
-
-            string postString = string.Format("grant_type=client_credentials");
-            byte[] byteArray = Encoding.UTF8.GetBytes(postString);
-
-            string url = "https://accounts.spotify.com/api/token";
-            WebRequest request = WebRequest.Create(url);
-            request.Method = "POST";
-            request.Headers.Add("Authorization", "Basic ODhjMThhYTQyMTYxNGVlNDhjZGFkNWIyNDRiZmI0NDM6MzUwNjY1YjNiZDdiNGZkMmJlYWE5NDM5ZDM3ZGU5NGU=");
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = byteArray.Length;
-            using (Stream dataStream = request.GetRequestStream())
+            var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
+            var getUserTracks = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
+            var _spotifyClient = getUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            IdentityUser usr = await GetCurrentUserAsync();
+            string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(usr);
+            List<Playlist> Playlists = await getUserPlaylists.GetCurrentUserPlaylists(_spotifyClient, _userSpotifyId, usr.Id);
+            if (_context.Pusers.Find(usr.Id) == null)
             {
-                dataStream.Write(byteArray, 0, byteArray.Length);
-                using (WebResponse response = await request.GetResponseAsync())
+                _context.Pusers.Add(new PUser()
                 {
-                    using (Stream responseStream = response.GetResponseStream())
+                    Id = usr.Id,
+                    UserName = usr.UserName,
+                    NormalizedUserName = usr.NormalizedUserName,
+                    Email = usr.Email,
+                    NormalizedEmail = usr.NormalizedEmail,
+                    EmailConfirmed = usr.EmailConfirmed,
+                    PasswordHash = usr.PasswordHash,
+                    SecurityStamp = usr.SecurityStamp,
+                    ConcurrencyStamp = usr.ConcurrencyStamp,
+                    PhoneNumber = usr.PhoneNumber,
+                    PhoneNumberConfirmed = usr.PhoneNumberConfirmed,
+                    TwoFactorEnabled = usr.TwoFactorEnabled,
+                    LockoutEnd = usr.LockoutEnd,
+                    LockoutEnabled = usr.LockoutEnabled,
+                    AccessFailedCount = usr.AccessFailedCount,
+                    Followers = 0,
+                    DisplayName = null,
+                    ImageUrl = null,
+                    SpotifyUserId = null,
+                    Href = null
+                });
+            }
+            foreach (Playlist i in Playlists)
+            {
+                if (_context.Playlists.Find(i.Id) == null)
+                {
+                    List<Track> Tracks = await getUserTracks.GetPlaylistTrack(_spotifyClient, _userSpotifyId, i.Id);
+                    _context.Playlists.Add(i);
+                    foreach (Track j in Tracks)
                     {
-                        using (StreamReader reader = new StreamReader(responseStream))
+                        if (_context.Tracks.Find(j.Id) == null)
                         {
-                            string responseFromServer = reader.ReadToEnd();
-                            token = JsonConvert.DeserializeObject<SpotifyToken>(responseFromServer);
+                            _context.Tracks.Add(j);
+                            _context.PlaylistTrackMaps.Add(
+                                new PlaylistTrackMap()
+                                {
+                                    PlaylistId = i.Id,
+                                    TrackId = j.Id
+                                }
+                                );
                         }
                     }
                 }
+                
             }
-            return token.access_token;
-            }
+            
+            _context.SaveChanges();
+            var t = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
+        }
     }
 }
