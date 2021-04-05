@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Playlistofy.Data;
+using Playlistofy.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,18 +30,20 @@ namespace Playlistofy
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("LuisAzureDB"));
-            //builder.Password = Configuration["LuisDB:Password"];
+            var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("AzureIdentityDB"));
+            builder.Password = Configuration["DBPassword"];
+            var SpotifyBuilder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("AzureSpotifyDB"));
+            SpotifyBuilder.Password = Configuration["DBPassword"];
             //services.AddDbContext<Models.SpotifyDBContext>(options =>
             //    options.UseSqlServer(builder.ConnectionString));
 
             services.AddDbContext<Models.SpotifyDBContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("AzureSpotifyDB")));
+                    SpotifyBuilder.ConnectionString));
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("AzureIdentityDB")));
+                    builder.ConnectionString));
 
             services.AddControllersWithViews();
             //services.AddDbContext<ApplicationDbContext>(options =>

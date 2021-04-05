@@ -20,6 +20,7 @@ namespace Playlistofy.Models
         public virtual DbSet<Playlist> Playlists { get; set; }
         public virtual DbSet<PUser> Pusers { get; set; }
         public virtual DbSet<Track> Tracks { get; set; }
+        public virtual DbSet<PlaylistTrackMap> PlaylistTrackMaps { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -46,13 +47,27 @@ namespace Playlistofy.Models
                     .HasConstraintName("Playlist_FK_PUser");
             });
 
-            modelBuilder.Entity<Track>(entity =>
+            /*modelBuilder.Entity<Track>(entity =>
             {
                 entity.HasOne(d => d.Playlist)
                     .WithMany(p => p.Tracks)
-                    .HasForeignKey(d => d.PlaylistId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("TRACK_FK_Playlist");
+            });
+           */
+            modelBuilder.Entity<PlaylistTrackMap>(entity =>
+            {
+                entity.HasOne(d => d.Playlist)
+                    .WithMany(p => p.PlaylistTrackMaps)
+                    .HasForeignKey(d => d.PlaylistId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("PlaylistTrackMap_FK_Playlist");
+
+                entity.HasOne(d => d.Track)
+                    .WithMany(p => p.PlaylistTrackMaps)
+                    .HasForeignKey(d => d.TrackId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("PlaylistTrackMap_FK_Track");
             });
 
             OnModelCreatingPartial(modelBuilder);

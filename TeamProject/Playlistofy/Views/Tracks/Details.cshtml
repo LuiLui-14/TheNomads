@@ -1,0 +1,90 @@
+﻿@model Playlistofy.Models.Track
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Track</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DiscNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DiscNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DurationMs)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DurationMs)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Explicit)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Explicit)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Href)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Href)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsPlayable)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsPlayable)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Popularity)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Popularity)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PreviewUrl)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PreviewUrl)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TrackNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TrackNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Uri)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Uri)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsLocal)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsLocal)
+        </dd>
+        <dt class = "col-sm-2">
+            <!--Html.DisplayNameFor(model => model.Playlist)-->
+        </dt>
+        <dd class = "col-sm-10">
+            <!--Html.DisplayFor(model => model.Playlist.Id)-->
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
