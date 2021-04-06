@@ -39,7 +39,10 @@ namespace Playlistofy.Models
             {
                 return NotFound();
             }
-
+            ViewBag.Tracks = from track in _context.Tracks
+                             join PlaylistTrackMap in _context.PlaylistTrackMaps on track.Id equals PlaylistTrackMap.TrackId
+                             where (PlaylistTrackMap.PlaylistId == playlist.Id)
+                             select track;
             return View(playlist);
         }
 
