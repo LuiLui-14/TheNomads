@@ -34,12 +34,18 @@ namespace Playlistofy.Controllers
             }
 
             var track = await _context.Tracks
-                //.Include(t => t.Playlist)
+                //.Include(t => t.PlaylistTrackMaps)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (track == null)
             {
                 return NotFound();
             }
+            ViewBag.Playlist = 
+                from playlist in _context.Playlists 
+                join PlaylistTrackMap in _context.PlaylistTrackMaps on playlist.Id equals PlaylistTrackMap.PlaylistId
+                where (PlaylistTrackMap.TrackId == track.Id) 
+                select playlist;
+
 
             return View(track);
         }
