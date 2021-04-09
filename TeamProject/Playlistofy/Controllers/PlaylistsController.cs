@@ -172,21 +172,27 @@ namespace Playlistofy.Controllers
         [NonAction]
         public static string ConvertMsToMinSec(double timeInMs)
         {
-            string str = "";
-            try
+            string str;
+            if (timeInMs < 0)
             {
-                TimeSpan timeSpan = TimeSpan.FromMilliseconds(timeInMs);
-                str = timeSpan.ToString(@"mm\:ss");
+                str = "00:00";
             }
-            catch (OverflowException e)
+            else
             {
-                str = "Track Length Too Long";
+                try
+                {
+                    TimeSpan timeSpan = TimeSpan.FromMilliseconds(timeInMs);
+                    str = timeSpan.ToString(@"mm\:ss");
+                }
+                catch (OverflowException)
+                {
+                    str = "Track Length Too Long";
+                }
+                catch (ArgumentException)
+                {
+                    str = "Length Not in Correct Format";
+                }
             }
-            catch (ArgumentException e)
-            {
-                str = "Length Not in Correct Format";
-            }
-            
             return str;
         }
     }
