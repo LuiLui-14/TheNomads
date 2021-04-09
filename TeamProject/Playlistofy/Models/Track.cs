@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Humanizer;
 using Microsoft.EntityFrameworkCore;
 
 #nullable disable
@@ -31,6 +32,14 @@ namespace Playlistofy.Models
         [StringLength(450)]
         public string Uri { get; set; }
         public bool IsLocal { get; set; }
+        
+
+        public string DurationSFunction()
+        {
+            var dur = TimeSpan.FromMilliseconds(DurationMs).Humanize(2);
+
+            return dur;
+        }
 
         //[ForeignKey(nameof(PlaylistId))]
         //[InverseProperty("Tracks")]
