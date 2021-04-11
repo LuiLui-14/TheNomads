@@ -2,26 +2,71 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Playlistofy.Models
 {
     public class PlaylistsController : Controller
     {
         private readonly SpotifyDBContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public PlaylistsController(SpotifyDBContext context)
+        private readonly IConfiguration _config;
+
+        private static string _spotifyClientId;
+        private static string _spotifyClientSecret;
+
+        public PlaylistsController(SpotifyDBContext context, IConfiguration config, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
+
+            _config = config;
+
+            _spotifyClientId = config["Spotify:ClientId"];
+            _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
+
+        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Playlists
         public async Task<IActionResult> Index()
         {
             var spotifyDBContext = _context.Playlists.Include(p => p.User);
             return View(await spotifyDBContext.ToListAsync());
+        }
+
+        // GET: Playlists
+        public async Task<IActionResult> UserPlaylists()
+        {
+            var viewModel = new userPlaylistsTracks();
+
+            //Finds current logged in user using identity 
+            IdentityUser usr = await GetCurrentUserAsync();
+            if (usr == null) { return View("~/Views/Home/Privacy.cshtml"); }
+
+            //Instantiates the Model to call it's functions - Finds current logged in user's spotify ID
+            var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
+            string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(usr);
+            if (_userSpotifyId == null || _userSpotifyId == "") { return View("~/Views/Home/Privacy.cshtml"); }
+
+            //Create's client and then finds all playlists for current logged in user
+            var _spotifyClient = getUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            viewModel.Playlists = await getUserPlaylists.GetCurrentUserPlaylists(_spotifyClient, _userSpotifyId, usr.Id);
+
+            //Get current logged in user's information
+            var getUserInfo = new getCurrentUserInformation(_userManager, _spotifyClientId, _spotifyClientSecret);
+            viewModel.User = await getUserInfo.GetCurrentUserInformation(_spotifyClient, _userSpotifyId);
+
+
+            var spotifyDBContext = _context.Playlists.Include(p => p.User);//.Where(pid => pid.Id == _userSpotifyId);
+            viewModel.PlaylistsDB = await spotifyDBContext.ToListAsync();
+            return View(viewModel);
         }
 
         // GET: Playlists/Details/5
