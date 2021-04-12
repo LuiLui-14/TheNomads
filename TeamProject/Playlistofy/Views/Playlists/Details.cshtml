@@ -1,4 +1,4 @@
-﻿@model Playlistofy.Models.Playlist
+﻿@model Playlistofy.Models.ViewModel.TracksForPlaylist
 
 @{
     ViewData["Title"] = "Details";
@@ -11,46 +11,46 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Playlist.Description)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Playlist.Description)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Href)
+            @Html.DisplayNameFor(model => model.Playlist.Href)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Href)
+            @Html.DisplayFor(model => model.Playlist.Href)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Playlist.Name)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Playlist.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Public)
+            @Html.DisplayNameFor(model => model.Playlist.Public)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Public)
+            @Html.DisplayFor(model => model.Playlist.Public)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Collaborative)
+            @Html.DisplayNameFor(model => model.Playlist.Collaborative)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Collaborative)
+            @Html.DisplayFor(model => model.Playlist.Collaborative)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Uri)
+            @Html.DisplayNameFor(model => model.Playlist.Uri)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Uri)
+            @Html.DisplayFor(model => model.Playlist.Uri)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
+            @Html.DisplayNameFor(model => model.Playlist.User)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.DisplayName)
+            @Html.DisplayFor(model => model.Playlist.User.DisplayName)
         </dd>
         <dt class=" col-sm-2">
             Tracks
@@ -62,7 +62,7 @@
                     <th>Length</th>
                     @*<th>URL</th>*@
                 </tr>
-                @foreach (var track in ViewBag.Tracks)
+                @foreach (var track in Model.Tracks)
                 {
                     <tr>
                         <td>

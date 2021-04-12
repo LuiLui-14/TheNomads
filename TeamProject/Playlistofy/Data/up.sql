@@ -50,7 +50,8 @@ CREATE TABLE [Track]
     [PreviewUrl] NVARCHAR(450),
     [TrackNumber] INT NOT NULL DEFAULT 0,
     [Uri] NVARCHAR(450),
-    [IsLocal] BIT NOT NULL DEFAULT 0
+    [IsLocal] BIT NOT NULL DEFAULT 0,
+    [Duration] NVARCHAR(450)
 )
 
 
