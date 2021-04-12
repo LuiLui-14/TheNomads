@@ -22,7 +22,7 @@
     [SpotifyUserId] NVARCHAR(256),
     [Href] NVARCHAR(256)
 )
-GO
+
 
 CREATE TABLE [Playlist]
 (
@@ -35,7 +35,7 @@ CREATE TABLE [Playlist]
     [Collaborative] bit DEFAULT 0,
     [URI] nvarchar(max)
 )
-GO
+
 
 CREATE TABLE [Track]
 (
@@ -50,9 +50,10 @@ CREATE TABLE [Track]
     [PreviewUrl] NVARCHAR(450),
     [TrackNumber] INT NOT NULL DEFAULT 0,
     [Uri] NVARCHAR(450),
-    [IsLocal] BIT NOT NULL DEFAULT 0
+    [IsLocal] BIT NOT NULL DEFAULT 0,
+    [Duration] NVARCHAR(450)
 )
-GO
+
 
 CREATE TABLE [PlaylistTrackMap]
 (
@@ -60,20 +61,19 @@ CREATE TABLE [PlaylistTrackMap]
     [PlaylistID] NVARCHAR(450) NOT NULL,
     [TrackID] NVARCHAR(45) NOT NULL
 )
-GO
+
 
 ALTER TABLE [PUser] ADD CONSTRAINT [PK_PUser] PRIMARY KEY CLUSTERED ([Id] ASC)
-GO
+
 ALTER TABLE [Playlist] ADD CONSTRAINT [PK_Playlist] PRIMARY KEY CLUSTERED ([Id] ASC)
-GO
+
 ALTER TABLE [Track] ADD CONSTRAINT [PK_Track] PRIMARY KEY CLUSTERED ([Id] ASC)
-GO
+
 ALTER TABLE [PlaylistTrackMap] ADD CONSTRAINT [PK_PlaylistTrackMap] PRIMARY KEY CLUSTERED ([ID] ASC)
-GO
+
 
 ALTER TABLE [Playlist] ADD CONSTRAINT [Playlist_FK_PUser] FOREIGN KEY ([UserId]) REFERENCES [PUser] ([ID])
-GO
+
 ALTER TABLE [PlaylistTrackMap] ADD CONSTRAINT [PlaylistTrackMap_FK_Playlist] FOREIGN KEY ([PlaylistId]) REFERENCES [Playlist] ([ID])
-GO
+
 ALTER TABLE [PlaylistTrackMap] ADD CONSTRAINT [PlaylistTrackMap_FK_Track] FOREIGN KEY ([TrackId]) REFERENCES [Track] ([ID])
-GO

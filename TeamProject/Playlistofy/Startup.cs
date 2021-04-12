@@ -30,31 +30,27 @@ namespace Playlistofy
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("AzureIdentityDB"));
-            builder.Password = Configuration["DBPassword"];
-            var SpotifyBuilder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("AzureSpotifyDB"));
-            SpotifyBuilder.Password = Configuration["DBPassword"];
-            //services.AddDbContext<Models.SpotifyDBContext>(options =>
-            //    options.UseSqlServer(builder.ConnectionString));
-
+            var builder_SpotifyDB = new SqlConnectionStringBuilder(Configuration.GetConnectionString("AzureSpotifyDB"));
+            builder_SpotifyDB.Password = Configuration["AzureSpotifyDB:Password"];
             services.AddDbContext<Models.SpotifyDBContext>(options =>
-                options.UseSqlServer(
-                    SpotifyBuilder.ConnectionString));
+                options.UseSqlServer(builder_SpotifyDB.ConnectionString));
 
+            var builder_IdentityDB = new SqlConnectionStringBuilder(Configuration.GetConnectionString("AzureIdentityDB"));
+            builder_IdentityDB.Password = Configuration["AzureIdentityDB:Password"];
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    builder.ConnectionString));
+                options.UseSqlServer(builder_IdentityDB.ConnectionString));
 
             services.AddControllersWithViews();
+<<<<<<< HEAD
             //services.AddDbContext<ApplicationDbContext>(options =>
                 //options.UseSqlServer(
                     //Configuration.GetConnectionString("LuisAzureDB")));
                     //builder.ConnectionString));
+=======
+>>>>>>> a0a35d00f8d30431e1c2d3f7674d360f4e0c9d83
 
             services.AddDatabaseDeveloperPageExceptionFilter();
             /*----------------------------------------------------------------------------------------*/
-
-            // services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();

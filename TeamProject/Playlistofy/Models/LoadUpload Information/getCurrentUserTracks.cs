@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SpotifyAPI.Web;
+using Playlistofy.Controllers;
 
 namespace Playlistofy.Models
 {
@@ -76,8 +77,8 @@ namespace Playlistofy.Models
                             PreviewUrl = m.PreviewUrl,
                             TrackNumber = m.TrackNumber,
                             Uri = m.Uri,
-                            IsLocal = m.IsLocal                            
-                        });
+                            IsLocal = m.IsLocal
+                        }) ;
                     }
                 }
             }

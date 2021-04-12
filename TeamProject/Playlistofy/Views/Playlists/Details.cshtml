@@ -1,4 +1,4 @@
-﻿@model Playlistofy.Models.Playlist
+﻿@model Playlistofy.Models.ViewModel.TracksForPlaylist
 
 @{
     ViewData["Title"] = "Details";
@@ -11,46 +11,46 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Playlist.Description)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Playlist.Description)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Href)
+            @Html.DisplayNameFor(model => model.Playlist.Href)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Href)
+            @Html.DisplayFor(model => model.Playlist.Href)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Playlist.Name)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Playlist.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Public)
+            @Html.DisplayNameFor(model => model.Playlist.Public)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Public)
+            @Html.DisplayFor(model => model.Playlist.Public)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Collaborative)
+            @Html.DisplayNameFor(model => model.Playlist.Collaborative)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Collaborative)
+            @Html.DisplayFor(model => model.Playlist.Collaborative)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Uri)
+            @Html.DisplayNameFor(model => model.Playlist.Uri)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Uri)
+            @Html.DisplayFor(model => model.Playlist.Uri)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
+            @Html.DisplayNameFor(model => model.Playlist.User)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.DisplayName)
+            @Html.DisplayFor(model => model.Playlist.User.DisplayName)
         </dd>
         <dt class=" col-sm-2">
             Tracks
@@ -60,13 +60,28 @@
                 <tr>
                     <th>Title</th>
                     <th>Length</th>
-                    <th>URL</th>
+                    @*<th>URL</th>*@
                 </tr>
-                @foreach (var track in ViewBag.Tracks)
+                @foreach (var track in Model.Tracks)
                 {
                     <tr>
-                        <td>@track.Name</td>
-                        <td>@track.DurationMs</td>
+                        <td>
+                            <a asp-controller="Tracks" asp-action="Details" asp-route-id="@track.Id">
+                                @track.Name
+                            </a>
+                        </td>
+                        <td>
+                            @{
+                                var convert = new ConvertingTIme();
+                                double minutes = convert.Milliseconds_ToMinutes(track.DurationMs);
+                                @minutes
+                            } min
+                        </td>
+                        <td>
+                            <a asp-controller="Tracks" asp-action="Delete" asp-route-id="@track.Id">
+                                Delete
+                            </a>
+                        </td>
                     </tr>
                 }
             </table>
@@ -75,5 +90,5 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="UserPlaylists">Back to List</a>
 </div>

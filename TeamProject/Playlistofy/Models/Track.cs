@@ -32,6 +32,7 @@ namespace Playlistofy.Models
         [StringLength(450)]
         public string Uri { get; set; }
         public bool IsLocal { get; set; }
+<<<<<<< HEAD
         
 
         public string DurationSFunction()
@@ -40,6 +41,9 @@ namespace Playlistofy.Models
 
             return dur;
         }
+=======
+        public string Duration { get; set; }
+>>>>>>> a0a35d00f8d30431e1c2d3f7674d360f4e0c9d83
 
         //[ForeignKey(nameof(PlaylistId))]
         //[InverseProperty("Tracks")]

@@ -30,7 +30,7 @@ namespace Playlistofy.Models
             currentSpotifyUserInfo.DisplayName = userInfo.DisplayName;
             currentSpotifyUserInfo.Followers = userInfo.Followers.Total;
             //currentSpotifyUserInfo.Images = userInfo.Images;
-            currentSpotifyUserInfo.Id = userInfo.Id;
+            currentSpotifyUserInfo.SpotifyUserId = userInfo.Id;
             foreach (var next in userInfo.Images)
             {
                 currentSpotifyUserInfo.ImageUrl = next.Url;
