@@ -33,5 +33,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Account\" />
+    <Folder Include="Models\Algorithmic Operations\" />
   </ItemGroup>
 </Project>

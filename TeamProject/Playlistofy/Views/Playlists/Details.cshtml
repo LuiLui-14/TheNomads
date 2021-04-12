@@ -70,7 +70,13 @@
                                 @track.Name
                             </a>
                         </td>
-                        <td>@track.DurationMs</td>
+                        <td>
+                            @{
+                                var convert = new ConvertingTIme();
+                                double minutes = convert.Milliseconds_ToMinutes(track.DurationMs);
+                                @minutes
+                            } min
+                        </td>
                         <td>
                             <a asp-controller="Tracks" asp-action="Delete" asp-route-id="@track.Id">
                                 Delete
