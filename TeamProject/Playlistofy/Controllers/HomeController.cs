@@ -41,7 +41,8 @@ namespace Playlistofy.Controllers
         {
             if(_userManager.GetUserId(User) != null)
             {
-                await SetUserData();
+                Task userData = SetUserData();
+                await userData;
             }
             return View();
         }
@@ -141,7 +142,7 @@ namespace Playlistofy.Controllers
             }
             
             _context.SaveChanges();
-            var t = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
+            //var t = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
         }
     }
 }

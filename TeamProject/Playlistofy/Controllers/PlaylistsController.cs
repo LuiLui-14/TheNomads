@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Playlistofy.Models;
+using Playlistofy.Models.ViewModel;
 
-namespace Playlistofy.Models
+namespace Playlistofy.Controllers
 {
     public class PlaylistsController : Controller
     {
@@ -31,7 +33,7 @@ namespace Playlistofy.Models
             {
                 return NotFound();
             }
-
+            
             var playlist = await _context.Playlists
                 .Include(p => p.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -39,11 +41,20 @@ namespace Playlistofy.Models
             {
                 return NotFound();
             }
-            ViewBag.Tracks = from track in _context.Tracks
+            var Tracks = from track in _context.Tracks
                              join PlaylistTrackMap in _context.PlaylistTrackMaps on track.Id equals PlaylistTrackMap.TrackId
                              where (PlaylistTrackMap.PlaylistId == playlist.Id)
                              select track;
-            return View(playlist);
+            foreach(Track t in Tracks)
+            {
+                t.Duration = ConvertMsToMinSec(t.DurationMs);
+            }
+            var TracksForPlaylistModel = new TracksForPlaylist
+            {
+                Playlist = playlist,
+                Tracks = Tracks.ToList()
+            };
+            return View(TracksForPlaylistModel);
         }
 
         // GET: Playlists/Create
@@ -156,6 +167,33 @@ namespace Playlistofy.Models
         private bool PlaylistExists(string id)
         {
             return _context.Playlists.Any(e => e.Id == id);
+        }
+
+        [NonAction]
+        public static string ConvertMsToMinSec(double timeInMs)
+        {
+            string str;
+            if (timeInMs < 0)
+            {
+                str = "00:00";
+            }
+            else
+            {
+                try
+                {
+                    TimeSpan timeSpan = TimeSpan.FromMilliseconds(timeInMs);
+                    str = timeSpan.ToString(@"mm\:ss");
+                }
+                catch (OverflowException)
+                {
+                    str = "Track Length Too Long";
+                }
+                catch (ArgumentException)
+                {
+                    str = "Length Not in Correct Format";
+                }
+            }
+            return str;
         }
     }
 }
