@@ -60,13 +60,28 @@
                 <tr>
                     <th>Title</th>
                     <th>Length</th>
-                    <th>URL</th>
+                    @*<th>URL</th>*@
                 </tr>
                 @foreach (var track in Model.Tracks)
                 {
                     <tr>
-                        <td>@track.Name</td>
-                        <td>@track.Duration</td>
+                        <td>
+                            <a asp-controller="Tracks" asp-action="Details" asp-route-id="@track.Id">
+                                @track.Name
+                            </a>
+                        </td>
+                        <td>
+                            @{
+                                var convert = new ConvertingTIme();
+                                double minutes = convert.Milliseconds_ToMinutes(track.DurationMs);
+                                @minutes
+                            } min
+                        </td>
+                        <td>
+                            <a asp-controller="Tracks" asp-action="Delete" asp-route-id="@track.Id">
+                                Delete
+                            </a>
+                        </td>
                     </tr>
                 }
             </table>
@@ -74,6 +89,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Playlist.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="UserPlaylists">Back to List</a>
 </div>
