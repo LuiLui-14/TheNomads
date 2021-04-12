@@ -42,7 +42,7 @@ namespace Playlistofy.Models
         }
 
         // GET: Playlists
-        public async Task<IActionResult> UserPlaylists()
+        public async Task<IActionResult> UserPlaylists(string id)
         {
             var viewModel = new userPlaylistsTracks();
 
@@ -63,9 +63,44 @@ namespace Playlistofy.Models
             var getUserInfo = new getCurrentUserInformation(_userManager, _spotifyClientId, _spotifyClientSecret);
             viewModel.User = await getUserInfo.GetCurrentUserInformation(_spotifyClient, _userSpotifyId);
 
+            //Get current logged in user's tracks
+            var getUserTracks = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
 
-            var spotifyDBContext = _context.Playlists.Include(p => p.User);//.Where(pid => pid.Id == _userSpotifyId);
-            viewModel.PlaylistsDB = await spotifyDBContext.ToListAsync();
+            if (_context.Playlists.Find(id) == null)
+            {
+                var newPlaylist = viewModel.Playlists.Where(name => name.Id == id);
+                foreach (var playlist in newPlaylist)
+                {
+                    Console.WriteLine(playlist.Id);
+                    
+                    if (_context.Playlists.Find(playlist.Id) == null)
+                    {
+                        List<Track> Tracks = await getUserTracks.GetPlaylistTrack(_spotifyClient, _userSpotifyId, playlist.Id);
+                        _context.Playlists.Add(playlist);
+                        foreach (Track track in Tracks)
+                        {
+                            Console.WriteLine(track.Id);
+                            if (_context.Tracks.Find(track.Id) == null)
+                            {
+                                _context.Tracks.Add(track);
+                            }
+                            _context.PlaylistTrackMaps.Add(
+                                    new PlaylistTrackMap()
+                                    {
+                                        PlaylistId = playlist.Id,
+                                        TrackId = track.Id
+                                    }
+                                );
+                        }
+                    }
+                }
+            }
+            _context.SaveChanges();
+
+            var currentUserID = await _userManager.GetUserIdAsync(usr);
+            var userPlaylists = _context.Playlists.Include(p => p.User).Where(i => i.User.Id == currentUserID);
+            
+            viewModel.PlaylistsDB = await userPlaylists.ToListAsync();
             return View(viewModel);
         }
 
@@ -105,6 +140,7 @@ namespace Playlistofy.Models
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,UserId,Description,Href,Name,Public,Collaborative,Uri")] Playlist playlist)
         {
+
             if (ModelState.IsValid)
             {
                 _context.Add(playlist);
@@ -194,8 +230,16 @@ namespace Playlistofy.Models
         {
             var playlist = await _context.Playlists.FindAsync(id);
             _context.Playlists.Remove(playlist);
+
+            //Added to remove tracks too
+            var listPlaylistTracks = _context.PlaylistTrackMaps.Where(i => i.PlaylistId == id);
+            foreach(var map in listPlaylistTracks)
+            {
+                _context.PlaylistTrackMaps.Remove(map);
+            }
+            //----------------------------
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(UserPlaylists));
         }
 
         private bool PlaylistExists(string id)

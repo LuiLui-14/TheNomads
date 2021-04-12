@@ -60,13 +60,22 @@
                 <tr>
                     <th>Title</th>
                     <th>Length</th>
-                    <th>URL</th>
+                    @*<th>URL</th>*@
                 </tr>
                 @foreach (var track in ViewBag.Tracks)
                 {
                     <tr>
-                        <td>@track.Name</td>
+                        <td>
+                            <a asp-controller="Tracks" asp-action="Details" asp-route-id="@track.Id">
+                                @track.Name
+                            </a>
+                        </td>
                         <td>@track.DurationMs</td>
+                        <td>
+                            <a asp-controller="Tracks" asp-action="Delete" asp-route-id="@track.Id">
+                                Delete
+                            </a>
+                        </td>
                     </tr>
                 }
             </table>
@@ -75,5 +84,5 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="UserPlaylists">Back to List</a>
 </div>

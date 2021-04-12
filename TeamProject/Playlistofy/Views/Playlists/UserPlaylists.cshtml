@@ -18,14 +18,14 @@
                         <thead>
                             <tr>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.PlaylistsDB.ElementAt(0).Description)
+                                    @Html.DisplayNameFor(model => model.PlaylistsDB.ElementAt(0).Id)
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.PlaylistsDB.ElementAt(0).Name)
                                 </th>
-                                <th>
+                                @* <th>
                                     @Html.DisplayNameFor(model => model.User)
-                                </th>
+                                </th> *@
                                 <th></th>
                             </tr>
                         </thead>
@@ -34,18 +34,22 @@
                             {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Description)
+                                    <a asp-action="Details" asp-route-id="@item.Id">
+                                        @Html.DisplayFor(modelItem => item.Id)
+                                    </a>
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
-                                <td>
+                                @* <td>
                                     @Html.DisplayFor(modelItem => item.User.DisplayName)
+                                </td> *@
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                    @*@<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                                 </td>
                                 <td>
-                                    <!--<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |-->
-                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                    <!--<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>-->
                                 </td>
                             </tr>
                             }
@@ -60,9 +64,10 @@
                     <center>
                         <h4>Upload Spotify Playlists</h4>
                         <br />
-                        <table class="table table-bordered table-striped table-sm">
-                            @foreach (var playlist in Model.Playlists)
-                            {
+                        <form asp-action="Create">
+                            <table class="table table-bordered table-striped table-sm">
+                                @foreach (var playlist in Model.Playlists)
+                                {
                                 <tr>
                                     <td>
                                         <img src="https://via.placeholder.com/75" />
@@ -74,14 +79,28 @@
                                             </a>
                                         </center>
                                     </td>
+                                    @*
                                     <td>
                                         <center>
-                                            @*<h5>@playlist.trackCount</h5>*@
+                                            <h5>@playlist.trackCount</h5>
                                         </center>
                                     </td>
+                                    *@
+                                    <td>
+                                        <center>
+                                            <a asp-action="UserPlaylists" asp-route-id="@playlist.Id">Add</a>
+                                        </center>
+                                    </td>
+                                    @*<div class="form-group">
+                                        <label asp-for="@playlist.Id" class="control-label"></label>
+                                        <input asp-for="@playlist.Id" class="form-control" />
+                                        <span asp-validation-for="@playlist.Id" class="text-danger"></span>
+                                    </div>
+                                    <input type="submit" value="Create" class="btn btn-primary" /> *@
                                 </tr>
-                            }
-                        </table>
+                                }
+                            </table>
+                        </form>
                     </center>
                 </div>
             </div>
