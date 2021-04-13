@@ -16,3 +16,5 @@
 Documentation can be found here (https://github.com/ktaranov/naming-convention/blob/master/C%23%20Coding%20Standards%20and%20Naming%20Conventions.md).
 
 For git management we've settled on another documented practice that we can all refer to. This is to ensure that git networking is easy to read and allows for easier git maintained. Documentation for these methods are found here (https://codingsight.com/git-branching-naming-convention-best-practices/).</p>
+
+~
