@@ -1,0 +1,18 @@
+What did we learn from the Sprint:
+How important it is to do things early.
+Had more time to get familiar with Git and Azure.
+Learned how to use/implement View Model properly.
+
+What isn't going well:
+Prioritizing life/school/project.
+Breakdown of communication on the scope of indiviual user stories.
+
+
+What can the team do better next Sprint:
+Communication on who's working on what.
+Work on improving user stories
+Define the scope of a user story to that there's no cross coding.
+
+
+What needs to be brought up to Scot:
+N/A

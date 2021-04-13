@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Playlistofy.Models;
+using Playlistofy.Models.ViewModel;
 
 namespace Playlistofy.Controllers
 {
@@ -34,20 +35,28 @@ namespace Playlistofy.Controllers
             }
 
             var track = await _context.Tracks
-                //.Include(t => t.PlaylistTrackMaps)
+                .Include(t => t.PlaylistTrackMaps)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (track == null)
             {
                 return NotFound();
             }
-            ViewBag.Playlist = 
+            var Tracks = 
                 from playlist in _context.Playlists 
                 join PlaylistTrackMap in _context.PlaylistTrackMaps on playlist.Id equals PlaylistTrackMap.PlaylistId
                 where (PlaylistTrackMap.TrackId == track.Id) 
-                select playlist;
+                select track;
 
-
-            return View(track);
+            foreach (Track t in Tracks)
+            {
+                t.Duration = PlaylistsController.ConvertMsToMinSec(t.DurationMs);
+            }
+            var InfoForTracksModel = new InfoForTracks
+            {
+                Track = track,
+                PlaylistTrackMaps = track.PlaylistTrackMaps
+            };
+            return View(InfoForTracksModel);
         }
 
         // GET: Tracks/Create
