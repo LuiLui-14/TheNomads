@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Playlistofy.Models;
+using Playlistofy.Utils;
 
 namespace Playlistofy.Controllers
 {
@@ -37,13 +38,8 @@ namespace Playlistofy.Controllers
             _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            if(_userManager.GetUserId(User) != null)
-            {
-                Task userData = SetUserData();
-                await userData;
-            }
             return View();
         }
 
@@ -71,7 +67,9 @@ namespace Playlistofy.Controllers
             return user;
         }
 
+        [NonAction]
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
         public IActionResult Privacy()
         {
             return View();
@@ -83,7 +81,8 @@ namespace Playlistofy.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async Task SetUserData()
+        /*Delete upon Confirmation of working version in UTIL folder*/
+        /*public async Task SetUserData()
         {
             var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
             var getUserTracks = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
@@ -143,6 +142,6 @@ namespace Playlistofy.Controllers
             
             _context.SaveChanges();
             //var t = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
-        }
+        }*/
     }
 }

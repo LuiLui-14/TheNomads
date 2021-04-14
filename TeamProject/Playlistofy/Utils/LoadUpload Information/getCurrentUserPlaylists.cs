@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SpotifyAPI.Web;
 using Playlistofy.Models; 
 
-namespace Playlistofy.Models
+namespace Playlistofy.Utils
 {
     public class getCurrentUserPlaylists
     {

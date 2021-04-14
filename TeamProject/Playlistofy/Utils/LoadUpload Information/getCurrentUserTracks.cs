@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SpotifyAPI.Web;
 using Playlistofy.Controllers;
+using Playlistofy.Models;
 
-namespace Playlistofy.Models
+namespace Playlistofy.Utils
 {
     public class getCurrentUserTracks
     {
@@ -68,6 +69,7 @@ namespace Playlistofy.Models
                         {
                             DiscNumber = m.DiscNumber,
                             DurationMs = m.DurationMs,
+                            Duration = AlgorithmicOperations.MsConversion.ConvertMsToMinSec(m.DurationMs),
                             Explicit = m.Explicit,
                             Href = m.Href,
                             Id = m.Id,
