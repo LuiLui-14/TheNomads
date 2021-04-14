@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Playlistofy.Models;
 using Playlistofy.Models.ViewModel;
+using Playlistofy.Utils;
 
 namespace Playlistofy.Controllers
 {
@@ -125,10 +126,6 @@ namespace Playlistofy.Controllers
                              join PlaylistTrackMap in _context.PlaylistTrackMaps on track.Id equals PlaylistTrackMap.TrackId
                              where (PlaylistTrackMap.PlaylistId == playlist.Id)
                              select track;
-            foreach(Track t in Tracks)
-            {
-                t.Duration = ConvertMsToMinSec(t.DurationMs);
-            }
             var TracksForPlaylistModel = new TracksForPlaylist
             {
                 Playlist = playlist,
@@ -256,33 +253,6 @@ namespace Playlistofy.Controllers
         private bool PlaylistExists(string id)
         {
             return _context.Playlists.Any(e => e.Id == id);
-        }
-
-        [NonAction]
-        public static string ConvertMsToMinSec(double timeInMs)
-        {
-            string str;
-            if (timeInMs < 0)
-            {
-                str = "00:00";
-            }
-            else
-            {
-                try
-                {
-                    TimeSpan timeSpan = TimeSpan.FromMilliseconds(timeInMs);
-                    str = timeSpan.ToString(@"mm\:ss");
-                }
-                catch (OverflowException)
-                {
-                    str = "Track Length Too Long";
-                }
-                catch (ArgumentException)
-                {
-                    str = "Length Not in Correct Format";
-                }
-            }
-            return str;
         }
     }
 }

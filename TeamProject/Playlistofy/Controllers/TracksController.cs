@@ -47,10 +47,7 @@ namespace Playlistofy.Controllers
                 where (PlaylistTrackMap.TrackId == track.Id) 
                 select track;
 
-            foreach (Track t in Tracks)
-            {
-                t.Duration = PlaylistsController.ConvertMsToMinSec(t.DurationMs);
-            }
+            
             var InfoForTracksModel = new InfoForTracks
             {
                 Track = track,
