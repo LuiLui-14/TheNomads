@@ -31,16 +31,17 @@ namespace Playlistofy
         public void ConfigureServices(IServiceCollection services)
         {
             var builder_SpotifyDB = new SqlConnectionStringBuilder(Configuration.GetConnectionString("AzureSpotifyDB"));
-            builder_SpotifyDB.Password = Configuration["AzureSpotifyDB:Password"];
+            builder_SpotifyDB.Password = Configuration["DBPassword"];
             services.AddDbContext<Models.SpotifyDBContext>(options =>
                 options.UseSqlServer(builder_SpotifyDB.ConnectionString));
 
             var builder_IdentityDB = new SqlConnectionStringBuilder(Configuration.GetConnectionString("AzureIdentityDB"));
-            builder_IdentityDB.Password = Configuration["AzureIdentityDB:Password"];
+            builder_IdentityDB.Password = Configuration["DBPassword"];
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder_IdentityDB.ConnectionString));
 
             services.AddControllersWithViews();
+
 
             services.AddDatabaseDeveloperPageExceptionFilter();
             /*----------------------------------------------------------------------------------------*/
