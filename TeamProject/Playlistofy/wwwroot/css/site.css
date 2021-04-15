@@ -2,14 +2,14 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    text-align: center;
+    word-break: break-all;
+    display: inline-block;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #4636d0;
 }
 
 .btn-primary {
@@ -70,7 +70,16 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
+.bg-nav {
+    background: #84CEEB !important;
+}
+.bg-main {
+    background: #C1C8E4 !important;
+}
 
+.fontMain {
+    font-family: 'Roboto', sans-serif;
+}
 
 
 
