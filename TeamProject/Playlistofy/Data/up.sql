@@ -54,30 +54,31 @@ CREATE TABLE [Track]
     [Duration] NVARCHAR(450)
 )
 
-CREATE TABLE [Artist]
-(
-    [Id] NVARCHAR(450) NOT NULL,
-    [DiscNumber] INT,
-    [DurationMs] INT NOT NULL DEFAULT 0,
-    [Explicit] BIT NOT NULL DEFAULT 0,
-    [Href] NVARCHAR(450),
-    [IsPlayable] BIT NOT NULL DEFAULT 0,
-    [Name] NVARCHAR(450),
-    [Popularity] INT,
-    [PreviewUrl] NVARCHAR(450),
-    [TrackNumber] INT NOT NULL DEFAULT 0,
-    [Uri] NVARCHAR(450),
-    [IsLocal] BIT NOT NULL DEFAULT 0,
-    [Duration] NVARCHAR(450)
-)
-
 
 CREATE TABLE [PlaylistTrackMap]
 (
-    [ID] NVARCHAR(450) NOT NULL,
+    [Id] NVARCHAR(450) NOT NULL,
     [PlaylistID] NVARCHAR(450) NOT NULL,
     [TrackID] NVARCHAR(45) NOT NULL
 )
+
+
+CREATE TABLE [Artist]
+(
+    [Id] NVARCHAR(450) NOT NULL,
+    [Name] NVARCHAR(450) NOT NULL,
+    [Popularity] INT,
+    [Uri] NVARCHAR(450)
+)
+
+
+CREATE TABLE [ArtistTrackMap]
+(
+    [Id] NVARCHAR(450) NOT NULL,
+    [ArtistId] NVARCHAR(450) NOT NULL,
+    [TrackId] NVARCHAR(450) NOT NULL
+)
+
 
 
 ALTER TABLE [PUser] ADD CONSTRAINT [PK_PUser] PRIMARY KEY CLUSTERED ([Id] ASC)
@@ -88,9 +89,17 @@ ALTER TABLE [Track] ADD CONSTRAINT [PK_Track] PRIMARY KEY CLUSTERED ([Id] ASC)
 
 ALTER TABLE [PlaylistTrackMap] ADD CONSTRAINT [PK_PlaylistTrackMap] PRIMARY KEY CLUSTERED ([ID] ASC)
 
+ALTER TABLE [Artist] ADD CONSTRAINT [PK_Artist] PRIMARY KEY CLUSTERED ([Id] ASC)
+
+ALTER TABLE [ArtistTrackMap] ADD CONSTRAINT [PK_ArtistTrackMap] PRIMARY KEY CLUSTERED ([ID] ASC)
+
 
 ALTER TABLE [Playlist] ADD CONSTRAINT [Playlist_FK_PUser] FOREIGN KEY ([UserId]) REFERENCES [PUser] ([ID])
 
 ALTER TABLE [PlaylistTrackMap] ADD CONSTRAINT [PlaylistTrackMap_FK_Playlist] FOREIGN KEY ([PlaylistId]) REFERENCES [Playlist] ([ID])
 
 ALTER TABLE [PlaylistTrackMap] ADD CONSTRAINT [PlaylistTrackMap_FK_Track] FOREIGN KEY ([TrackId]) REFERENCES [Track] ([ID])
+
+ALTER TABLE [ArtistTrackMap] ADD CONSTRAINT [ArtistTrackMap_FK_Artist] FOREIGN KEY ([ArtistId]) REFERENCES [Artist] ([ID])
+
+ALTER TABLE [ArtistTrackMap] ADD CONSTRAINT [ArtistTrackMap_FK_Track] FOREIGN KEY ([TrackId]) REFERENCES [Track] ([ID])
