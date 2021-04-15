@@ -54,6 +54,23 @@ CREATE TABLE [Track]
     [Duration] NVARCHAR(450)
 )
 
+CREATE TABLE [Artist]
+(
+    [Id] NVARCHAR(450) NOT NULL,
+    [DiscNumber] INT,
+    [DurationMs] INT NOT NULL DEFAULT 0,
+    [Explicit] BIT NOT NULL DEFAULT 0,
+    [Href] NVARCHAR(450),
+    [IsPlayable] BIT NOT NULL DEFAULT 0,
+    [Name] NVARCHAR(450),
+    [Popularity] INT,
+    [PreviewUrl] NVARCHAR(450),
+    [TrackNumber] INT NOT NULL DEFAULT 0,
+    [Uri] NVARCHAR(450),
+    [IsLocal] BIT NOT NULL DEFAULT 0,
+    [Duration] NVARCHAR(450)
+)
+
 
 CREATE TABLE [PlaylistTrackMap]
 (
