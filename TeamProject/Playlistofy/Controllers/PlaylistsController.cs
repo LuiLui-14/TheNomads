@@ -108,7 +108,7 @@ namespace Playlistofy.Controllers
         }
 
         // GET: Playlists/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> DetailsFromSearch(string id)
         {
             if (id == null)
             {
@@ -126,6 +126,13 @@ namespace Playlistofy.Controllers
                              join PlaylistTrackMap in _context.PlaylistTrackMaps on track.Id equals PlaylistTrackMap.TrackId
                              where (PlaylistTrackMap.PlaylistId == playlist.Id)
                              select track;
+            foreach(Track t in Tracks)
+            {
+                if(t.Duration == null)
+                {
+                    t.Duration = Utils.AlgorithmicOperations.MsConversion.ConvertMsToMinSec(t.DurationMs);
+                }
+            }
             var TracksForPlaylistModel = new TracksForPlaylist
             {
                 Playlist = playlist,
