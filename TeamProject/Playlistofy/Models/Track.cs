@@ -37,5 +37,6 @@ namespace Playlistofy.Models
         //[InverseProperty("Tracks")]
         //public virtual Playlist Playlist { get; set; }
         public virtual ICollection<PlaylistTrackMap> PlaylistTrackMaps { get; set; }
+        public virtual ICollection<ArtistTrackMap> ArtistTrackMaps { get; set; }
     }
 }
