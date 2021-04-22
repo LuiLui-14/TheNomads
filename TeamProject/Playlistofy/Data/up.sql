@@ -22,7 +22,7 @@
     [SpotifyUserId] NVARCHAR(256),
     [Href] NVARCHAR(256)
 )
-
+GO
 
 CREATE TABLE [Playlist]
 (
@@ -35,7 +35,7 @@ CREATE TABLE [Playlist]
     [Collaborative] bit DEFAULT 0,
     [URI] nvarchar(max)
 )
-
+GO
 
 CREATE TABLE [Track]
 (
@@ -53,27 +53,113 @@ CREATE TABLE [Track]
     [IsLocal] BIT NOT NULL DEFAULT 0,
     [Duration] NVARCHAR(450)
 )
+GO
 
+CREATE TABLE [Album]
+(
+    [Id] NVARCHAR(450) NOT NULL,
+    [AlbumType] NVARCHAR(450),
+    [Label] NVARCHAR(450),
+    [Name] NVARCHAR(450),
+    [Popularity] INT,
+    [ReleaseDate] NVARCHAR(450),
+    [ReleaseDatePrecision] NVARCHAR(450)
+)
+GO
+
+CREATE TABLE [Artist]
+(
+    [Id] NVARCHAR(450) NOT NULL,
+    [Name] NVARCHAR(450) NOT NULL,
+    [Popularity] INT,
+    [Uri] NVARCHAR(450)
+)
+GO
+
+CREATE TABLE [ArtistTrackMap]
+(
+    [Id] INT NOT NULL IDENTITY (1,1),
+    [ArtistId] NVARCHAR(450) NOT NULL,
+    [TrackId] NVARCHAR(450) NOT NULL
+)
+GO
+
+CREATE TABLE [TrackAlbumMap]
+(
+    [Id] INT NOT NULL IDENTITY (1,1),
+    [TrackId] NVARCHAR(450),
+    [AlbumId] NVARCHAR(450)
+)
+GO
 
 CREATE TABLE [PlaylistTrackMap]
 (
-    [ID] NVARCHAR(450) NOT NULL,
+    [ID] INT NOT NULL IDENTITY (1,1),
     [PlaylistID] NVARCHAR(450) NOT NULL,
-    [TrackID] NVARCHAR(45) NOT NULL
+    [TrackID] NVARCHAR(450) NOT NULL
 )
+GO
+
+CREATE TABLE [AlbumArtistMap]
+(
+    [Id] INT NOT NULL IDENTITY (1,1),
+    [ArtistId] NVARCHAR(450),
+    [AlbumId] NVARCHAR(450)
+)
+GO
 
 
 ALTER TABLE [PUser] ADD CONSTRAINT [PK_PUser] PRIMARY KEY CLUSTERED ([Id] ASC)
+GO
 
 ALTER TABLE [Playlist] ADD CONSTRAINT [PK_Playlist] PRIMARY KEY CLUSTERED ([Id] ASC)
+GO
 
 ALTER TABLE [Track] ADD CONSTRAINT [PK_Track] PRIMARY KEY CLUSTERED ([Id] ASC)
+GO
 
-ALTER TABLE [PlaylistTrackMap] ADD CONSTRAINT [PK_PlaylistTrackMap] PRIMARY KEY CLUSTERED ([ID] ASC)
+ALTER TABLE [Artist] ADD CONSTRAINT [PK_Artist] PRIMARY KEY CLUSTERED ([Id] ASC)
+GO
+
+ALTER TABLE [Album] ADD CONSTRAINT [PK_Album] PRIMARY KEY CLUSTERED ([Id] ASC)
+GO
+
+ALTER TABLE [ArtistTrackMap] ADD CONSTRAINT [ArtistTrackMap_PK] PRIMARY KEY CLUSTERED ([Id] ASC)
+GO
+
+ALTER TABLE [TrackAlbumMap] ADD CONSTRAINT [TrackAlbumMap_PK] PRIMARY KEY CLUSTERED ([Id] ASC)
+GO
+
+ALTER TABLE [PlaylistTrackMap] ADD CONSTRAINT [PlaylistTrackMap_PK] PRIMARY KEY CLUSTERED ([Id] ASC)
+GO
+
+ALTER TABLE [AlbumArtistMap] ADD CONSTRAINT [AlbumArtistMap_PK] PRIMARY KEY CLUSTERED ([Id] ASC)
+GO
 
 
 ALTER TABLE [Playlist] ADD CONSTRAINT [Playlist_FK_PUser] FOREIGN KEY ([UserId]) REFERENCES [PUser] ([ID])
+GO
 
 ALTER TABLE [PlaylistTrackMap] ADD CONSTRAINT [PlaylistTrackMap_FK_Playlist] FOREIGN KEY ([PlaylistId]) REFERENCES [Playlist] ([ID])
+GO
 
 ALTER TABLE [PlaylistTrackMap] ADD CONSTRAINT [PlaylistTrackMap_FK_Track] FOREIGN KEY ([TrackId]) REFERENCES [Track] ([ID])
+GO
+
+ALTER TABLE [ArtistTrackMap] ADD CONSTRAINT [ArtistTrackMap_FK_Artist] FOREIGN KEY ([ArtistId]) REFERENCES [Artist] ([ID])
+GO
+
+ALTER TABLE [ArtistTrackMap] ADD CONSTRAINT [ArtistTrackMap_FK_Track] FOREIGN KEY ([TrackId]) REFERENCES [Track] ([ID])
+GO
+
+ALTER TABLE [TrackAlbumMap] ADD CONSTRAINT [TrackAlbumMap_FK_Album] FOREIGN KEY ([AlbumId]) REFERENCES [Album] ([ID])
+GO
+
+ALTER TABLE [TrackAlbumMap] ADD CONSTRAINT [TrackAlbumMap_FK_Track] FOREIGN KEY ([TrackId]) REFERENCES [Track] ([ID])
+GO
+
+ALTER TABLE [AlbumArtistMap] ADD CONSTRAINT [AlbumArtistMap_FK_Artist] FOREIGN KEY ([ArtistId]) REFERENCES [Artist] ([ID])
+GO
+
+ALTER TABLE [AlbumArtistMap] ADD CONSTRAINT [AlbumArtistMap_FK_Album] FOREIGN KEY ([AlbumId]) REFERENCES [Album] ([ID])
+GO
