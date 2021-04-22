@@ -55,6 +55,7 @@ namespace Playlistofy.Controllers
         {
             IdentityUser usr = await GetCurrentUserAsync();
 
+
             var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
             string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(usr);
 

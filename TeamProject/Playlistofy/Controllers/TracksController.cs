@@ -2,21 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Playlistofy.Models;
 using Playlistofy.Models.ViewModel;
+using Playlistofy.Utils;
 
 namespace Playlistofy.Controllers
 {
     public class TracksController : Controller
     {
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly SpotifyDBContext _context;
 
-        public TracksController(SpotifyDBContext context)
+        private readonly IConfiguration _config;
+
+        private static string _spotifyClientId;
+        private static string _spotifyClientSecret;
+
+        public TracksController(IConfiguration config, UserManager<IdentityUser> userManager, SpotifyDBContext context)
         {
+            _userManager = userManager;
             _context = context;
+
+            _config = config;
+
+            _spotifyClientId = config["Spotify:ClientId"];
+            _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
 
         // GET: Tracks
@@ -166,6 +181,25 @@ namespace Playlistofy.Controllers
         private bool TrackExists(string id)
         {
             return _context.Tracks.Any(e => e.Id == id);
+        }
+
+        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+        [HttpGet]
+        public async Task<IActionResult> SearchTracks(string SearchKeywords)
+        {
+            //Checks if a user is logged in before proceeding, else takes them to login page
+            IdentityUser usr = await GetCurrentUserAsync();
+            if (usr == null) { return RedirectToPage("/Account/Login", new { area = "Identity" }); }
+
+            //Creates searchSpotify folder with necessary functions to use later
+            var SearchSpotify = new searchSpotify(_userManager, _spotifyClientId, _spotifyClientSecret);
+            //Creates spotify client
+            var _spotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            //Search and return a list of tracks
+            var SearchTracks = await SearchSpotify.SearchTracks(_spotifyClient, SearchKeywords);
+
+            return View(SearchTracks);
         }
     }
 }

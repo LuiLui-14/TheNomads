@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Playlistofy.Models.Track>
+<div>
+    <h4>Track</h4>
+    <hr />
+
+    <form id="search" asp-action="SearchTracks" method="get">
+        <div>
+            <p>
+                Search for Artist: <input type="text" name="SearchKeywords" value="@ViewBag.CurrentFilter" />
+                <input type="submit" value="Search" class="btn btn-primary" onclick="ShowID()" />
+                <a asp-action="SearchTracks" name="id=null">Remove Filter</a>
+            </p>
+            <div id="alert-msg" style="visibility: hidden;">
+                <p>Make sure we can</p>
+            </div>
+        </div>
+    </form>
+
+    <dl class="row">
+
+        <!--__________________________________________________ -->
+
+        <dt class="col-sm-2">
+            Artist
+        </dt>
+        <dd class="col-sm-10">
+
+        </dd>
+        <dt class="col-sm-2">
+            Album
+        </dt>
+        <dd class="col-sm-10">
+
+        </dd>
+
+        <!--__________________________________________________ -->
+
+
+
+        <dd class=" col-sm 10">
+            <table>
+                <tr>
+                    <th>Title</th>
+                    <th>Length</th>
+                    @*<th>URL</th>*@
+                </tr>
+                @foreach (var track in Model)
+                {
+                    <tr>
+                        <td>
+                            @track.Name
+                        </td>
+                        <td>
+                            @track.Duration
+                        </td>
+                        <td>
+                            @track.Href
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+    </dl>
+</div>
