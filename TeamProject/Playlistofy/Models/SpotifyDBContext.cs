@@ -21,6 +21,8 @@ namespace Playlistofy.Models
         public virtual DbSet<PUser> Pusers { get; set; }
         public virtual DbSet<Track> Tracks { get; set; }
         public virtual DbSet<PlaylistTrackMap> PlaylistTrackMaps { get; set; }
+        public virtual DbSet<Artist> Artists { get; set; }
+        public virtual DbSet<ArtistTrackMap> ArtistTrackMaps { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
