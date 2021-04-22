@@ -12,9 +12,9 @@ namespace Playlistofy.Controllers
 {
     public class TracksController : Controller
     {
-        private readonly SpotifyDBContext _context;
+        private readonly SpotifyDbContext _context;
 
-        public TracksController(SpotifyDBContext context)
+        public TracksController(SpotifyDbContext context)
         {
             _context = context;
         }

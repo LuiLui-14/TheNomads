@@ -18,10 +18,10 @@ namespace Playlistofy.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IEmailSender _sender;
         private readonly IConfiguration _config;
-        private static SpotifyDBContext _context;
-        private IdentityUser usr;
+        private static SpotifyDbContext _context;
+        //private IdentityUser usr;
 
-        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender sender, IConfiguration config, SpotifyDBContext context)
+        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender sender, IConfiguration config, SpotifyDbContext context)
         {
             _userManager = userManager;
             _sender = sender;
@@ -38,8 +38,8 @@ namespace Playlistofy.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null)
         {
-            usr = await GetCurrentUserAsync();
-            UserData userData = new UserData(_config, _userManager, _context, usr);
+            //usr = await GetCurrentUserAsync();
+            //UserData userData = new UserData(_config, _userManager, _context, usr);
             if (email == null)
             {
                 return RedirectToPage("/Index");
