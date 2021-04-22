@@ -24,6 +24,11 @@ namespace Playlistofy.Controllers
         private static string _spotifyClientSecret;
 
         public TracksController(IConfiguration config, UserManager<IdentityUser> userManager, SpotifyDBContext context)
+
+        private readonly SpotifyDbContext _context;
+
+        public TracksController(SpotifyDbContext context)
+
         {
             _userManager = userManager;
             _context = context;
