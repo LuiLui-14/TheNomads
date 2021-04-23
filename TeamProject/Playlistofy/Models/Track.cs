@@ -29,5 +29,6 @@ namespace Playlistofy.Models
 
         public virtual ICollection<ArtistTrackMap> ArtistTrackMaps { get; set; }
         public virtual ICollection<PlaylistTrackMap> PlaylistTrackMaps { get; set; }
+        public virtual ICollection<TrackAlbumMap> TrackAlbumMaps { get; set; }
     }
 }

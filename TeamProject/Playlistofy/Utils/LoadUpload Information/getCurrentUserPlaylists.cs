@@ -36,7 +36,7 @@ namespace Playlistofy.Utils
             return key;
         }
 
-        public SpotifyClient makeSpotifyClient(string spotifyClientId, string spotifyClientSecret)
+        public static SpotifyClient makeSpotifyClient(string spotifyClientId, string spotifyClientSecret)
         {
             SpotifyClientConfig config = SpotifyClientConfig
                 .CreateDefault()

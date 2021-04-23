@@ -102,5 +102,32 @@ namespace Playlistofy.Utils
             };
             return album;
         }
+
+        public async Task<List<Track>> GetAlbumTracks(SpotifyClient spotifyClient, string AlbumId)
+        {
+            List<Track> AlbumTracks = new List<Track>();
+            Paging<SimpleTrack> AlbumTracksPage = await spotifyClient.Albums.GetTracks(AlbumId);
+            foreach(var i in AlbumTracksPage.Items)
+            {
+                FullTrack m = await spotifyClient.Tracks.Get(i.Id);
+                AlbumTracks.Add(new Track()
+                {
+                    DiscNumber = m.DiscNumber,
+                    DurationMs = m.DurationMs,
+                    Duration = AlgorithmicOperations.MsConversion.ConvertMsToMinSec(m.DurationMs),
+                    Explicit = m.Explicit,
+                    Href = m.Href,
+                    Id = m.Id,
+                    IsPlayable = m.IsPlayable,
+                    Name = m.Name,
+                    Popularity = m.Popularity,
+                    PreviewUrl = m.PreviewUrl,
+                    TrackNumber = m.TrackNumber,
+                    Uri = m.Uri,
+                    IsLocal = m.IsLocal
+                });
+            }
+            return AlbumTracks;
+        }
     }
 }

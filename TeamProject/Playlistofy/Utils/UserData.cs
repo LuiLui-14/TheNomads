@@ -21,17 +21,19 @@ namespace Playlistofy.Utils
         private readonly IPlaylistofyUserRepository _pURepo;
         private readonly IPlaylistRepository _pRepo;
         private readonly ITrackRepository _tRepo;
+        private readonly IAlbumRepository _aRepo;
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
         IdentityUser _usr;
 
-        public UserData(IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IdentityUser usr)
+        public UserData(IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo, IdentityUser usr)
         {
             _userManager = userManager;
             _config = config;
             _pURepo = pURepo;
             _pRepo = pRepo;
             _tRepo = tRepo;
+            _aRepo = aRepo;
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
             _usr = usr;
@@ -41,7 +43,7 @@ namespace Playlistofy.Utils
         {
             var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
             var getUserTracks = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
-            var _spotifyClient = getUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var _spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
             string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(_usr);
             List<Playlist> Playlists = await getUserPlaylists.GetCurrentUserPlaylists(_spotifyClient, _userSpotifyId, _usr.Id);
             if (!await _pURepo.ExistsAsync(_usr.Id))
@@ -61,9 +63,16 @@ namespace Playlistofy.Utils
                             await _tRepo.AddAsync(j);
                             await _tRepo.AddTrackPlaylistMap(j.Id, i.Id);
                         }
+                        Album a = _aRepo.GetTrackAlbum(_spotifyClient, j.Id);
+                        if (!await _aRepo.ExistsAsync(a.Id))
+                        {
+                            await _aRepo.AddAsync(a);
+                            await _aRepo.AddAlbumTrackMap(a, j);
+                        }
                     }
                 }
             }
+            
         }
     }
 }

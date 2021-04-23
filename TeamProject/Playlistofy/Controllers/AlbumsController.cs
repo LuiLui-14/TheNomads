@@ -7,17 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Playlistofy.Models;
 using Playlistofy.Data.Concrete;
+using Playlistofy.Data.Abstract;
+using Playlistofy.Models.ViewModel;
+using Microsoft.Extensions.Configuration;
+using Playlistofy.Utils;
 
 namespace Playlistofy.Controllers
 {
     public class AlbumsController : Controller
     {
         //private readonly SpotifyDbContext _context;
-        private readonly AlbumRepository _albumRepo;
+        private readonly IConfiguration _config;
+        private readonly IAlbumRepository _albumRepo;
+        private static string _spotifyClientId;
+        private static string _spotifyClientSecret;
 
-        public AlbumsController(AlbumRepository albumRepo)
+        public AlbumsController(IConfiguration config, IAlbumRepository albumRepo)
         {
             _albumRepo = albumRepo;
+            _spotifyClientId = config["Spotify:ClientId"];
+            _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
 
         // GET: Albums
@@ -29,20 +38,25 @@ namespace Playlistofy.Controllers
         // GET: Albums/Details/5
         public async Task<IActionResult> Details(string id)
         {
+            var _spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
             if (id == null)
             {
                 return NotFound();
             }
 
-            //var album = await _context.Albums
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            var album = await _albumRepo.FindByIdAsync(id);
-            if (album == null)
+            var a = await _albumRepo.FindByIdAsync(id);
+            List<Track> t = await _albumRepo.GetAllAlbumTracks(_spotifyClient, a);
+            if (a == null)
             {
                 return NotFound();
             }
+            ArtistForAlbum viewModel = new ArtistForAlbum()
+            {
+                album = a,
+                tracks = t
+            };
 
-            return View(album);
+            return View(viewModel);
         }
 
         // GET: Albums/Create

@@ -15,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Playlistofy.Data.Abstract;
 using Playlistofy.Data.Concrete;
+using SpotifyAPI.Web;
+using Playlistofy.Controllers;
 
 namespace Playlistofy
 {
@@ -70,6 +72,7 @@ namespace Playlistofy
             services.AddScoped<IAlbumRepository, AlbumRepository>();
             services.AddScoped<ITrackRepository, TrackRepository>();
             services.AddScoped<IPlaylistofyUserRepository, PlaylistofyUserRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
