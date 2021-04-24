@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Playlistofy.Models;
 using Playlistofy.Models.ViewModel;
 using Playlistofy.Utils;
+using Playlistofy.Controllers;
 
 namespace Playlistofy.Controllers
 {
@@ -155,12 +156,34 @@ namespace Playlistofy.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,UserId,Description,Href,Name,Public,Collaborative,Uri")] Playlist playlist)
         {
+            Random ran = new Random();
 
+            string b = "a1b2c3d4e5f6g7h8i9jklmnopqrstuvwxyz";
+            int length = 25;
+            string randomId = "";
+
+            for (int i = 0; i < length; i++)
+            {
+                int a = ran.Next(35);
+                randomId = randomId + b.ElementAt(a);
+            }
+
+            Console.WriteLine("The random alphabet generated is: {0}", randomId);
+
+            IdentityUser usr = await GetCurrentUserAsync();
+            playlist.UserId = usr.Id;
+            playlist.Id = randomId;
+            playlist.Href = "";
+
+            //playlist.UserId =
             if (ModelState.IsValid)
             {
                 _context.Add(playlist);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                string PlaylistId = playlist.Id;
+                return RedirectToAction("SearchTracks", "Tracks", new { PlaylistId = PlaylistId });
+                //return RedirectToAction("SearchTracks", "Tracks");
             }
             ViewData["UserId"] = new SelectList(_context.Pusers, "Id", "Id", playlist.UserId);
             return View(playlist);

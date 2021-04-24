@@ -36,10 +36,10 @@ namespace Playlistofy.Utils
 
         public async Task<List<Track>> SearchTracks(SpotifyClient _spotifyClient, string SearchKeyword)
         {
-            if(SearchKeyword == null || SearchKeyword == "")
-            {
-                return null;
-            }
+            //if(SearchKeyword == null || SearchKeyword == "")
+            //{
+            //    return null;
+            //}
             var searchTracks = await _spotifyClient.Search.Item(new SearchRequest(
               SearchRequest.Types.Track, SearchKeyword
             ));
@@ -61,6 +61,11 @@ namespace Playlistofy.Utils
                 }
                 var tempTrack = new Track();
                 tempTrack.Name = item.Name;
+                tempTrack.Id = item.Id;
+                tempTrack.IsPlayable = item.IsPlayable;
+                tempTrack.IsLocal = item.IsLocal;
+                tempTrack.Popularity = item.Popularity;
+                tempTrack.Uri = item.Uri;
                 tempTrack.Duration = item.DurationMs.ToString();
                 foreach (var artists in item.Artists)
                 {

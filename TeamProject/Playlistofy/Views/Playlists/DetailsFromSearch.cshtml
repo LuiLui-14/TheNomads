@@ -11,6 +11,14 @@
     <h4>@Html.DisplayFor(model => model.Playlist.Name)</h4>
     <hr />
     <dl class="row">
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Playlist.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Playlist.Id)
+        </dd>
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Playlist.Description)
         </dt>

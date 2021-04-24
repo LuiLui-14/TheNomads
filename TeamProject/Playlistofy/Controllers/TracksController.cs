@@ -4,31 +4,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Playlistofy.Models;
 using Playlistofy.Models.ViewModel;
 using Playlistofy.Utils;
+using Microsoft.AspNetCore.Http;
 
 namespace Playlistofy.Controllers
 {
     public class TracksController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly SpotifyDBContext _context;
+        private readonly SpotifyDbContext _context;
 
         private readonly IConfiguration _config;
 
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public TracksController(IConfiguration config, UserManager<IdentityUser> userManager, SpotifyDBContext context)
-
-        private readonly SpotifyDbContext _context;
-
-        public TracksController(SpotifyDbContext context)
-
+        public TracksController(IConfiguration config, UserManager<IdentityUser> userManager, SpotifyDbContext context)
         {
             _userManager = userManager;
             _context = context;
@@ -61,13 +58,13 @@ namespace Playlistofy.Controllers
             {
                 return NotFound();
             }
-            var Tracks = 
-                from playlist in _context.Playlists 
+            var Tracks =
+                from playlist in _context.Playlists
                 join PlaylistTrackMap in _context.PlaylistTrackMaps on playlist.Id equals PlaylistTrackMap.PlaylistId
-                where (PlaylistTrackMap.TrackId == track.Id) 
+                where (PlaylistTrackMap.TrackId == track.Id)
                 select track;
 
-            
+
             var InfoForTracksModel = new InfoForTracks
             {
                 Track = track,
@@ -191,8 +188,22 @@ namespace Playlistofy.Controllers
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         [HttpGet]
-        public async Task<IActionResult> SearchTracks(string SearchKeywords)
+        public async Task<IActionResult> SearchTracks(string SearchKeyword, string playlistId)
         {
+            var PlaylistTracks = new userPlaylistsTracks();
+
+            //PlaylistTracks.PlaylistId = playlistId;
+            ViewBag.playlistId = playlistId;
+
+            var userPlaylists = _context.Playlists.Where(i => i.Id == playlistId);
+            PlaylistTracks.PlaylistsDB = await userPlaylists.ToListAsync();
+            Console.WriteLine(playlistId);
+
+            ViewBag.searchword = SearchKeyword;
+            if (SearchKeyword == null || SearchKeyword == "")
+            {
+                return View();
+            }
             //Checks if a user is logged in before proceeding, else takes them to login page
             IdentityUser usr = await GetCurrentUserAsync();
             if (usr == null) { return RedirectToPage("/Account/Login", new { area = "Identity" }); }
@@ -202,9 +213,10 @@ namespace Playlistofy.Controllers
             //Creates spotify client
             var _spotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
             //Search and return a list of tracks
-            var SearchTracks = await SearchSpotify.SearchTracks(_spotifyClient, SearchKeywords);
+            var SearchTracks = await SearchSpotify.SearchTracks(_spotifyClient, SearchKeyword);
+            PlaylistTracks.Tracks = SearchTracks;
 
-            return View(SearchTracks);
+            return View(PlaylistTracks);
         }
     }
 }
