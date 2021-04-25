@@ -77,17 +77,12 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IsLocal)
         </dd>
-        @*<dt class = "col-sm-2">
-            Html.DisplayNameFor(model => model.Playlist)
-        </dt>
-        <dd class = "col-sm-10">
-            Html.DisplayFor(model => model.Playlist.Id)
-        </dd>*@
     </dl>
     
-    <form asp-action="Delete">
+    <form asp-action="Delete" asp-route-TrackId="@Model.Id" asp-route-PlaylistId="@ViewBag.playlistId">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-controller="Playlists" asp-action="UserPlaylists">Back to List</a>
+        <a asp-controller="Playlists" asp-action="UserPlaylists">Back to Playlist Page</a>
+        <a asp-controller="Tracks" asp-action="SearchTracks" asp-route-id="@ViewBag.playlistId">Back to Add Tracks Page</a>
     </form>
 </div>

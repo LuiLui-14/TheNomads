@@ -7,6 +7,7 @@ using SpotifyAPI.Web;
 using Playlistofy.Models;
 using Microsoft.AspNetCore.Http;
 using Playlistofy.Controllers;
+using System.Linq;
 
 namespace Playlistofy.Utils
 {
@@ -34,50 +35,40 @@ namespace Playlistofy.Utils
             return spotify;
         }
 
-        public async Task<List<Track>> SearchTracks(SpotifyClient _spotifyClient, string SearchKeyword)
+        public async Task<List<Track>> SearchTracks(SpotifyClient _spotifyClient, string SearchKeyword, IQueryable<Track> tracks)
         {
-            //if(SearchKeyword == null || SearchKeyword == "")
-            //{
-            //    return null;
-            //}
             var searchTracks = await _spotifyClient.Search.Item(new SearchRequest(
               SearchRequest.Types.Track, SearchKeyword
             ));
-
-            //await foreach (var item in _spotifyClient.Paginate(searchTracks.Tracks, (s) => s.Tracks))
-            //{
-            //    Console.WriteLine(item.Name);
-            //    // you can use "break" here!
-            //}
 
             List<Track> TrackList = new List<Track>();
 
             int count = 0;
             await foreach (var item in _spotifyClient.Paginate(searchTracks.Tracks, (s) => s.Tracks))
             {
-                if(count > 10)
+                var _track = tracks.FirstOrDefault(i => i.Id == item.Id);
+                if (_track == null)
                 {
-                    break;
-                }
-                var tempTrack = new Track();
-                tempTrack.Name = item.Name;
-                tempTrack.Id = item.Id;
-                tempTrack.IsPlayable = item.IsPlayable;
-                tempTrack.IsLocal = item.IsLocal;
-                tempTrack.Popularity = item.Popularity;
-                tempTrack.Uri = item.Uri;
-                tempTrack.Duration = item.DurationMs.ToString();
-                foreach (var artists in item.Artists)
-                {
-                    tempTrack.Href = tempTrack.Href + " " + artists.Name;
-                }
-                
+                    if (count > 10)
+                    {
+                        break;
+                    }
+                    var tempTrack = new Track();
+                    tempTrack.Name = item.Name;
+                    tempTrack.Id = item.Id;
+                    tempTrack.IsPlayable = item.IsPlayable;
+                    tempTrack.IsLocal = item.IsLocal;
+                    tempTrack.Popularity = item.Popularity;
+                    tempTrack.Uri = item.Uri;
+                    tempTrack.DurationMs = item.DurationMs;
+                    foreach (var artists in item.Artists)
+                    {
+                        tempTrack.Href = tempTrack.Href + " " + artists.Name;
+                    }
 
-                TrackList.Add(tempTrack);
-
-                //Console.WriteLine(item.Name);
-                // you can use "break" here!
-                ++count;
+                    TrackList.Add(tempTrack);
+                    ++count;
+                }
             }
 
             return TrackList;

@@ -105,9 +105,6 @@ namespace Playlistofy
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-                endpoints.MapControllerRoute(
-                    name: "PlaylistAddTracks",
-                    pattern: "{controller=Tracks}/{action=SearchTracks}/{playlistId?}");
             });
         }
     }

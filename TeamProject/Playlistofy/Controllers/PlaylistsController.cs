@@ -181,8 +181,8 @@ namespace Playlistofy.Controllers
                 _context.Add(playlist);
                 await _context.SaveChangesAsync();
 
-                string PlaylistId = playlist.Id;
-                return RedirectToAction("SearchTracks", "Tracks", new { PlaylistId = PlaylistId });
+                string id = playlist.Id;
+                return RedirectToAction("SearchTracks", "Tracks", new { id = id });
                 //return RedirectToAction("SearchTracks", "Tracks");
             }
             ViewData["UserId"] = new SelectList(_context.Pusers, "Id", "Id", playlist.UserId);

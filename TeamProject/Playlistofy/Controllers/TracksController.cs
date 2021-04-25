@@ -151,20 +151,21 @@ namespace Playlistofy.Controllers
         }
 
         // GET: Tracks/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string TrackId, string PlaylistId)
         {
-            if (id == null)
+            if (TrackId == null)
             {
                 return NotFound();
             }
 
             var track = await _context.Tracks
                 //.Include(t => t.Playlist)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == TrackId);
             if (track == null)
             {
                 return NotFound();
             }
+            ViewBag.playlistId = PlaylistId;
 
             return View(track);
         }
@@ -172,12 +173,15 @@ namespace Playlistofy.Controllers
         // POST: Tracks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(string TrackId, string PlaylistId)
         {
-            var track = await _context.Tracks.FindAsync(id);
+            var trackMap = await _context.PlaylistTrackMaps.FirstOrDefaultAsync(i => i.TrackId == TrackId && i.PlaylistId == PlaylistId);
+            _context.PlaylistTrackMaps.Remove(trackMap);
+
+            var track = await _context.Tracks.FindAsync(TrackId);
             _context.Tracks.Remove(track);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("SearchTracks", "Tracks", new { id = PlaylistId });
         }
 
         private bool TrackExists(string id)
@@ -188,21 +192,26 @@ namespace Playlistofy.Controllers
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         [HttpGet]
-        public async Task<IActionResult> SearchTracks(string SearchKeyword, string playlistId)
+        public async Task<IActionResult> SearchTracks(string SearchKeyword, string id, string username)
         {
             var PlaylistTracks = new userPlaylistsTracks();
 
-            //PlaylistTracks.PlaylistId = playlistId;
-            ViewBag.playlistId = playlistId;
-
-            var userPlaylists = _context.Playlists.Where(i => i.Id == playlistId);
+            var userPlaylists = _context.Playlists.Where(i => i.Id == id);
             PlaylistTracks.PlaylistsDB = await userPlaylists.ToListAsync();
-            Console.WriteLine(playlistId);
+            PlaylistTracks.PlaylistId = id;
+            ViewBag.SearchKeyword = SearchKeyword;
+
+            var Tracks = from track in _context.Tracks
+                         join PlaylistTrackMap in _context.PlaylistTrackMaps on track.Id equals PlaylistTrackMap.TrackId
+                         where (PlaylistTrackMap.PlaylistId == id)
+                         select track;
+
+            PlaylistTracks.TracksDb = Tracks;
 
             ViewBag.searchword = SearchKeyword;
             if (SearchKeyword == null || SearchKeyword == "")
             {
-                return View();
+                return View(PlaylistTracks);
             }
             //Checks if a user is logged in before proceeding, else takes them to login page
             IdentityUser usr = await GetCurrentUserAsync();
@@ -213,7 +222,39 @@ namespace Playlistofy.Controllers
             //Creates spotify client
             var _spotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
             //Search and return a list of tracks
-            var SearchTracks = await SearchSpotify.SearchTracks(_spotifyClient, SearchKeyword);
+            var SearchTracks = await SearchSpotify.SearchTracks(_spotifyClient, SearchKeyword, Tracks);
+
+            foreach(var track in SearchTracks)
+            {
+                if (_context.Tracks.Find(track.Id) == null)
+                {
+                    _context.Tracks.Add(track);
+                }
+            }
+
+            if (username != null && username.Length > 0)
+            {
+                var trackMap = await _context.PlaylistTrackMaps.FirstOrDefaultAsync(i => i.TrackId == username && i.PlaylistId == id);
+                if (trackMap == null)
+                {
+                    _context.PlaylistTrackMaps.Add(
+                            new PlaylistTrackMap() {
+                                PlaylistId = id,
+                                TrackId = username
+                            }
+                        );
+                    _context.SaveChanges();
+                }
+            }
+
+            foreach (var track in Tracks)
+            {
+                var _track = SearchTracks.FirstOrDefault(i => i.Id == track.Id);
+                if (_track != null)
+                {
+                    SearchTracks.Remove(_track);
+                }
+            }
             PlaylistTracks.Tracks = SearchTracks;
 
             return View(PlaylistTracks);

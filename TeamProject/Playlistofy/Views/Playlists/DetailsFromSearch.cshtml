@@ -64,6 +64,11 @@
                         <td>
                             @track.Duration
                         </td>
+                        <td>
+                            <a asp-controller="Tracks" asp-action="Delete" asp-route-TrackId="@track.Id" asp-route-PlaylistId="@Model.Playlist.Id">
+                                Delete
+                            </a>
+                        </td>
                     </tr>
                 }
             </table>
