@@ -67,7 +67,11 @@ namespace Playlistofy.Utils
 
                         foreach (var a in artists)
                         {
-                            await _arRepo.AddArtistTrackMap(a.Id, j.Id);
+                            if (!await _arRepo.ExistsAsync(a.Id))
+                            {
+                                await _arRepo.AddAsync(a);
+                                await _arRepo.AddArtistTrackMap(a.Id, j.Id);
+                            }
                         }
                     }
                 }
