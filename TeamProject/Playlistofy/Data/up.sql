@@ -94,11 +94,7 @@ GO
 
 CREATE TABLE [PlaylistTrackMap]
 (
-<<<<<<< HEAD
-    [Id] NVARCHAR(450) NOT NULL,
-=======
     [ID] INT NOT NULL IDENTITY (1,1),
->>>>>>> 41b3243fda9b5bfebc86e88db78f97a10cad7d30
     [PlaylistID] NVARCHAR(450) NOT NULL,
     [TrackID] NVARCHAR(450) NOT NULL
 )
@@ -170,12 +166,6 @@ ALTER TABLE [PlaylistTrackMap] ADD CONSTRAINT [PlaylistTrackMap_FK_Playlist] FOR
 GO
 
 ALTER TABLE [PlaylistTrackMap] ADD CONSTRAINT [PlaylistTrackMap_FK_Track] FOREIGN KEY ([TrackId]) REFERENCES [Track] ([ID])
-<<<<<<< HEAD
-
-ALTER TABLE [ArtistTrackMap] ADD CONSTRAINT [ArtistTrackMap_FK_Artist] FOREIGN KEY ([ArtistId]) REFERENCES [Artist] ([ID])
-
-ALTER TABLE [ArtistTrackMap] ADD CONSTRAINT [ArtistTrackMap_FK_Track] FOREIGN KEY ([TrackId]) REFERENCES [Track] ([ID])
-=======
 GO
 
 ALTER TABLE [ArtistTrackMap] ADD CONSTRAINT [ArtistTrackMap_FK_Artist] FOREIGN KEY ([ArtistId]) REFERENCES [Artist] ([ID])
@@ -195,4 +185,3 @@ GO
 
 ALTER TABLE [AlbumArtistMap] ADD CONSTRAINT [AlbumArtistMap_FK_Album] FOREIGN KEY ([AlbumId]) REFERENCES [Album] ([ID])
 GO
->>>>>>> 41b3243fda9b5bfebc86e88db78f97a10cad7d30
