@@ -6,15 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Playlistofy.Models;
-using Playlistofy.Models.ViewModel;
 
 namespace Playlistofy.Controllers
 {
-    public class ArtistController : Controller
+    public class ArtistsController : Controller
     {
         private readonly SpotifyDbContext _context;
 
-        public ArtistController(SpotifyDbContext context)
+        public ArtistsController(SpotifyDbContext context)
         {
             _context = context;
         }
@@ -22,8 +21,7 @@ namespace Playlistofy.Controllers
         // GET: Artists
         public async Task<IActionResult> Index()
         {
-            var spotifyDBContext = _context.Artists;
-            return View(await spotifyDBContext.ToListAsync());
+            return View(await _context.Artists.ToListAsync());
         }
 
         // GET: Artists/Details/5
@@ -35,31 +33,18 @@ namespace Playlistofy.Controllers
             }
 
             var artist = await _context.Artists
-                .Include(t => t.ArtistTrackMaps)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (artist == null)
             {
                 return NotFound();
             }
-            var Artists =
-                from track in _context.Tracks
-                join ArtistTrackMap in _context.ArtistTrackMaps on track.Id equals ArtistTrackMap.TrackId
-                where (ArtistTrackMap.ArtistId == artist.Id)
-                select artist; 
 
-
-            var InfoForArtistsModel = new InfoForArtists
-            {
-                Artist = artist,
-                ArtistTrackMaps = artist.ArtistTrackMaps
-            };
-            return View(InfoForArtistsModel);
+            return View(artist);
         }
 
         // GET: Artists/Create
         public IActionResult Create()
         {
-            //ViewData["PlaylistId"] = new SelectList(_context.Playlists, "Id", "Id");
             return View();
         }
 
@@ -68,16 +53,15 @@ namespace Playlistofy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DiscNumber,DurationMs,Explicit,Href,IsPlayable,Name,Popularity,PreviewUrl,ArtistNumber,Uri,IsLocal")] Artist Artist)
+        public async Task<IActionResult> Create([Bind("Id,Name,Popularity,Uri")] Artist artist)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(Artist);
+                _context.Add(artist);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["PlaylistId"] = new SelectList(_context.Playlists, "Id", "Id", Artist.PlaylistId);
-            return View(Artist);
+            return View(artist);
         }
 
         // GET: Artists/Edit/5
@@ -88,13 +72,12 @@ namespace Playlistofy.Controllers
                 return NotFound();
             }
 
-            var Artist = await _context.Artists.FindAsync(id);
-            if (Artist == null)
+            var artist = await _context.Artists.FindAsync(id);
+            if (artist == null)
             {
                 return NotFound();
             }
-            //ViewData["PlaylistId"] = new SelectList(_context.Playlists, "Id", "Id", Artist.PlaylistId);
-            return View(Artist);
+            return View(artist);
         }
 
         // POST: Artists/Edit/5
@@ -102,9 +85,9 @@ namespace Playlistofy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,DiscNumber,DurationMs,Explicit,Href,IsPlayable,Name,Popularity,PreviewUrl,ArtistNumber,Uri,IsLocal")] Artist Artist)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Popularity,Uri")] Artist artist)
         {
-            if (id != Artist.Id)
+            if (id != artist.Id)
             {
                 return NotFound();
             }
@@ -113,12 +96,12 @@ namespace Playlistofy.Controllers
             {
                 try
                 {
-                    _context.Update(Artist);
+                    _context.Update(artist);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ArtistExists(Artist.Id))
+                    if (!ArtistExists(artist.Id))
                     {
                         return NotFound();
                     }
@@ -129,8 +112,7 @@ namespace Playlistofy.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["PlaylistId"] = new SelectList(_context.Playlists, "Id", "Id", Artist.PlaylistId);
-            return View(Artist);
+            return View(artist);
         }
 
         // GET: Artists/Delete/5
@@ -141,15 +123,14 @@ namespace Playlistofy.Controllers
                 return NotFound();
             }
 
-            var Artist = await _context.Artists
-                //.Include(t => t.Playlist)
+            var artist = await _context.Artists
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (Artist == null)
+            if (artist == null)
             {
                 return NotFound();
             }
 
-            return View(Artist);
+            return View(artist);
         }
 
         // POST: Artists/Delete/5
@@ -157,8 +138,8 @@ namespace Playlistofy.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var Artist = await _context.Artists.FindAsync(id);
-            _context.Artists.Remove(Artist);
+            var artist = await _context.Artists.FindAsync(id);
+            _context.Artists.Remove(artist);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
