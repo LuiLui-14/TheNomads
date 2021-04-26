@@ -8,5 +8,8 @@ namespace Playlistofy.Data.Abstract
 {
     public interface IPlaylistRepository : IRepository<Playlist>
     {
+        public List<Playlist> FindPlaylistsBySearch(string searchQuery);
     }
+
+    
 }

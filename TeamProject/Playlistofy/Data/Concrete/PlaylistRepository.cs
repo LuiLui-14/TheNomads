@@ -13,5 +13,11 @@ namespace Playlistofy.Data.Concrete
         {
 
         }
+
+        public List<Playlist> FindPlaylistsBySearch(string searchQuery)
+        {
+            var t = _dbSet.Where(a => a.Name.Contains(searchQuery)).ToList();
+            return t;
+        }
     }
 }

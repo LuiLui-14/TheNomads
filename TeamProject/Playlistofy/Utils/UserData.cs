@@ -17,7 +17,6 @@ namespace Playlistofy.Utils
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _config;
-        //private static SpotifyDbContext _context;
         private readonly IPlaylistofyUserRepository _pURepo;
         private readonly IPlaylistRepository _pRepo;
         private readonly ITrackRepository _tRepo;

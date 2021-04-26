@@ -86,5 +86,11 @@ namespace Playlistofy.Data.Concrete
             return tracks;
 
         }
+
+        public List<Album> FindAlbumsBySearch(string searchQuery)
+        {
+            var t = _dbSet.Where(a => a.Name.Contains(searchQuery)).ToList();
+            return t;
+        }
     }
 }
