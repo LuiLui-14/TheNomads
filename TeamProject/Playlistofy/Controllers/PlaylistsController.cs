@@ -16,7 +16,7 @@ namespace Playlistofy.Controllers
 {
     public class PlaylistsController : Controller
     {
-        private readonly SpotifyDBContext _context;
+        private readonly SpotifyDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
         private readonly IConfiguration _config;
@@ -24,7 +24,7 @@ namespace Playlistofy.Controllers
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public PlaylistsController(SpotifyDBContext context, IConfiguration config, UserManager<IdentityUser> userManager)
+        public PlaylistsController(SpotifyDbContext context, IConfiguration config, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _userManager = userManager;

@@ -86,5 +86,21 @@ namespace Playlistofy.Utils
             }
             return playlistTracks;
         }
+
+        public Album GetTrackAlbum(SpotifyClient _spotifyClient, string TrackId)
+        {
+            FullAlbum fullAlbum = _spotifyClient.Albums.Get(_spotifyClient.Tracks.Get(TrackId).Result.Album.Id).Result;
+            Album album = new Album()
+            {
+                AlbumType = fullAlbum.AlbumType,
+                Id = fullAlbum.Id,
+                Label = fullAlbum.Label,
+                Name = fullAlbum.Name,
+                Popularity = fullAlbum.Popularity,
+                ReleaseDate = fullAlbum.ReleaseDate,
+                ReleaseDatePrecision = fullAlbum.ReleaseDatePrecision
+            };
+            return album;
+        }
     }
 }

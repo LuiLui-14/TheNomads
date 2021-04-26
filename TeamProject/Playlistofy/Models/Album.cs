@@ -5,20 +5,23 @@ using System.Collections.Generic;
 
 namespace Playlistofy.Models
 {
-    public partial class Artist
+    public partial class Album
     {
-        public Artist()
+        public Album()
         {
             ArtistAlbumMaps = new HashSet<ArtistAlbumMap>();
-            ArtistTrackMaps = new HashSet<ArtistTrackMap>();
+            TrackAlbumMaps = new HashSet<TrackAlbumMap>();
         }
 
         public string Id { get; set; }
+        public string AlbumType { get; set; }
+        public string Label { get; set; }
         public string Name { get; set; }
         public int? Popularity { get; set; }
-        public string Uri { get; set; }
+        public string ReleaseDate { get; set; }
+        public string ReleaseDatePrecision { get; set; }
 
         public virtual ICollection<ArtistAlbumMap> ArtistAlbumMaps { get; set; }
-        public virtual ICollection<ArtistTrackMap> ArtistTrackMaps { get; set; }
+        public virtual ICollection<TrackAlbumMap> TrackAlbumMaps { get; set; }
     }
 }

@@ -12,9 +12,9 @@ namespace Playlistofy.Controllers
 {
     public class ArtistController : Controller
     {
-        private readonly SpotifyDBContext _context;
+        private readonly SpotifyDbContext _context;
 
-        public ArtistController(SpotifyDBContext context)
+        public ArtistController(SpotifyDbContext context)
         {
             _context = context;
         }
@@ -168,5 +168,4 @@ namespace Playlistofy.Controllers
             return _context.Artists.Any(e => e.Id == id);
         }
     }
-}
 }

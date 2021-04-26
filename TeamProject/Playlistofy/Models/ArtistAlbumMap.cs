@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace Playlistofy.Models
 {
-public partial class ArtistTrackMap
+    public partial class ArtistAlbumMap
     {
         public int Id { get; set; }
         public string ArtistId { get; set; }
-        public string TrackId { get; set; }
+        public string AlbumId { get; set; }
 
+        public virtual Album Album { get; set; }
         public virtual Artist Artist { get; set; }
-        public virtual Track Track { get; set; }
     }
 }
