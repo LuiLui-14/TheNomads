@@ -120,6 +120,7 @@ namespace Playlistofy.Utils
                     Name = a.Name,
                     Popularity = a.Popularity,
                     Uri = a.Uri
+                    //Images
                 });
             }
 
