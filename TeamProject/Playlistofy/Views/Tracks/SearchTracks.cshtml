@@ -1,0 +1,160 @@
+﻿@model Playlistofy.Models.userPlaylistsTracks
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<style>
+    table {
+        border-collapse: collapse;
+        border: 1px solid black;
+    }
+
+    th, td {
+        border: 1px solid black;
+    }
+
+    table.b {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    div.div_a:hover {
+        table-layout: auto;
+        width: 100%;
+        opacity: 1.0;
+        background: url('https://cdn.pixabay.com/photo/2013/07/13/11/51/cd-158817__480.png');
+    }
+
+    div.div_a {
+        table-layout: auto;
+        width: 100%;
+        opacity: 0.5;
+        background: url('https://cdn.pixabay.com/photo/2013/07/13/11/51/cd-158817__480.png');
+    }
+
+    div.div_b {
+        table-layout: auto;
+        width: 100%;
+        opacity: 0.7;
+        background: url('https://i.pinimg.com/originals/2a/76/17/2a761787715ca71788aad1a28ab057ac.jpg');
+    }
+</style>
+
+<div>
+    <table>
+        <tr>
+            <td>
+                <table class="b">
+                    <tr>
+                        <td>
+                            @if (Model != null)
+                            {
+                                @foreach (var playlist in Model.PlaylistsDB)
+                                {
+                                    <div class="div_a">
+                                        <div style="text-align:center">
+                                            <h1><a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@Model.PlaylistId">@playlist.Name</a></h1>
+                                            <h5>@playlist.Description</h5>
+                                            <hr />
+                                        </div>
+                                    </div>
+                                    <div style="text-align:center" class="div_b">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th><h5><b>Name</b></h5></th>
+                                                    <th><h5><b>Artist</b></h5></th>
+                                                </tr>
+                                                @foreach (var track in Model.TracksDb)
+                                                {
+                                                    <tr>
+                                                        <td><b>@track.Name</b></td>
+                                                        <td><b>@track.Href</b></td>
+                                                        <td>
+                                                            <a asp-action="Delete" asp-route-TrackId="@track.Id" asp-route-PlaylistId="@Model.PlaylistId">Delete</a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </thead>
+                                        </table>
+                                    </div>
+                                }
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td></td>
+            <td>
+                <table class="b">
+                    <tr>
+                        <td>
+                            <div style="text-align:center" class="div_a">
+                                <h1>Add Tracks</h1>
+                                <hr />
+
+                                <form asp-action="SearchTracks" method="get" asp-route-id="@Model.PlaylistId">
+                                    <p>
+                                        Search for Tracks: <input type="text" name="SearchKeyword" placeholder="Search by Track, Playlist, Author, Album"/>
+                                        <input type="submit" value="SearchKeyword" class="btn btn-primary" />
+                                        <a asp-action="SearchTracks" name="SearchKeyword=null">Remove Filter</a>
+                                    </p>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="div_b">
+                                @if (Model.Tracks != null)
+                                {
+                                    <div>
+                                        <p>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th><h5><b>Title</b></h5></th>
+                                                        <th><h5><b>Artist</b></h5></th>
+                                                        <th><h5><b>Length</b></h5></th>
+                                                    </tr>
+                                                    @foreach (var track in Model.Tracks)
+                                                    {
+                                                        <tr>
+                                                            <td><b>@track.Href</b></td>
+                                                            <td><b>@track.Name</b></td>
+                                                            <td>
+                                                                @{
+                                                                    var time = Playlistofy.Utils.AlgorithmicOperations.MsConversion.ConvertMsToMinSec(track.DurationMs);
+                                                                }
+                                                                <b>@time</b>
+                                                            </td>
+                                                            @if (Model.TracksDb.Where(a => a.Id == track.Id) != track)
+                                                            {
+                                                                <td>
+                                                                    <center>
+                                                                        <a asp-action="SearchTracks" asp-route-SearchKeyword="@ViewBag.SearchKeyword" asp-route-id="@Model.PlaylistId" asp-route-username="@track.Id">Add</a>
+                                                                    </center>
+                                                                </td>
+                                                            }
+                                                        </tr>
+                                                    }
+                                                </thead>
+                                            </table>
+                                        </p>
+                                    </div>
+                                }
+                                else if (ViewBag.searchword == "")
+                                {
+                                    <center><h2>Insert Text To Search Tracks</h2></center>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+<center><h3><a asp-controller="Playlists" asp-action="UserPlaylists" asp-route-id="@Model.PlaylistId">Done</a></h3></center>

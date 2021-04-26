@@ -4,61 +4,79 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<style>
+    table {
+        border-collapse: collapse;
+    }
 
-<h4>Playlist</h4>
+    @*th, td {
+        border: 1px solid black;
+    }*@
+
+    table.b {
+        table-layout: fixed;
+        width: 100%;
+        background: url('https://www.ilovewallpaper.ie/images/diamonds-plain-wallpaper-grey-p7401-25144_medium.jpg');
+    }
+</style>
+
+<center><h3>Edit Playlist - "@Html.DisplayFor(model => model.Name)"</h3></center>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            @*<div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            @*<div class="form-group">
-                <label asp-for="Href" class="control-label"></label>
-                <input asp-for="Href" class="form-control" />
-                <span asp-validation-for="Href" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Public" class="control-label"></label>
-                <input asp-for="Public" class="form-control" />
-                <span asp-validation-for="Public" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Collaborative" class="control-label"></label>
-                <input asp-for="Collaborative" class="form-control" />
-                <span asp-validation-for="Collaborative" class="text-danger"></span>
-            </div>
-            @*<div class="form-group">
-                <label asp-for="Uri" class="control-label"></label>
-                <input asp-for="Uri" class="form-control" />
-                <span asp-validation-for="Uri" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="UserPlaylists">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<center>
+    <table class="b">
+        <tr>
+            <td>
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    @*<div class="form-group">
+                            <label asp-for="UserId" class="control-label"></label>
+                            <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                            <span asp-validation-for="UserId" class="text-danger"></span>
+                        </div>*@
+                    @*<div class="form-group">
+                            <label asp-for="Href" class="control-label"></label>
+                            <input asp-for="Href" class="form-control" />
+                            <span asp-validation-for="Href" class="text-danger"></span>
+                        </div>*@
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input style="height:40px; width:350px;" asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Public" class="control-label"></label>
+                        <input style="height:40px; width:100px;" asp-for="Public" class="form-control" />
+                        <span asp-validation-for="Public" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Collaborative" class="control-label"></label>
+                        <input style="height:40px; width:100px;" asp-for="Collaborative" class="form-control" />
+                        <span asp-validation-for="Collaborative" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <textarea rows="5" cols="35" asp-for="Description" class="form-control" placeholder="Enter description here..."></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    @*<div class="form-group">
+                            <label asp-for="Uri" class="control-label"></label>
+                            <input asp-for="Uri" class="form-control" />
+                            <span asp-validation-for="Uri" class="text-danger"></span>
+                        </div>*@
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+                <center>
+                    <div>
+                        <h5><a asp-action="UserPlaylists">Back to List</a></h5>
+                    </div>
+                </center>
+                @section Scripts {
+                    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+                }
+            </td>
+        </tr>
+    </table>
+</center>

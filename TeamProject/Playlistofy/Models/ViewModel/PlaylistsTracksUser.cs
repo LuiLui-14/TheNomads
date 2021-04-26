@@ -14,5 +14,7 @@ namespace Playlistofy.Models
         public PUser User { get; set; }
 
         public IEnumerable<Playlist> PlaylistsDB { get; set; }
+        public IEnumerable<Track> TracksDb { get; set; }
+        public string PlaylistId { get; set; }
     }
 }
