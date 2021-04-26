@@ -70,6 +70,10 @@ namespace Playlistofy
             services.AddScoped<IAlbumRepository, AlbumRepository>();
             services.AddScoped<ITrackRepository, TrackRepository>();
             services.AddScoped<IPlaylistofyUserRepository, PlaylistofyUserRepository>();
+<<<<<<< HEAD
+=======
+            services.AddScoped<IArtistRepository, ArtistRepository>();
+>>>>>>> mcbride_artist_creation
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -21,17 +21,19 @@ namespace Playlistofy.Utils
         private readonly IPlaylistofyUserRepository _pURepo;
         private readonly IPlaylistRepository _pRepo;
         private readonly ITrackRepository _tRepo;
+        private readonly IArtistRepository _arRepo;
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
         IdentityUser _usr;
 
-        public UserData(IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IdentityUser usr)
+        public UserData(IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IArtistRepository arRepo, IdentityUser usr)
         {
             _userManager = userManager;
             _config = config;
             _pURepo = pURepo;
             _pRepo = pRepo;
             _tRepo = tRepo;
+            _arRepo = arRepo;
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
             _usr = usr;
@@ -56,10 +58,20 @@ namespace Playlistofy.Utils
                     await _pRepo.AddAsync(i);
                     foreach (Track j in Tracks)
                     {
+                        var artists = getUserTracks.GetTrackArtist(_spotifyClient, j.Id);
                         if (!await _tRepo.ExistsAsync(j.Id))
                         {
                             await _tRepo.AddAsync(j);
                             await _tRepo.AddTrackPlaylistMap(j.Id, i.Id);
+                        }
+
+                        foreach (var a in artists)
+                        {
+                            if (!await _arRepo.ExistsAsync(a.Id))
+                            {
+                                await _arRepo.AddAsync(a);
+                                await _arRepo.AddArtistTrackMap(a.Id, j.Id);
+                            }
                         }
                     }
                 }

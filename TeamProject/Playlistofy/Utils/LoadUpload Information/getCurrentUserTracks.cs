@@ -102,5 +102,32 @@ namespace Playlistofy.Utils
             };
             return album;
         }
+<<<<<<< HEAD
+=======
+
+        public List<Artist> GetTrackArtist(SpotifyClient _spotifyClient, string TrackId)
+        {
+            List<Artist> artists = new List<Artist>();
+            List<FullArtist> fullArtists = new List<FullArtist>();
+            List<SimpleArtist> simpleArtists = _spotifyClient.Tracks.Get(TrackId).Result.Artists;
+            foreach (SimpleArtist a in simpleArtists)
+            {
+                fullArtists.Add(_spotifyClient.Artists.Get(a.Id).Result);
+            }
+            foreach (FullArtist a in fullArtists)
+            {
+                artists.Add(new Artist()
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    Popularity = a.Popularity,
+                    Uri = a.Uri
+                    //Images
+                });
+            }
+
+            return artists;
+        }
+>>>>>>> mcbride_artist_creation
     }
 }
