@@ -211,7 +211,7 @@ namespace Playlistofy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,UserId,Description,Href,Name,Public,Collaborative,Uri")] Playlist playlist)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,UserId,Description,Href,Name,Public,Collaborative,Uri")] Playlist playlist, string UserId, string PlaylistId)
         {
             if (id != playlist.Id)
             {
@@ -222,6 +222,20 @@ namespace Playlistofy.Controllers
             {
                 try
                 {
+                    //----Added this code for Href. Delete once fixed and href can be null----
+                    if (playlist.Href == null || playlist.Href == "")
+                    {
+                        playlist.Href = "No Href Here";
+                    }
+                    if(playlist.Id == null)
+                    {
+                        playlist.Id = id;
+                    }
+                    if(playlist.UserId == null)
+                    {
+                        playlist.UserId = UserId;
+                    }
+                    //--------------------------------------
                     _context.Update(playlist);
                     await _context.SaveChangesAsync();
                 }
@@ -236,7 +250,7 @@ namespace Playlistofy.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(UserPlaylists));
             }
             ViewData["UserId"] = new SelectList(_context.Pusers, "Id", "Id", playlist.UserId);
             return View(playlist);
