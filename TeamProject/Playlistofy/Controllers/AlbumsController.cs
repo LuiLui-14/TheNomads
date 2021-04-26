@@ -16,7 +16,9 @@ namespace Playlistofy.Controllers
 {
     public class AlbumsController : Controller
     {
-        
+        //private readonly SpotifyDbContext _context;
+        private readonly AlbumRepository _albumRepo;
+
         //private readonly IConfiguration _config;
         private readonly IAlbumRepository _albumRepo;
         private static string _spotifyClientId;

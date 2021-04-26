@@ -21,6 +21,7 @@ namespace Playlistofy.Utils
         private readonly IPlaylistRepository _pRepo;
         private readonly ITrackRepository _tRepo;
         private readonly IAlbumRepository _aRepo;
+        private readonly IArtistRepository _arRepo;
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
         IdentityUser _usr;
@@ -70,10 +71,16 @@ namespace Playlistofy.Utils
                             await _aRepo.AddAsync(a);
                             await _aRepo.AddAlbumTrackMap(a, j);
                         }
+                    var artists = getUserTracks.GetTrackArtist(_spotifyClient, j.Id);
+                    foreach (var a in artists)
+                        {
+                            await _arRepo.AddAsync(a);
+                            await _arRepo.AddArtistTrackMap(a.Id, j.Id);
+                        }
                     }
+
                 }
             }
-            
         }
     }
-
+}
