@@ -53,9 +53,11 @@ namespace Playlistofy.Utils
             {
                 if (!await _pRepo.ExistsAsync(i.Id))
                 {
-                    List<Track> Tracks = await getUserTracks.GetPlaylistTrack(_spotifyClient, _userSpotifyId, i.Id);
                     await _pRepo.AddAsync(i);
-                    foreach (Track j in Tracks)
+                }
+                List<Track> Tracks = await getUserTracks.GetPlaylistTrack(_spotifyClient, _userSpotifyId, i.Id);
+
+                foreach (Track j in Tracks)
                     {
                         if (!await _tRepo.ExistsAsync(j.Id))
                         {
@@ -74,4 +76,4 @@ namespace Playlistofy.Utils
             
         }
     }
-}
+
