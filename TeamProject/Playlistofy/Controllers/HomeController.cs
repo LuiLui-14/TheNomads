@@ -31,18 +31,12 @@ namespace Playlistofy.Controllers
         private readonly IPlaylistofyUserRepository _pURepo;
         private readonly IPlaylistRepository _pRepo;
         private readonly ITrackRepository _tRepo;
-<<<<<<< HEAD
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo)
-=======
         private readonly IArtistRepository _arRepo;
-        private static string _spotifyClientId;
-        private static string _spotifyClientSecret;
 
         public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IArtistRepository arRepo)
->>>>>>> mcbride_artist_creation
         {
             _userManager = userManager;
             _logger = logger;
@@ -50,10 +44,9 @@ namespace Playlistofy.Controllers
             _pURepo = pURepo;
             _pRepo = pRepo;
             _tRepo = tRepo;
-<<<<<<< HEAD
-=======
+
             _arRepo = arRepo;
->>>>>>> mcbride_artist_creation
+
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
@@ -62,11 +55,8 @@ namespace Playlistofy.Controllers
         {
             if(_userManager.GetUserId(User) != null)
             {
-<<<<<<< HEAD
-                var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _userManager.GetUserAsync(User).Result);
-=======
                 var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _arRepo, _userManager.GetUserAsync(User).Result);
->>>>>>> mcbride_artist_creation
+
                 await uD.SetUserData();
             }
             return View();
