@@ -102,8 +102,6 @@ namespace Playlistofy.Utils
             };
             return album;
         }
-<<<<<<< HEAD
-=======
 
         public List<Artist> GetTrackArtist(SpotifyClient _spotifyClient, string TrackId)
         {
@@ -128,6 +126,5 @@ namespace Playlistofy.Utils
 
             return artists;
         }
->>>>>>> mcbride_artist_creation
     }
 }
