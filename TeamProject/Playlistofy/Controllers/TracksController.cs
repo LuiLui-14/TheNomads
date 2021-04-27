@@ -12,6 +12,7 @@ using Playlistofy.Models;
 using Playlistofy.Models.ViewModel;
 using Playlistofy.Utils;
 using Microsoft.AspNetCore.Http;
+using Playlistofy.Data.Abstract;
 
 namespace Playlistofy.Controllers
 {
@@ -19,17 +20,19 @@ namespace Playlistofy.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SpotifyDbContext _context;
-
+        private readonly ITrackRepository _tRepo;
+        private readonly IAlbumRepository _alRepo;
         private readonly IConfiguration _config;
 
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public TracksController(IConfiguration config, UserManager<IdentityUser> userManager, SpotifyDbContext context)
+        public TracksController(IConfiguration config, UserManager<IdentityUser> userManager, SpotifyDbContext context, ITrackRepository tRepo, IAlbumRepository alRepo)
         {
             _userManager = userManager;
             _context = context;
-
+            _tRepo = tRepo;
+            _alRepo = alRepo;
             _config = config;
 
             _spotifyClientId = config["Spotify:ClientId"];
@@ -54,22 +57,32 @@ namespace Playlistofy.Controllers
             var track = await _context.Tracks
                 .Include(t => t.PlaylistTrackMaps)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            var trackAlbum = _context.Tracks.Include(t => t.TrackAlbumMaps).Where(t => t.Id == id).ToList();
             if (track == null)
             {
                 return NotFound();
             }
+            
             var Tracks =
                 from playlist in _context.Playlists
                 join PlaylistTrackMap in _context.PlaylistTrackMaps on playlist.Id equals PlaylistTrackMap.PlaylistId
                 where (PlaylistTrackMap.TrackId == track.Id)
                 select track;
 
-
             var InfoForTracksModel = new InfoForTracks
             {
                 Track = track,
-                PlaylistTrackMaps = track.PlaylistTrackMaps
+                PlaylistTrackMaps = track.PlaylistTrackMaps,
             };
+            List<Album> albums = new List<Album>();
+            foreach(var i in trackAlbum)
+            {
+                foreach(var j in i.TrackAlbumMaps)
+                {
+                    albums.Add(await _alRepo.FindByIdAsync(j.AlbumId));
+                }
+            }
+            ViewBag.albums = albums;
             return View(InfoForTracksModel);
         }
 

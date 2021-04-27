@@ -26,7 +26,7 @@ namespace Playlistofy.Utils
         private static string _spotifyClientSecret;
         IdentityUser _usr;
 
-        public UserData(IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo, IdentityUser usr)
+        public UserData(IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo, IArtistRepository arRepo, IdentityUser usr)
         {
             _userManager = userManager;
             _config = config;
@@ -34,6 +34,7 @@ namespace Playlistofy.Utils
             _pRepo = pRepo;
             _tRepo = tRepo;
             _aRepo = aRepo;
+            _arRepo = arRepo;
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
             _usr = usr;
@@ -72,10 +73,13 @@ namespace Playlistofy.Utils
                             await _aRepo.AddAlbumTrackMap(a, j);
                         }
                     var artists = getUserTracks.GetTrackArtist(_spotifyClient, j.Id);
-                    foreach (var a in artists)
+                    foreach (var b in artists)
                         {
-                            await _arRepo.AddAsync(a);
-                            await _arRepo.AddArtistTrackMap(a.Id, j.Id);
+                            if (!await _arRepo.ExistsAsync(b.Id))
+                            {
+                                await _arRepo.AddAsync(b);
+                                await _arRepo.AddArtistTrackMap(b.Id, j.Id);
+                            }
                         }
                     }
 
@@ -83,4 +87,4 @@ namespace Playlistofy.Utils
             }
         }
     }
-}
+

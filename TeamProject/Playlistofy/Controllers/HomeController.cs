@@ -36,7 +36,7 @@ namespace Playlistofy.Controllers
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo)
+        public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo, IArtistRepository arRepo)
         {
             _userManager = userManager;
             _logger = logger;
@@ -45,6 +45,7 @@ namespace Playlistofy.Controllers
             _pRepo = pRepo;
             _tRepo = tRepo;
             _aRepo = aRepo;
+            _arRepo = arRepo;
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
@@ -53,7 +54,7 @@ namespace Playlistofy.Controllers
         {
             if(_userManager.GetUserId(User) != null)
             {
-                var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _arRepo, _userManager.GetUserAsync(User).Result);
+                var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _aRepo, _arRepo, _userManager.GetUserAsync(User).Result);
                 await uD.SetUserData();
             }
             return View();

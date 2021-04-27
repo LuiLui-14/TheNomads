@@ -23,8 +23,9 @@ namespace Playlistofy.Areas.Identity.Pages.Account
         private readonly IPlaylistRepository _pRepo;
         private readonly ITrackRepository _tRepo;
         private readonly IAlbumRepository _aRepo;
+        private readonly IArtistRepository _arRepo;
 
-        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender sender, IConfiguration config, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo)
+        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender sender, IConfiguration config, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo, IArtistRepository arRepo)
         {
             _userManager = userManager;
             _sender = sender;
@@ -33,6 +34,7 @@ namespace Playlistofy.Areas.Identity.Pages.Account
             _pRepo = pRepo;
             _tRepo = tRepo;
             _aRepo = aRepo;
+            _arRepo = arRepo;
 
         }
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
@@ -55,7 +57,7 @@ namespace Playlistofy.Areas.Identity.Pages.Account
             {
                 return NotFound($"Unable to load user with email '{email}'.");
             }
-            var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _aRepo, user);
+            var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _aRepo, _arRepo, user);
             Email = email;
             // Once you add a real email sender, you should remove this code that lets you confirm the account
             DisplayConfirmAccountLink = true;
