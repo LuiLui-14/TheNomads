@@ -9,7 +9,6 @@ namespace Playlistofy.Tests.SearchTests
 {
     class SearchBarTest
     {
-        [Test]
 
     }
 }

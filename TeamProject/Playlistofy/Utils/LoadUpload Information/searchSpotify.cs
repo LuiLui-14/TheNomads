@@ -49,7 +49,7 @@ namespace Playlistofy.Utils
                 var _track = tracks.FirstOrDefault(i => i.Id == item.Id);
                 if (_track == null)
                 {
-                    if (count > 10)
+                    if (count >= 10)
                     {
                         break;
                     }
