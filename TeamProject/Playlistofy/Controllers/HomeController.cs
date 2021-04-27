@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using Playlistofy.Data.Abstract;
 using Playlistofy.Data.Concrete;
 using Playlistofy.Models;
+using Playlistofy.Models.ViewModel;
 using Playlistofy.Utils;
 using Playlistofy.Utils.LoadUpload_Information;
 using SpotifyAPI.Web;
@@ -36,8 +37,9 @@ namespace Playlistofy.Controllers
         private static string _spotifyClientSecret;
 
         private readonly IArtistRepository _arRepo;
+        private readonly IAlbumRepository _aRepo;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IArtistRepository arRepo)
+        public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo, IArtistRepository arRepo)
         {
             _userManager = userManager;
             _logger = logger;
@@ -45,7 +47,7 @@ namespace Playlistofy.Controllers
             _pURepo = pURepo;
             _pRepo = pRepo;
             _tRepo = tRepo;
-
+            _aRepo = aRepo;
             _arRepo = arRepo;
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
@@ -55,10 +57,16 @@ namespace Playlistofy.Controllers
         {
             if(_userManager.GetUserId(User) != null)
             {
-                var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _arRepo, _userManager.GetUserAsync(User).Result);
+                var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _aRepo, _arRepo, _userManager.GetUserAsync(User).Result);
 
                 await uD.SetUserData();
+
+                var tempUser = _userManager.GetUserId(User);
+                var newPlaylist = _pRepo.GetAll().Where(name => name.UserId == tempUser).ToList();
+
+                return View(newPlaylist);
             }
+
             return View();
         }
 
@@ -78,7 +86,7 @@ namespace Playlistofy.Controllers
             var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
             string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(usr);
 
-            var spotifyClient = getUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
 
             var spotifyUserInfo = await spotifyClient.UserProfile.Get(_userSpotifyId);
 
@@ -100,59 +108,5 @@ namespace Playlistofy.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        /*Delete upon Confirmation of working version in UTIL folder*/
-        /*public async Task SetUserData()
-        {
-            var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
-            var getUserTracks = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
-            var _spotifyClient = getUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
-            IdentityUser usr = await GetCurrentUserAsync();
-            string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(usr);
-            List<Playlist> Playlists = await getUserPlaylists.GetCurrentUserPlaylists(_spotifyClient, _userSpotifyId, usr.Id);
-            if (_context.Pusers.Find(usr.Id) == null)
-            {
-                _context.Pusers.Add(await getNewUser.GetANewUser(_spotifyClient,_userSpotifyId, usr));
-            }
-            foreach (Playlist i in Playlists)
-            {
-                //if (_context.Playlists.Find(i.Id) == null)
-                //{
-                    List<Track> Tracks = await getUserTracks.GetPlaylistTrack(_spotifyClient, _userSpotifyId, i.Id);
-                if (_context.Playlists.Find(i.Id) == null)
-                {
-                    _context.Playlists.Add(i);
-                }
-                    foreach (Track j in Tracks)
-                    {
-                        if (_context.Tracks.Find(j.Id) == null)
-                        {
-                            _context.Tracks.Add(j);
-                            _context.PlaylistTrackMaps.Add(
-                                new PlaylistTrackMap()
-                                {
-                                    PlaylistId = i.Id,
-                                    TrackId = j.Id
-                                }
-                                );
-                        }
-                        Album a = getUserTracks.GetTrackAlbum(_spotifyClient, j.Id);
-                        if (_context.Albums.Find(a.Id) == null)
-                        {
-                            _context.Albums.Add(a);
-                            _context.TrackAlbumMaps.Add(
-                                new TrackAlbumMap()
-                                {
-                                    AlbumId = a.Id,
-                                    TrackId = j.Id
-                                });
-                        }
-                    }
-                //}
-                
-            }
-            
-            _context.SaveChanges();
-        }*/
     }
 }

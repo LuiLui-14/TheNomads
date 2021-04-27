@@ -17,22 +17,23 @@ namespace Playlistofy.Utils
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _config;
-        //private static SpotifyDbContext _context;
         private readonly IPlaylistofyUserRepository _pURepo;
         private readonly IPlaylistRepository _pRepo;
         private readonly ITrackRepository _tRepo;
+        private readonly IAlbumRepository _aRepo;
         private readonly IArtistRepository _arRepo;
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
         IdentityUser _usr;
 
-        public UserData(IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IArtistRepository arRepo, IdentityUser usr)
+        public UserData(IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo, IArtistRepository arRepo, IdentityUser usr)
         {
             _userManager = userManager;
             _config = config;
             _pURepo = pURepo;
             _pRepo = pRepo;
             _tRepo = tRepo;
+            _aRepo = aRepo;
             _arRepo = arRepo;
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
@@ -43,7 +44,7 @@ namespace Playlistofy.Utils
         {
             var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
             var getUserTracks = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
-            var _spotifyClient = getUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var _spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
             string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(_usr);
             List<Playlist> Playlists = await getUserPlaylists.GetCurrentUserPlaylists(_spotifyClient, _userSpotifyId, _usr.Id);
             if (!await _pURepo.ExistsAsync(_usr.Id))
@@ -54,28 +55,36 @@ namespace Playlistofy.Utils
             {
                 if (!await _pRepo.ExistsAsync(i.Id))
                 {
-                    List<Track> Tracks = await getUserTracks.GetPlaylistTrack(_spotifyClient, _userSpotifyId, i.Id);
                     await _pRepo.AddAsync(i);
-                    foreach (Track j in Tracks)
+                }
+                List<Track> Tracks = await getUserTracks.GetPlaylistTrack(_spotifyClient, _userSpotifyId, i.Id);
+
+                foreach (Track j in Tracks)
                     {
-                        var artists = getUserTracks.GetTrackArtist(_spotifyClient, j.Id);
                         if (!await _tRepo.ExistsAsync(j.Id))
                         {
                             await _tRepo.AddAsync(j);
                             await _tRepo.AddTrackPlaylistMap(j.Id, i.Id);
                         }
-
-                        foreach (var a in artists)
+                        Album a = _aRepo.GetTrackAlbum(_spotifyClient, j.Id);
+                        if (!await _aRepo.ExistsAsync(a.Id))
                         {
-                            if (!await _arRepo.ExistsAsync(a.Id))
+                            await _aRepo.AddAsync(a);
+                            await _aRepo.AddAlbumTrackMap(a, j);
+                        }
+                    var artists = getUserTracks.GetTrackArtist(_spotifyClient, j.Id);
+                    foreach (var b in artists)
+                        {
+                            if (!await _arRepo.ExistsAsync(b.Id))
                             {
-                                await _arRepo.AddAsync(a);
-                                await _arRepo.AddArtistTrackMap(a.Id, j.Id);
+                                await _arRepo.AddAsync(b);
+                                await _arRepo.AddArtistTrackMap(b.Id, j.Id);
                             }
                         }
                     }
+
                 }
             }
         }
     }
-}
+

@@ -15,6 +15,7 @@ using System;
 using System.Linq;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Playlistofy.Models.ViewModel;
 using Playlistofy.Utils;
 
 namespace Playlistofy.Controllers
@@ -56,7 +57,7 @@ namespace Playlistofy.Controllers
             if (_userSpotifyId == null || _userSpotifyId == "") { return RedirectToPage("/Account/Login", new { area = "Identity" }); }
 
             //Create's client and then finds all playlists for current logged in user
-            var _spotifyClient = getUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var _spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
             viewModel.Playlists = await getUserPlaylists.GetCurrentUserPlaylists(_spotifyClient, _userSpotifyId, usr.Id);
 
             //Get current logged in user's information

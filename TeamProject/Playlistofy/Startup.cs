@@ -15,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Playlistofy.Data.Abstract;
 using Playlistofy.Data.Concrete;
+using SpotifyAPI.Web;
+using Playlistofy.Controllers;
 
 namespace Playlistofy
 {
