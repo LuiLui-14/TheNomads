@@ -54,7 +54,7 @@
                     </dt>
                     
                     <dd class="col-sm-10">
-                         @Html.ViewData.Model.Albums.FirstOrDefault()  
+                        <a asp-controller="Albums" asp-action="Details" asp-route-Id="@Model.Albums.FirstOrDefault().Id"> @Html.ViewData.Model.Albums.FirstOrDefault().Name  </a>
                     </dd>
                     
 

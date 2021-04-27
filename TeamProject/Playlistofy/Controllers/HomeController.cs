@@ -57,7 +57,7 @@ namespace Playlistofy.Controllers
             {
                 var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _aRepo, _arRepo, _userManager.GetUserAsync(User).Result);
 
-                await uD.SetUserData();
+                //await uD.SetUserData();
 
                 var tempUser = _userManager.GetUserId(User);
                 var newPlaylist = _pRepo.GetAll().Where(name => name.UserId == tempUser).ToList();
