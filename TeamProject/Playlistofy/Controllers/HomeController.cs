@@ -65,7 +65,7 @@ namespace Playlistofy.Controllers
                 return View(newPlaylist);
             }
 
-            return View();
+            return View(new List<Playlist>());
         }
 
         public async Task<IActionResult> SpotifyProfile()
