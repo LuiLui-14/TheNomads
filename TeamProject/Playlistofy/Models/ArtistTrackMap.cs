@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Playlistofy.Models
 {
-public partial class ArtistTrackMap
+    public partial class ArtistTrackMap
     {
         public int Id { get; set; }
         public string ArtistId { get; set; }

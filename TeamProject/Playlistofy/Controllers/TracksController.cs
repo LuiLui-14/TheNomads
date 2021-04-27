@@ -33,6 +33,7 @@ namespace Playlistofy.Controllers
             _context = context;
             _tRepo = tRepo;
             _alRepo = alRepo;
+
             _config = config;
 
             _spotifyClientId = config["Spotify:ClientId"];
@@ -62,12 +63,12 @@ namespace Playlistofy.Controllers
             {
                 return NotFound();
             }
-            
             var Tracks =
                 from playlist in _context.Playlists
                 join PlaylistTrackMap in _context.PlaylistTrackMaps on playlist.Id equals PlaylistTrackMap.PlaylistId
                 where (PlaylistTrackMap.TrackId == track.Id)
                 select track;
+
 
             var InfoForTracksModel = new InfoForTracks
             {

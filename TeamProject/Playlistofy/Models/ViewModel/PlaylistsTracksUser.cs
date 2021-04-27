@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SpotifyAPI.Web;
 
-namespace Playlistofy.Models
+namespace Playlistofy.Models.ViewModel
 {
     public class userPlaylistsTracks
     {
