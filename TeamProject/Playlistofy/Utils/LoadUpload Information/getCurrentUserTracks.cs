@@ -103,7 +103,6 @@ namespace Playlistofy.Utils
             return album;
         }
 
-
         public List<Artist> GetTrackArtist(SpotifyClient _spotifyClient, string TrackId)
         {
             List<Artist> artists = new List<Artist>();

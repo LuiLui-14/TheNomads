@@ -107,10 +107,6 @@ CREATE TABLE [AlbumArtistMap]
     [AlbumId] NVARCHAR(450)
 )
 GO
-<<<<<<< HEAD
-=======
-
->>>>>>> mcbride_artist_creation
 
 
 ALTER TABLE [PUser] ADD CONSTRAINT [PK_PUser] PRIMARY KEY CLUSTERED ([Id] ASC)
@@ -127,7 +123,6 @@ GO
 
 ALTER TABLE [Album] ADD CONSTRAINT [PK_Album] PRIMARY KEY CLUSTERED ([Id] ASC)
 GO
-<<<<<<< HEAD
 
 ALTER TABLE [ArtistTrackMap] ADD CONSTRAINT [ArtistTrackMap_PK] PRIMARY KEY CLUSTERED ([Id] ASC)
 GO
@@ -139,10 +134,6 @@ ALTER TABLE [PlaylistTrackMap] ADD CONSTRAINT [PlaylistTrackMap_PK] PRIMARY KEY 
 GO
 
 ALTER TABLE [AlbumArtistMap] ADD CONSTRAINT [AlbumArtistMap_PK] PRIMARY KEY CLUSTERED ([Id] ASC)
-=======
-
-ALTER TABLE [ArtistTrackMap] ADD CONSTRAINT [ArtistTrackMap_PK] PRIMARY KEY CLUSTERED ([Id] ASC)
->>>>>>> mcbride_artist_creation
 GO
 
 ALTER TABLE [TrackAlbumMap] ADD CONSTRAINT [TrackAlbumMap_PK] PRIMARY KEY CLUSTERED ([Id] ASC)

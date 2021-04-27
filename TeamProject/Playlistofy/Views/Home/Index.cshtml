@@ -1,7 +1,26 @@
-﻿@{
+﻿@using Microsoft.EntityFrameworkCore
+@model Playlistofy.Models.ViewModel.TracksForPlaylist
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <!--Spotify Test Data will be displayed here-->
 
 
+<div align="center">
+    <table class="text-lg-center">
+        <thead class="h3">My Playlists</thead>
+        <tr>
+            <td>Playlist Name</td>
+            <td>Number of Tracks</td>
+            <td>Link to Playlist</td>
+            <td>Description</td>
+        </tr>
+        @*@foreach (@ViewModel)
+        {
+
+        }*@
+        
+    </table>
+</div>

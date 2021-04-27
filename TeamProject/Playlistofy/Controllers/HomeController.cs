@@ -31,6 +31,7 @@ namespace Playlistofy.Controllers
         private readonly IPlaylistofyUserRepository _pURepo;
         private readonly IPlaylistRepository _pRepo;
         private readonly ITrackRepository _tRepo;
+
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
@@ -46,7 +47,6 @@ namespace Playlistofy.Controllers
             _tRepo = tRepo;
 
             _arRepo = arRepo;
-
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
