@@ -32,20 +32,28 @@ namespace Playlistofy.Tests.SearchTests
         [Test]
         public void Search_ShouldReturn_ListofResults()
         {
+            // Create a List of Playlists to use for DbSet
             List<Playlist> playlist = new List<Playlist>
             {
                 new Playlist {Id = "a", UserId = "a", Href = "a", Name = "Test"},
                 new Playlist {Id = "b", UserId = "b", Href = "b", Name = "AlsoTest"},
                 new Playlist {Id = "c", UserId = "c", Href = "c", Name = "Bananas"}
             };
+            //Mock the DbSet using the list above
             Mock<DbSet<Playlist>> mockPlaylistSet = GetMockDbSet(playlist.AsQueryable());
+            //Mock the Context
             Mock<SpotifyDbContext> mockContext = new Mock<SpotifyDbContext>();
-            mockContext.Setup(ctx => ctx.Playlists).Returns(mockPlaylistSet.Object);
+            //Ensure that a call to ctx returns the mocked DbSet
+            mockContext.Setup(ctx => ctx.Set<Playlist>()).Returns(mockPlaylistSet.Object);
+            //Mock the Playlist Repo using the mocked context
             IPlaylistRepository playlistRepo = new PlaylistRepository(mockContext.Object);
+            //Setup search string
             string searchQuery = "Test";
 
+            //Create list of search results from the repo with mocked context and mocked dbset
             List<Playlist> playlistList = playlistRepo.FindPlaylistsBySearch(searchQuery);
 
+            //Verify that two results were returned
             Assert.That(playlistList.Count, Is.EqualTo(2));
 
         }
