@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using Playlistofy.Data.Abstract;
 using Playlistofy.Data.Concrete;
 using Playlistofy.Models;
+using Playlistofy.Models.ViewModel;
 using Playlistofy.Utils;
 using Playlistofy.Utils.LoadUpload_Information;
 using SpotifyAPI.Web;
@@ -55,7 +56,13 @@ namespace Playlistofy.Controllers
                 var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _arRepo, _userManager.GetUserAsync(User).Result);
 
                 await uD.SetUserData();
+
+                var tempUser = _userManager.GetUserId(User);
+                var newPlaylist = _pRepo.GetAll().Where(name => name.UserId == tempUser).ToList();
+
+                return View(newPlaylist);
             }
+
             return View();
         }
 
