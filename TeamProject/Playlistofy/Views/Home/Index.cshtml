@@ -1,4 +1,6 @@
-﻿
+﻿@using Microsoft.EntityFrameworkCore
+@model IEnumerable<Playlist>
+
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -31,3 +33,21 @@
 </div>
 
 
+<div align="center">
+    <table class="text-lg-center" width="75%">
+        <thead class="h3">My Playlists</thead>
+        <tr>
+            <td>Playlist Name</td>
+            <td>Number of Tracks</td>
+            <td>Description</td>
+        </tr>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td><a href="@p.Uri">@p.Name</a></td>
+                <td>@p.PlaylistTrackMaps.Count</td>
+                <td>@p.Description</td>
+            </tr>
+        }
+    </table>
+</div>
