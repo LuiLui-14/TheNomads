@@ -112,7 +112,7 @@ body {
 .centered {
     text-align: center;
     justify-items: center;
-    position: relative center;
+    position:relative;
 }
 
 
