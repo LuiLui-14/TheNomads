@@ -13,12 +13,14 @@ namespace Playlistofy.Controllers
         private readonly IPlaylistRepository _pRepo;
         private readonly ITrackRepository _tRepo;
         private readonly IAlbumRepository _aRepo;
+        private readonly IArtistRepository _arRepo;
 
-        public SearchController(IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo)
+        public SearchController(IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo, IArtistRepository arRepo)
         {
             _pRepo = pRepo;
             _tRepo = tRepo;
             _aRepo = aRepo;
+            _arRepo = arRepo;
         }
 
         public ActionResult Search(string searchType, string searchQuery)
@@ -54,7 +56,8 @@ namespace Playlistofy.Controllers
 
         public ViewResult ArtistSearch(string searchTerm)
         {
-            return View();
+            var a = _arRepo.FindArtistsBySearch(searchTerm);
+            return View(a);
         }
 
         public ViewResult AlbumSearch(string searchTerm)

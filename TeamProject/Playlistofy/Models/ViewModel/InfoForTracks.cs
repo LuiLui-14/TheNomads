@@ -10,5 +10,6 @@ namespace Playlistofy.Models.ViewModel
         public Track Track { get; set; }
         public Playlist Playlist { get; set; }
         public ICollection<PlaylistTrackMap> PlaylistTrackMaps { get; internal set; }
+        public List<Album> Albums { get; set; }
     }
 }

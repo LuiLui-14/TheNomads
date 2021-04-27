@@ -79,6 +79,11 @@ namespace Playlistofy.Data.Concrete
                         Uri = n.Uri,
                         IsLocal = n.IsLocal
                     });
+                    await _context.AddAsync<TrackAlbumMap>(new TrackAlbumMap()
+                    {
+                        TrackId = n.Id,
+                        AlbumId = a.Id
+                    });
                     await _context.SaveChangesAsync();
                 }
                 tracks.Add(await _context.FindAsync<Track>(m.Id));

@@ -10,5 +10,6 @@ namespace Playlistofy.Data.Abstract
     {
         Task AddArtistTrackMap(string artistId, string trackId);
         Task AddArtistAlbumMap(string artistId, string albumId);
+        public List<Artist> FindArtistsBySearch(string searchQuery);
     }
 }

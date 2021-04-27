@@ -33,5 +33,10 @@ namespace Playlistofy.Data.Concrete
             });
             await _context.SaveChangesAsync();
         }
+        public List<Artist> FindArtistsBySearch(string searchQuery)
+        {
+            var t = _dbSet.Where(a => a.Name.Contains(searchQuery)).ToList();
+            return t;
+        }
     }
 }

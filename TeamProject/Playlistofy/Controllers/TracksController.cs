@@ -68,22 +68,20 @@ namespace Playlistofy.Controllers
                 join PlaylistTrackMap in _context.PlaylistTrackMaps on playlist.Id equals PlaylistTrackMap.PlaylistId
                 where (PlaylistTrackMap.TrackId == track.Id)
                 select track;
-
-
+            List<Album> albums = new List<Album>();
+            foreach (var i in trackAlbum)
+            {
+                foreach (var j in i.TrackAlbumMaps)
+                {
+                    albums.Add(await _alRepo.FindByIdAsync(j.AlbumId));
+                }
+            };
             var InfoForTracksModel = new InfoForTracks
             {
                 Track = track,
                 PlaylistTrackMaps = track.PlaylistTrackMaps,
+                Albums = albums
             };
-            List<Album> albums = new List<Album>();
-            foreach(var i in trackAlbum)
-            {
-                foreach(var j in i.TrackAlbumMaps)
-                {
-                    albums.Add(await _alRepo.FindByIdAsync(j.AlbumId));
-                }
-            }
-            ViewBag.albums = albums;
             return View(InfoForTracksModel);
         }
 
