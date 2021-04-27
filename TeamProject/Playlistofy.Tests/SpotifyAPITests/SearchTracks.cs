@@ -28,5 +28,9 @@ namespace Playlistofy.Tests
         //{
         //    Assert.Pass();
         //}
+
+        protected void tearDown()
+        {
+        }
     }
 }
