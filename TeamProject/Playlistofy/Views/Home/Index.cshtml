@@ -17,10 +17,16 @@
             <td>Link to Playlist</td>
             <td>Description</td>
         </tr>
-        @*@foreach (@ViewModel)
+        @foreach (var p in Model.Playlist.PlaylistTrackMaps)
         {
+            <tr>
+                <td>@p.Playlist.Name</td>
+                <td>@p.Playlist.PlaylistTrackMaps.Count</td>
+                <td>@p.Playlist.Href</td>
+                <td>@p.Playlist.Description</td>
+            </tr>
 
-        }*@
-        
+        }
+
     </table>
 </div>
