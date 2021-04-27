@@ -33,10 +33,11 @@ namespace Playlistofy.Controllers
         private readonly IPlaylistRepository _pRepo;
         private readonly ITrackRepository _tRepo;
         private readonly IArtistRepository _arRepo;
+        private readonly IAlbumRepository _aRepo;
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IArtistRepository arRepo)
+        public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo, IArtistRepository arRepo)
         {
             _userManager = userManager;
             _logger = logger;
@@ -44,6 +45,7 @@ namespace Playlistofy.Controllers
             _pURepo = pURepo;
             _pRepo = pRepo;
             _tRepo = tRepo;
+            _aRepo = aRepo;
             _arRepo = arRepo;
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
@@ -53,7 +55,7 @@ namespace Playlistofy.Controllers
         {
             if(_userManager.GetUserId(User) != null)
             {
-                var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _arRepo, _userManager.GetUserAsync(User).Result);
+                var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _aRepo, _arRepo, _userManager.GetUserAsync(User).Result);
 
                 await uD.SetUserData();
 
@@ -82,7 +84,7 @@ namespace Playlistofy.Controllers
             var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
             string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(usr);
 
-            var spotifyClient = getUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
 
             var spotifyUserInfo = await spotifyClient.UserProfile.Get(_userSpotifyId);
 

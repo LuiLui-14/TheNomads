@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Playlistofy.Utils;
 using Microsoft.Extensions.Configuration;
 using Playlistofy.Models;
+using Playlistofy.Data.Abstract;
 
 namespace Playlistofy.Areas.Identity.Pages.Account
 {
@@ -18,16 +19,23 @@ namespace Playlistofy.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IEmailSender _sender;
         private readonly IConfiguration _config;
-        private static SpotifyDbContext _context;
-        //private IdentityUser usr;
+        private readonly IPlaylistofyUserRepository _pURepo;
+        private readonly IPlaylistRepository _pRepo;
+        private readonly ITrackRepository _tRepo;
+        private readonly IAlbumRepository _aRepo;
+        private readonly IArtistRepository _arRepo;
 
-        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender sender, IConfiguration config, SpotifyDbContext context)
+        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender sender, IConfiguration config, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo, IArtistRepository arRepo)
         {
             _userManager = userManager;
             _sender = sender;
             _config = config;
-            _context = context;
-            
+            _pURepo = pURepo;
+            _pRepo = pRepo;
+            _tRepo = tRepo;
+            _aRepo = aRepo;
+            _arRepo = arRepo;
+
         }
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
         public string Email { get; set; }
@@ -38,19 +46,18 @@ namespace Playlistofy.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null)
         {
-            //usr = await GetCurrentUserAsync();
-            //UserData userData = new UserData(_config, _userManager, _context, usr);
             if (email == null)
             {
                 return RedirectToPage("/Index");
             }
 
             var user = await _userManager.FindByEmailAsync(email);
+            
             if (user == null)
             {
                 return NotFound($"Unable to load user with email '{email}'.");
             }
-
+            var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _aRepo, _arRepo, user);
             Email = email;
             // Once you add a real email sender, you should remove this code that lets you confirm the account
             DisplayConfirmAccountLink = true;

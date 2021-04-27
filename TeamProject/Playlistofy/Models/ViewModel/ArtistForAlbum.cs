@@ -9,5 +9,6 @@ namespace Playlistofy.Models.ViewModel
     {
         public Album album { get; set; }
         public List<Artist> artists { get; set; }
+        public List<Track> tracks { get; set; }
     }
 }

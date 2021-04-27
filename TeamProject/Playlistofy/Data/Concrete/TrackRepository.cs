@@ -23,5 +23,11 @@ namespace Playlistofy.Data.Concrete
             });
             await _context.SaveChangesAsync();
         }
+
+        public List<Track> FindTracksBySearch(string searchQuery)
+        {
+            var t = _dbSet.Where(a => a.Name.Contains(searchQuery)).ToList();
+            return t;
+        }
     }
 }

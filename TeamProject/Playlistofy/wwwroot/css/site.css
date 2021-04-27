@@ -81,6 +81,39 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+.banner {
+    text-align: center;
+    vertical-align:central;
+    height: 300px;
+    width: 100%;
+    background: url('https://cdn.pixabay.com/photo/2014/07/09/12/17/live-concert-388160_960_720.jpg');
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 20px;
+}
+
+.nomarge {
+    margin-left:0;
+    margin-right:0;
+    padding-left:0;
+    padding-right:0;
+    width:100%;
+}
+
+.b {
+    color: blueviolet;
+}
+
+.main {
+    text-align: center;
+    height: 300px;
+}
+
+.centered {
+    text-align: center;
+    justify-items: center;
+    position:relative center;
+}
 
 
 

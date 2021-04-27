@@ -5,7 +5,32 @@
     ViewData["Title"] = "Home Page";
 }
 
-<!--Spotify Test Data will be displayed here-->
+<div class="banner">
+    <h1 class="b">Playlistofy</h1>
+    <h3 class="b">Bring all your favorite playlists together in once place so that you can jam out endlessly!</h3>
+</div>
+
+<div class="centered">
+    <p>Search for a Playlist, Artist, Album, or Track by Title or Name</p>
+</div>
+<div class="col-md-8 centered">
+    <form asp-controller="Search" asp-action="Search" method="get" >
+        <div class="row">
+            <div class="form-group col-md-2">
+                <select name="searchType" id="searchType" class="form-control">
+                    <option value="Playlist" selected>Playlist</option>
+                    <option value="Artist">Artist</option>
+                    <option value="Track">Track</option>
+                    <option value="Album">Album</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <input type="search" name="searchQuery" id="searchQuery" autocomplete="off" class="form-control" placeholder="Search..." />
+                <button type="submit" id="submit" class="btn" data-toggle="tooltip" title="search">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
 
 
 <div align="center">
