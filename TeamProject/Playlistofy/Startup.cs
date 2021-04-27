@@ -13,6 +13,10 @@ using Playlistofy.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Playlistofy.Data.Abstract;
+using Playlistofy.Data.Concrete;
+using SpotifyAPI.Web;
+using Playlistofy.Controllers;
 
 namespace Playlistofy
 {
@@ -32,7 +36,7 @@ namespace Playlistofy
         {
             var builder_SpotifyDB = new SqlConnectionStringBuilder(Configuration.GetConnectionString("AzureSpotifyDB"));
             builder_SpotifyDB.Password = Configuration["DBPassword"];
-            services.AddDbContext<Models.SpotifyDBContext>(options =>
+            services.AddDbContext<Models.SpotifyDbContext>(options =>
                 options.UseSqlServer(builder_SpotifyDB.ConnectionString));
 
             var builder_IdentityDB = new SqlConnectionStringBuilder(Configuration.GetConnectionString("AzureIdentityDB"));
@@ -42,9 +46,10 @@ namespace Playlistofy
 
             services.AddControllersWithViews();
 
+            //Added
+            services.AddSession();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
-            /*----------------------------------------------------------------------------------------*/
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -64,11 +69,20 @@ namespace Playlistofy
                         };
                     options.SaveTokens = true;
                     });
+
+            services.AddScoped<IPlaylistRepository, PlaylistRepository>();
+            services.AddScoped<IAlbumRepository, AlbumRepository>();
+            services.AddScoped<ITrackRepository, TrackRepository>();
+            services.AddScoped<IPlaylistofyUserRepository, PlaylistofyUserRepository>();
+            services.AddScoped<IArtistRepository, ArtistRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //Added
+            app.UseSession();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -1,19 +1,40 @@
-﻿@model Playlistofy.Models.userPlaylistsTracks
+﻿@model Playlistofy.Models.ViewModel.userPlaylistsTracks
 
 @{
     ViewData["Title"] = "UserPlaylists";
 }
 
+<style>
+    div.div_a:hover {
+        table-layout: auto;
+        width: 100%;
+        opacity: 1.0;
+        background: url('https://cdn.pixabay.com/photo/2013/07/13/11/51/cd-158817__480.png');
+    }
+
+    div.div_a {
+        table-layout: auto;
+        width: 100%;
+        opacity: 0.5;
+        background: url('https://cdn.pixabay.com/photo/2013/07/13/11/51/cd-158817__480.png');
+    }
+
+    div.div_b {
+        table-layout: auto;
+        width: 100%;
+        opacity: 0.7;
+        background: url('https://i.pinimg.com/originals/2a/76/17/2a761787715ca71788aad1a28ab057ac.jpg');
+    }
+</style>
+
 <center><h1>Upload Spotify Playlists To Personal Account</h1></center>
 
-<!--<p>
-    <a asp-action="Create">Create New</a>
-</p>-->
 <div class="main-body">
     <div class="row gutters-sm">
         <div class="col-sm-6 mb-3">
             <div class="container">
-                <div class="main-body">
+                <div class="div_b">
+                    <center><h4><a asp-controller="Playlists" asp-action="Create">Create Playlist</a></h4></center>
                     <table class="table">
                         <thead>
                             <tr>
@@ -34,19 +55,16 @@
                             {
                             <tr>
                                 <td>
-                                    <a asp-action="Details" asp-route-id="@item.Id">
+                                    <a asp-action="DetailsFromSearch" asp-route-id="@item.Id">
                                         @Html.DisplayFor(modelItem => item.Id)
                                     </a>
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
-                                @* <td>
-                                    @Html.DisplayFor(modelItem => item.User.DisplayName)
-                                </td> *@
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                                    @*@<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
+                                    <a asp-controller="Tracks" asp-action="SearchTracks" asp-route-id="@item.Id">Add</a>
                                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                                 </td>
                                 <td>
@@ -60,7 +78,7 @@
         </div>
         <div class="col-sm-6 mb-3">
             <div class="card h-100">
-                <div class="card-body">
+                <div class="div_b">
                     <center>
                         <h4>Upload Spotify Playlists</h4>
                         <br />
@@ -79,24 +97,11 @@
                                             </a>
                                         </center>
                                     </td>
-                                    @*
-                                    <td>
-                                        <center>
-                                            <h5>@playlist.trackCount</h5>
-                                        </center>
-                                    </td>
-                                    *@
                                     <td>
                                         <center>
                                             <a asp-action="UserPlaylists" asp-route-id="@playlist.Id">Add</a>
                                         </center>
                                     </td>
-                                    @*<div class="form-group">
-                                        <label asp-for="@playlist.Id" class="control-label"></label>
-                                        <input asp-for="@playlist.Id" class="form-control" />
-                                        <span asp-validation-for="@playlist.Id" class="text-danger"></span>
-                                    </div>
-                                    <input type="submit" value="Create" class="btn btn-primary" /> *@
                                 </tr>
                                 }
                             </table>

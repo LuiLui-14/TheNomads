@@ -1,0 +1,65 @@
+﻿@model Playlistofy.Models.ViewModel.ArtistForAlbum
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Album Details</h1>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.album.Name)</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.album.AlbumType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.album.AlbumType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.album.Label)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.album.Label)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.album.Popularity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.album.Popularity)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.album.ReleaseDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.album.ReleaseDate)
+        </dd>
+        <dt class=" col-sm-2">
+            Tracks
+        </dt>
+        <dd class=" col-sm 10">
+            <table>
+                <tr>
+                    <th>Title</th>
+                    <th>Length</th>
+                    @*<th>URL</th>*@
+                </tr>
+                @foreach (var track in Model.tracks)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Tracks" asp-action="Details" asp-route-id="@track.Id">
+                                @track.Name
+                            </a>
+                        </td>
+                        <td>
+                            @track.Duration
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

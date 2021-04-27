@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SpotifyAPI.Web;
 using Playlistofy.Models; 
 
-namespace Playlistofy.Models
+namespace Playlistofy.Utils
 {
     public class getCurrentUserPlaylists
     {
@@ -36,7 +36,7 @@ namespace Playlistofy.Models
             return key;
         }
 
-        public SpotifyClient makeSpotifyClient(string spotifyClientId, string spotifyClientSecret)
+        public static SpotifyClient makeSpotifyClient(string spotifyClientId, string spotifyClientSecret)
         {
             SpotifyClientConfig config = SpotifyClientConfig
                 .CreateDefault()

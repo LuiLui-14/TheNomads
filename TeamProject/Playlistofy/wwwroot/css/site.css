@@ -2,14 +2,14 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    text-align: center;
+    word-break: break-all;
+    display: inline-block;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #4636d0;
 }
 
 .btn-primary {
@@ -70,8 +70,50 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
+.bg-nav {
+    background: #84CEEB !important;
+}
+.bg-main {
+    background: #C1C8E4 !important;
+}
 
+.fontMain {
+    font-family: 'Roboto', sans-serif;
+}
 
+.banner {
+    text-align: center;
+    vertical-align:central;
+    height: 300px;
+    width: 100%;
+    background: url('https://cdn.pixabay.com/photo/2014/07/09/12/17/live-concert-388160_960_720.jpg');
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 20px;
+}
+
+.nomarge {
+    margin-left:0;
+    margin-right:0;
+    padding-left:0;
+    padding-right:0;
+    width:100%;
+}
+
+.b {
+    color: blueviolet;
+}
+
+.main {
+    text-align: center;
+    height: 300px;
+}
+
+.centered {
+    text-align: center;
+    justify-items: center;
+    position:relative;
+}
 
 
 

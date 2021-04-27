@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SpotifyAPI.Web;
 
-namespace Playlistofy.Models
+namespace Playlistofy.Models.ViewModel
 {
     public class userPlaylistsTracks
     {
@@ -14,5 +14,7 @@ namespace Playlistofy.Models
         public PUser User { get; set; }
 
         public IEnumerable<Playlist> PlaylistsDB { get; set; }
+        public IEnumerable<Track> TracksDb { get; set; }
+        public string PlaylistId { get; set; }
     }
 }

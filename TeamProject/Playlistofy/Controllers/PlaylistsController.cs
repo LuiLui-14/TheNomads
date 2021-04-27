@@ -10,12 +10,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Playlistofy.Models;
 using Playlistofy.Models.ViewModel;
+using Playlistofy.Utils;
+using Playlistofy.Controllers;
 
 namespace Playlistofy.Controllers
 {
     public class PlaylistsController : Controller
     {
-        private readonly SpotifyDBContext _context;
+        private readonly SpotifyDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
         private readonly IConfiguration _config;
@@ -23,7 +25,7 @@ namespace Playlistofy.Controllers
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public PlaylistsController(SpotifyDBContext context, IConfiguration config, UserManager<IdentityUser> userManager)
+        public PlaylistsController(SpotifyDbContext context, IConfiguration config, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -58,7 +60,7 @@ namespace Playlistofy.Controllers
             if (_userSpotifyId == null || _userSpotifyId == "") { return View("~/Views/Home/Privacy.cshtml"); }
 
             //Create's client and then finds all playlists for current logged in user
-            var _spotifyClient = getUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var _spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
             viewModel.Playlists = await getUserPlaylists.GetCurrentUserPlaylists(_spotifyClient, _userSpotifyId, usr.Id);
 
             //Get current logged in user's information
@@ -107,7 +109,7 @@ namespace Playlistofy.Controllers
         }
 
         // GET: Playlists/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> DetailsFromSearch(string id)
         {
             if (id == null)
             {
@@ -127,7 +129,10 @@ namespace Playlistofy.Controllers
                              select track;
             foreach(Track t in Tracks)
             {
-                t.Duration = ConvertMsToMinSec(t.DurationMs);
+                if(t.Duration == null)
+                {
+                    t.Duration = Utils.AlgorithmicOperations.MsConversion.ConvertMsToMinSec(t.DurationMs);
+                }
             }
             var TracksForPlaylistModel = new TracksForPlaylist
             {
@@ -151,12 +156,34 @@ namespace Playlistofy.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,UserId,Description,Href,Name,Public,Collaborative,Uri")] Playlist playlist)
         {
+            Random ran = new Random();
 
+            string b = "a1b2c3d4e5f6g7h8i9jklmnopqrstuvwxyz";
+            int length = 25;
+            string randomId = "";
+
+            for (int i = 0; i < length; i++)
+            {
+                int a = ran.Next(35);
+                randomId = randomId + b.ElementAt(a);
+            }
+
+            Console.WriteLine("The random alphabet generated is: {0}", randomId);
+
+            IdentityUser usr = await GetCurrentUserAsync();
+            playlist.UserId = usr.Id;
+            playlist.Id = randomId;
+            playlist.Href = "";
+
+            //playlist.UserId =
             if (ModelState.IsValid)
             {
                 _context.Add(playlist);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                string id = playlist.Id;
+                return RedirectToAction("SearchTracks", "Tracks", new { id = id });
+                //return RedirectToAction("SearchTracks", "Tracks");
             }
             ViewData["UserId"] = new SelectList(_context.Pusers, "Id", "Id", playlist.UserId);
             return View(playlist);
@@ -256,33 +283,6 @@ namespace Playlistofy.Controllers
         private bool PlaylistExists(string id)
         {
             return _context.Playlists.Any(e => e.Id == id);
-        }
-
-        [NonAction]
-        public static string ConvertMsToMinSec(double timeInMs)
-        {
-            string str;
-            if (timeInMs < 0)
-            {
-                str = "00:00";
-            }
-            else
-            {
-                try
-                {
-                    TimeSpan timeSpan = TimeSpan.FromMilliseconds(timeInMs);
-                    str = timeSpan.ToString(@"mm\:ss");
-                }
-                catch (OverflowException)
-                {
-                    str = "Track Length Too Long";
-                }
-                catch (ArgumentException)
-                {
-                    str = "Length Not in Correct Format";
-                }
-            }
-            return str;
         }
     }
 }

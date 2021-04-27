@@ -4,7 +4,7 @@
  * As a developer I want to learn how to do unit testing in an ASP.NET Core MVC project by using it to test a simple feature of our project
  */
 using NUnit.Framework;
-using Playlistofy.Controllers;
+using Playlistofy.Utils.AlgorithmicOperations;
 
 namespace Playlistofy.Tests
 {
@@ -22,7 +22,7 @@ namespace Playlistofy.Tests
         {
             var timeinMs = 61000;
 
-            var time = PlaylistsController.ConvertMsToMinSec(timeinMs);
+            var time = MsConversion.ConvertMsToMinSec(timeinMs);
 
             Assert.AreEqual("01:01", time);
         }
@@ -32,7 +32,7 @@ namespace Playlistofy.Tests
         {
             var timeinMs = 60999;
 
-            var time = PlaylistsController.ConvertMsToMinSec(timeinMs);
+            var time = MsConversion.ConvertMsToMinSec(timeinMs);
 
             Assert.AreEqual("01:00", time);
         }
@@ -42,7 +42,7 @@ namespace Playlistofy.Tests
         {
             var timeinMs = 61999;
 
-            var time = PlaylistsController.ConvertMsToMinSec(timeinMs);
+            var time = MsConversion.ConvertMsToMinSec(timeinMs);
 
             Assert.AreNotEqual("01:02", time);
         }
@@ -52,7 +52,7 @@ namespace Playlistofy.Tests
         {
             var timeinMs = 9999999999999999;
 
-            var time = PlaylistsController.ConvertMsToMinSec(timeinMs);
+            var time = MsConversion.ConvertMsToMinSec(timeinMs);
 
             Assert.AreEqual("Track Length Too Long", time);
         }
@@ -62,7 +62,7 @@ namespace Playlistofy.Tests
         {
             var timeinMs = -600000;
 
-            var time = PlaylistsController.ConvertMsToMinSec(timeinMs);
+            var time = MsConversion.ConvertMsToMinSec(timeinMs);
 
             Assert.AreEqual("00:00", time);
         }

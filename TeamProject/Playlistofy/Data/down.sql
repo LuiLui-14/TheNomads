@@ -1,14 +1,29 @@
 ﻿ALTER TABLE [Playlist]			DROP CONSTRAINT [Playlist_FK_PUser];
-ALTER TABLE [Track]				DROP CONSTRAINT [TRACK_FK_Playlist];
+ALTER TABLE [Track]				DROP CONSTRAINT [Track_FK_Playlist];
 ALTER TABLE [PlaylistTrackMap]	DROP CONSTRAINT [PlaylistTrackMap_FK_Playlist];
 ALTER TABLE [PlaylistTrackMap]	DROP CONSTRAINT [PlaylistTrackMap_FK_Track];
+ALTER TABLE [ArtistTrackMap]	DROP CONSTRAINT [ArtistTrackMap_FK_Artist];
+ALTER TABLE [ArtistTrackMap]	DROP CONSTRAINT [ArtistTrackMap_FK_Track];
+ALTER TABLE [TrackAlbumMap]		DROP CONSTRAINT [TrackAlbumMap_FK_Album];
+ALTER TABLE [TrackAlbumMap]		DROP CONSTRAINT [TrackAlbumMap_FK_Track];
+ALTER TABLE [AlbumArtistMap]	DROP CONSTRAINT [AlbumArtistMap_FK_Artist];
+ALTER TABLE [AlbumArtistMap]	DROP CONSTRAINT [AlbumArtistMap_FK_Album];
 ALTER TABLE [PUser]				DROP CONSTRAINT [PK_PUser];
 ALTER TABLE [Playlist]			DROP CONSTRAINT [PK_Playlist];
 ALTER TABLE [Track]				DROP CONSTRAINT [PK_Track];
 ALTER TABLE [PlaylistTrackMap]	DROP CONSTRAINT [PK_PlaylistTrackMap];
-
+ALTER TABLE [Artist]			DROP CONSTRAINT [PK_Artist];
+ALTER TABLE [ArtistTrackMap]	DROP CONSTRAINT [PK_ArtistTrackMap];
+ALTER TABLE [Album]				DROP CONSTRAINT [PK_Album];
+ALTER TABLE	[TrackAlbumMap]		DROP CONSTRAINT [TrackAlbumMap_PK];
+ALTER TABLE [AlbumArtistMap]	DROP CONSTRAINT [AlbumAritstMap_PK];
 
 DROP TABLE	[PUser];
 DROP TABLE	[Playlist];
 DROP TABLE	[Track];
 DROP TABLE	[PlayilstTrackMap];
+DROP TABLE	[Album];
+DROP TABLE	[TrackAlbumMap];
+DROP TABLE	[AlbumArtistMap];
+DROP TABLE  [Artist];
+DROP TABLE  [ArtistTrackMap];

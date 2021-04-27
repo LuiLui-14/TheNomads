@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SpotifyAPI.Web;
 using Playlistofy.Controllers;
+using Playlistofy.Models;
 
-namespace Playlistofy.Models
+namespace Playlistofy.Utils
 {
     public class getCurrentUserTracks
     {
@@ -68,6 +69,7 @@ namespace Playlistofy.Models
                         {
                             DiscNumber = m.DiscNumber,
                             DurationMs = m.DurationMs,
+                            Duration = AlgorithmicOperations.MsConversion.ConvertMsToMinSec(m.DurationMs),
                             Explicit = m.Explicit,
                             Href = m.Href,
                             Id = m.Id,
@@ -83,6 +85,72 @@ namespace Playlistofy.Models
                 }
             }
             return playlistTracks;
+        }
+
+        public Album GetTrackAlbum(SpotifyClient _spotifyClient, string TrackId)
+        {
+            FullAlbum fullAlbum = _spotifyClient.Albums.Get(_spotifyClient.Tracks.Get(TrackId).Result.Album.Id).Result;
+            Album album = new Album()
+            {
+                AlbumType = fullAlbum.AlbumType,
+                Id = fullAlbum.Id,
+                Label = fullAlbum.Label,
+                Name = fullAlbum.Name,
+                Popularity = fullAlbum.Popularity,
+                ReleaseDate = fullAlbum.ReleaseDate,
+                ReleaseDatePrecision = fullAlbum.ReleaseDatePrecision
+            };
+            return album;
+        }
+
+        public async Task<List<Track>> GetAlbumTracks(SpotifyClient spotifyClient, string AlbumId)
+        {
+            List<Track> AlbumTracks = new List<Track>();
+            Paging<SimpleTrack> AlbumTracksPage = await spotifyClient.Albums.GetTracks(AlbumId);
+            foreach(var i in AlbumTracksPage.Items)
+            {
+                FullTrack m = await spotifyClient.Tracks.Get(i.Id);
+                AlbumTracks.Add(new Track()
+                {
+                    DiscNumber = m.DiscNumber,
+                    DurationMs = m.DurationMs,
+                    Duration = AlgorithmicOperations.MsConversion.ConvertMsToMinSec(m.DurationMs),
+                    Explicit = m.Explicit,
+                    Href = m.Href,
+                    Id = m.Id,
+                    IsPlayable = m.IsPlayable,
+                    Name = m.Name,
+                    Popularity = m.Popularity,
+                    PreviewUrl = m.PreviewUrl,
+                    TrackNumber = m.TrackNumber,
+                    Uri = m.Uri,
+                    IsLocal = m.IsLocal
+                });
+            }
+            return AlbumTracks;
+        }
+        public List<Artist> GetTrackArtist(SpotifyClient _spotifyClient, string TrackId)
+        {
+            List<Artist> artists = new List<Artist>();
+            List<FullArtist> fullArtists = new List<FullArtist>();
+            List<SimpleArtist> simpleArtists = _spotifyClient.Tracks.Get(TrackId).Result.Artists;
+            foreach (SimpleArtist a in simpleArtists)
+            {
+                fullArtists.Add(_spotifyClient.Artists.Get(a.Id).Result);
+            }
+            foreach (FullArtist a in fullArtists)
+            {
+                artists.Add(new Artist()
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    Popularity = a.Popularity,
+                    Uri = a.Uri
+                    //Images
+                });
+            }
+
+            return artists;
         }
     }
 }
