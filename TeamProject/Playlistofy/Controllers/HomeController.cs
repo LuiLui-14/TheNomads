@@ -53,10 +53,7 @@ namespace Playlistofy.Controllers
             if(_userManager.GetUserId(User) != null)
             {
                 var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _arRepo, _userManager.GetUserAsync(User).Result);
-<<<<<<< HEAD
 
-=======
->>>>>>> mcbride_view-user-playlists_landing-page
                 await uD.SetUserData();
             }
             return View();
