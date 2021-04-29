@@ -51,12 +51,11 @@
                         <td>
                             @if (Model != null)
                             {
-                                @foreach (var playlist in Model.PlaylistsDB)
-                                {
+                                
                                     <div class="div_a">
                                         <div style="text-align:center">
-                                            <h1><a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@Model.PlaylistId">@playlist.Name</a></h1>
-                                            <h5>@playlist.Description</h5>
+                                            <h1><a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@Model.PlaylistId">@Model.PlaylistsDB.Name</a></h1>
+                                            <h5>@Model.PlaylistsDB.Description</h5>
                                             <hr />
                                         </div>
                                     </div>
@@ -80,7 +79,7 @@
                                             </thead>
                                         </table>
                                     </div>
-                                }
+                                
                             }
                         </td>
                     </tr>

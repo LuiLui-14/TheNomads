@@ -5,23 +5,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Playlistofy.Data.Abstract;
 using Playlistofy.Models;
 
 namespace Playlistofy.Controllers
 {
     public class ArtistsController : Controller
     {
-        private readonly SpotifyDbContext _context;
+        private readonly IArtistRepository _arRepo;
 
-        public ArtistsController(SpotifyDbContext context)
+        public ArtistsController(IArtistRepository arRepo)
         {
-            _context = context;
+            _arRepo = arRepo;
         }
 
         // GET: Artists
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Artists.ToListAsync());
+            return View(await _arRepo.GetAll().ToListAsync());
         }
 
         // GET: Artists/Details/5
@@ -32,8 +33,7 @@ namespace Playlistofy.Controllers
                 return NotFound();
             }
 
-            var artist = await _context.Artists
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var artist = await _arRepo.FindByIdAsync(id);
             if (artist == null)
             {
                 return NotFound();
@@ -57,8 +57,7 @@ namespace Playlistofy.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(artist);
-                await _context.SaveChangesAsync();
+                await _arRepo.AddAsync(artist);
                 return RedirectToAction(nameof(Index));
             }
             return View(artist);
@@ -72,7 +71,7 @@ namespace Playlistofy.Controllers
                 return NotFound();
             }
 
-            var artist = await _context.Artists.FindAsync(id);
+            var artist = await _arRepo.FindByIdAsync(id);
             if (artist == null)
             {
                 return NotFound();
@@ -96,12 +95,11 @@ namespace Playlistofy.Controllers
             {
                 try
                 {
-                    _context.Update(artist);
-                    await _context.SaveChangesAsync();
+                    await _arRepo.UpdateAsync(artist);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ArtistExists(artist.Id))
+                    if (!await ArtistExists(artist.Id))
                     {
                         return NotFound();
                     }
@@ -123,8 +121,7 @@ namespace Playlistofy.Controllers
                 return NotFound();
             }
 
-            var artist = await _context.Artists
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var artist = await _arRepo.FindByIdAsync(id);
             if (artist == null)
             {
                 return NotFound();
@@ -138,15 +135,15 @@ namespace Playlistofy.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var artist = await _context.Artists.FindAsync(id);
-            _context.Artists.Remove(artist);
-            await _context.SaveChangesAsync();
+            var artist = await _arRepo.FindByIdAsync(id);
+            await _arRepo.DeleteAsync(artist);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ArtistExists(string id)
+        private async Task<bool> ArtistExists(string id)
         {
-            return _context.Artists.Any(e => e.Id == id);
+            bool value = await _arRepo.ExistsAsync(id);
+            return value;
         }
     }
 }
