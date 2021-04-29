@@ -39,10 +39,10 @@
                         <thead>
                             <tr>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.PlaylistsDB.ElementAt(0).Id)
+                                    @Html.DisplayNameFor(model => model.PlaylistsDB.Id)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.PlaylistsDB.ElementAt(0).Name)
+                                    @Html.DisplayNameFor(model => model.PlaylistsDB.Name)
                                 </th>
                                 @* <th>
                                     @Html.DisplayNameFor(model => model.User)
@@ -51,7 +51,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.PlaylistsDB)
+                            @foreach (var item in Model.Playlists)
                             {
                             <tr>
                                 <td>

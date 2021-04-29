@@ -13,8 +13,8 @@ namespace Playlistofy.Models.ViewModel
         public List<Track> Tracks { get; set; }
         public PUser User { get; set; }
 
-        public IEnumerable<Playlist> PlaylistsDB { get; set; }
-        public IEnumerable<Track> TracksDb { get; set; }
+        public Playlist PlaylistsDB { get; set; }
+        public List<Track> TracksDb { get; set; }
         public string PlaylistId { get; set; }
     }
 }

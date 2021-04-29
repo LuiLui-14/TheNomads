@@ -23,7 +23,7 @@ namespace Playlistofy.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private SpotifyDbContext _SpotifyDB;
+        
 
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
@@ -31,10 +31,10 @@ namespace Playlistofy.Controllers
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<IdentityUser> userManager, SpotifyDbContext SpotifyDB)
+        public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
-            _SpotifyDB = SpotifyDB;
+            
 
             _logger = logger;
             _config = config;
