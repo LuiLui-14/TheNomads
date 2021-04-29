@@ -87,7 +87,7 @@ namespace Playlistofy.Tests
         }
 
         [Test]
-        public void SearchTracks_ReturnsBackListCount_15()
+        public void SearchTracks_ReturnsBackListCount_10()
         {
             //Arrange
             //var setup = Setup(IConfiguration config);

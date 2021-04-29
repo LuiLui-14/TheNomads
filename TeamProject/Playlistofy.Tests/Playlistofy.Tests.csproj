@@ -8,10 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
     <PackageReference Include="LiquidTestReports.Markdown" Version="1.0.9" />
-=======
->>>>>>> 551d6c93d5d03c1e0b3deadd530ff3635ba6f333
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="NUnit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
