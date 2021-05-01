@@ -256,7 +256,9 @@ namespace Playlistofy.Controllers
                 return NotFound();
             }
 
-            var playlist = _pRepo.GetAllWithUser().Where(i => i.Id == id);
+            //var playlist = _pRepo.GetAllWithUser().Where(i => i.Id == id);
+            var playlist = await _pRepo.FindByIdAsync(id);
+
             if (playlist == null)
             {
                 return NotFound();
@@ -270,9 +272,6 @@ namespace Playlistofy.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var playlist = await _pRepo.FindByIdAsync(id);
-            await _pRepo.DeleteAsync(playlist);
-
             //Added to remove tracks too
             var playlistmaps = _pRepo.GetPlaylistTrackMaps(id);
             foreach(var map in playlistmaps)
@@ -280,6 +279,9 @@ namespace Playlistofy.Controllers
                 await _pRepo.DeleteTrackMapAsync(map);
             }
             //----------------------------
+            var playlist = await _pRepo.FindByIdAsync(id);
+            await _pRepo.DeleteAsync(playlist);
+
             return RedirectToAction(nameof(UserPlaylists));
         }
 
