@@ -32,10 +32,12 @@ namespace Playlistofy.Controllers
         private readonly IPlaylistofyUserRepository _pURepo;
         private readonly IPlaylistRepository _pRepo;
         private readonly ITrackRepository _tRepo;
-        private readonly IArtistRepository _arRepo;
-        private readonly IAlbumRepository _aRepo;
+
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
+
+        private readonly IArtistRepository _arRepo;
+        private readonly IAlbumRepository _aRepo;
 
         public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo, IArtistRepository arRepo)
         {

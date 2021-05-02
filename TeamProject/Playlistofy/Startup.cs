@@ -74,6 +74,7 @@ namespace Playlistofy
             services.AddScoped<IAlbumRepository, AlbumRepository>();
             services.AddScoped<ITrackRepository, TrackRepository>();
             services.AddScoped<IPlaylistofyUserRepository, PlaylistofyUserRepository>();
+
             services.AddScoped<IArtistRepository, ArtistRepository>();
         }
 

@@ -102,7 +102,7 @@ namespace Playlistofy.Controllers
             var currentUserID = await _userManager.GetUserIdAsync(usr);
             var userPlaylists = _pRepo.GetAllWithUser().Where(i => i.User.Id == currentUserID);
             
-            viewModel.Playlists = await userPlaylists.ToListAsync();
+            viewModel._PlaylistsDB = await userPlaylists.ToListAsync();
             return View(viewModel);
         }
 
@@ -202,7 +202,7 @@ namespace Playlistofy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,UserId,Description,Href,Name,Public,Collaborative,Uri")] Playlist playlist)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,UserId,Description,Href,Name,Public,Collaborative,Uri")] Playlist playlist, string UserId, string PlaylistId)
         {
             if (id != playlist.Id)
             {
@@ -213,6 +213,22 @@ namespace Playlistofy.Controllers
             {
                 try
                 {
+                    //----Added this code for Href. Delete once fixed and href can be null----
+                    if (playlist.Href == null || playlist.Href == "")
+                    {
+                        playlist.Href = "No Href Here";
+                    }
+                    if(playlist.Id == null)
+                    {
+                        playlist.Id = id;
+                    }
+                    if(playlist.UserId == null)
+                    {
+                        playlist.UserId = UserId;
+                    }
+                    //--------------------------------------
+                    //_context.Update(playlist);
+                    //await _context.SaveChangesAsync();
                     await _pRepo.UpdateAsync(playlist);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -226,7 +242,7 @@ namespace Playlistofy.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(UserPlaylists));
             }
             ViewData["UserId"] = new SelectList(_puRepo.GetAll(), "Id", "Id", playlist.UserId);
             return View(playlist);
@@ -240,7 +256,9 @@ namespace Playlistofy.Controllers
                 return NotFound();
             }
 
-            var playlist = _pRepo.GetAllWithUser().Where(i => i.Id == id);
+            //var playlist = _pRepo.GetAllWithUser().Where(i => i.Id == id);
+            var playlist = await _pRepo.FindByIdAsync(id);
+
             if (playlist == null)
             {
                 return NotFound();
@@ -254,9 +272,6 @@ namespace Playlistofy.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var playlist = await _pRepo.FindByIdAsync(id);
-            await _pRepo.DeleteAsync(playlist);
-
             //Added to remove tracks too
             var playlistmaps = _pRepo.GetPlaylistTrackMaps(id);
             foreach(var map in playlistmaps)
@@ -264,6 +279,9 @@ namespace Playlistofy.Controllers
                 await _pRepo.DeleteTrackMapAsync(map);
             }
             //----------------------------
+            var playlist = await _pRepo.FindByIdAsync(id);
+            await _pRepo.DeleteAsync(playlist);
+
             return RedirectToAction(nameof(UserPlaylists));
         }
 

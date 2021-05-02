@@ -19,7 +19,6 @@ namespace Playlistofy.Tests.SearchTests
 {
     class SearchBarTest
     {
-
         private Mock<DbSet<T>> GetMockDbSet<T>(IQueryable<T> entities) where T : class
         {
             var mockSet = new Mock<DbSet<T>>();
@@ -55,7 +54,6 @@ namespace Playlistofy.Tests.SearchTests
 
             //Verify that two results were returned
             Assert.That(playlistList.Count, Is.EqualTo(2));
-
         }
     }
 }

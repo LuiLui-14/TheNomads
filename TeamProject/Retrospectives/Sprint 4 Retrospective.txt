@@ -1,0 +1,24 @@
+What did we learn from Sprint 4:
+    - Spent a lot of time doing the repositiory pattern
+    - Still in the process of learning how to manipulate CSS
+    - How to create more tangible tests
+    - Creating more refined user stories
+
+
+What isn't going well:
+    - The way the class went. Spending time on the refactoring pattern.
+    - Trying to play catchup with more sprint expectations
+    - Can't get CSS to do what he wants it 
+    - More and more requirements as the sprints go on
+    - High expectations for every sprint and little time to implement
+
+
+What can the team do better next Sprint:
+    - Time management
+    - Other responsibilities
+    - Helping each other with code
+    - More refined user stories
+
+
+What needs to be brought up to Scot:
+    - N/A

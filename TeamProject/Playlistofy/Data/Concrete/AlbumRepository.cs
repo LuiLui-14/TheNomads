@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Playlistofy.Data.Abstract;
 using Playlistofy.Models;
@@ -13,9 +14,11 @@ namespace Playlistofy.Data.Concrete
 {
     public class AlbumRepository :Repository<Album>, IAlbumRepository
     {
+        private DbSet<TrackAlbumMap> AlbumMaps;
+
         public AlbumRepository(SpotifyDbContext ctx) : base(ctx)
         {
-            
+            AlbumMaps = _context.Set<TrackAlbumMap>();
         }
 
         public Album GetTrackAlbum(SpotifyClient _spotifyClient, string TrackId)
@@ -96,6 +99,26 @@ namespace Playlistofy.Data.Concrete
         {
             var t = _dbSet.Where(a => a.Name.Contains(searchQuery)).ToList();
             return t;
+        }
+
+        public TrackAlbumMap GetAlbumTrackMap(string tId)
+        {
+            var map = AlbumMaps.Where(i => i.TrackId == tId).FirstOrDefault();
+            return map;
+        }
+
+        public virtual async Task DeleteAlbumTrackMapAsync(TrackAlbumMap AlbumTrackMap)
+        {
+            if (AlbumTrackMap == null)
+            {
+                throw new Exception("Entity to delete was null");
+            }
+            else
+            {
+                AlbumMaps.Remove(AlbumTrackMap);
+                await _context.SaveChangesAsync();
+            }
+            return;
         }
     }
 }

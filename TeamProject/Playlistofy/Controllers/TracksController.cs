@@ -22,17 +22,19 @@ namespace Playlistofy.Controllers
         private readonly ITrackRepository _tRepo;
         private readonly IAlbumRepository _alRepo;
         private readonly IPlaylistRepository _pRepo;
+        private readonly IArtistRepository _aRepo;
         private readonly IConfiguration _config;
 
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public TracksController(IConfiguration config, UserManager<IdentityUser> userManager, ITrackRepository tRepo, IAlbumRepository alRepo, IPlaylistRepository pRepo)
+        public TracksController(IConfiguration config, UserManager<IdentityUser> userManager, ITrackRepository tRepo, IAlbumRepository alRepo, IPlaylistRepository pRepo, IArtistRepository aRepo)
         {
             _userManager = userManager;
             _tRepo = tRepo;
             _alRepo = alRepo;
             _pRepo = pRepo;
+            _aRepo = aRepo;
 
             _config = config;
 
@@ -176,7 +178,18 @@ namespace Playlistofy.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string TrackId, string PlaylistId)
         {
+            //The following are all deletion of maps to avoid erros and exceptions becore deleteing a track
+            //Removes Map for playlists and track
             await _tRepo.RemoveTrackPlaylistMap(TrackId, PlaylistId);
+
+            //Removes Map for Artist and track
+            var ArtistMap = _aRepo.GetArtistTrackMap(TrackId);
+            await _aRepo.DeleteArtistTrackMapAsync(ArtistMap);
+
+            //Removes Map for Album and track
+            var AlbumMap = _alRepo.GetAlbumTrackMap(TrackId);
+            await _alRepo.DeleteAlbumTrackMapAsync(AlbumMap);
+
             var track = await _tRepo.FindByIdAsync(TrackId);
             await _tRepo.DeleteAsync(track);
             return RedirectToAction("SearchTracks", "Tracks", new { id = PlaylistId });
@@ -193,31 +206,23 @@ namespace Playlistofy.Controllers
         public async Task<IActionResult> SearchTracks(string SearchKeyword, string id, string username)
         {
             var PlaylistTracks = new userPlaylistsTracks();
-
             
             PlaylistTracks.PlaylistsDB = await _pRepo.FindByIdAsync(id);
             PlaylistTracks.PlaylistId = id;
             ViewBag.SearchKeyword = SearchKeyword;
 
-            //var Tracks = from track in _context.Tracks
-            //             join PlaylistTrackMap in _context.PlaylistTrackMaps on track.Id equals PlaylistTrackMap.TrackId
-            //             where (PlaylistTrackMap.PlaylistId == id)
-            //             select track;
-
-            var alltracks = _tRepo.GetAllWithTrackMap();
-            List<PlaylistTrackMap> Tracks = new List<PlaylistTrackMap>();
-            List<Track> tracks = new List<Track>();
-            foreach(Track t in alltracks)
+            if (username != null && username.Length > 0)
             {
-                foreach (PlaylistTrackMap i in t.PlaylistTrackMaps)
+                var trackMap = _pRepo.GetPlaylistTrackMap(username, id);
+                if (trackMap == null)
                 {
-                    if(i.PlaylistId == id)
-                    {
-                        Tracks.Add(i);
-                        tracks.Add(alltracks.Where(j => j.Id == i.TrackId).FirstOrDefault());
-                    }    
+                    await _tRepo.AddTrackPlaylistMap(username, id);
                 }
             }
+
+            var tracks = new List<Track>();
+            var playlist = await _pRepo.FindByIdAsync(id);
+            tracks = _pRepo.GetAllPlaylistTracks(playlist);
 
             PlaylistTracks.TracksDb = tracks;
 
@@ -235,7 +240,7 @@ namespace Playlistofy.Controllers
             //Creates spotify client
             var _spotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
             //Search and return a list of tracks
-            var SearchTracks = await SearchSpotify.SearchTracks(_spotifyClient, SearchKeyword, alltracks);
+            var SearchTracks = await SearchSpotify.SearchTracks(_spotifyClient, SearchKeyword, tracks);
 
             foreach(var track in SearchTracks)
             {
@@ -245,18 +250,9 @@ namespace Playlistofy.Controllers
                 }
             }
 
-            if (username != null && username.Length > 0)
+            foreach (var track in tracks)
             {
-                var trackMap = _pRepo.GetPlaylistTrackMap(username, id);
-                if (trackMap == null)
-                {
-                    await _tRepo.AddTrackPlaylistMap(username, id);
-                }
-            }
-
-            foreach (var track in Tracks)
-            {
-                var _track = SearchTracks.Where(i => i.Id == track.TrackId).FirstOrDefault();
+                var _track = SearchTracks.Where(i => i.Id == track.Id).FirstOrDefault();
                 if (_track != null)
                 {
                     SearchTracks.Remove(_track);
