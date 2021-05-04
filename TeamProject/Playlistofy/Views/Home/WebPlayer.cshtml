@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Playlist>
+﻿@model Playlistofy.Models.ViewModel.userPlaylistsTracks
 
 @{
     ViewData["Title"] = "WebPlayer";
@@ -12,11 +12,11 @@
         <td class="text-center">Listen Now</td>
         <td class="text-right">Description</td>
     </tr>
-    @foreach (var p in Model)
+    @foreach (var p in Model._PlaylistsDB)
     {
         <tr>
             <td><a href="@p.Uri">@p.Name</a></td>
-            <td class="text-center"><iframe src="https://open.spotify.com/embed/playlist/@Html.ViewData.Model.GetEnumerator().Current.Id" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></td>
+            <td class="text-center"><iframe src="https://open.spotify.com/embed/playlist/@p.Id" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></td>
             <td>@p.Description</td>
         </tr>
     }

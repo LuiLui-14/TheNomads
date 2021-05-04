@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using ASP;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -111,9 +110,59 @@ namespace Playlistofy.Controllers
         }
 
         [HttpGet]
-        public IActionResult WebPlayer()
+        public async Task<IActionResult> WebPlayerAsync(string id)
         {
-            return View("WebPlayer");
+            var viewModel = new userPlaylistsTracks();
+
+            //Finds current logged in user using identity 
+            IdentityUser usr = await GetCurrentUserAsync();
+            if (usr == null) { return View("~/Views/Home/Privacy.cshtml"); }
+
+            //Instantiates the Model to call it's functions - Finds current logged in user's spotify ID
+            var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
+            string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(usr);
+            if (_userSpotifyId == null || _userSpotifyId == "") { return View("~/Views/Home/Privacy.cshtml"); }
+
+            //Create's client and then finds all playlists for current logged in user
+            var _spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            viewModel.Playlists = await getUserPlaylists.GetCurrentUserPlaylists(_spotifyClient, _userSpotifyId, usr.Id);
+
+            //Get current logged in user's information
+            var getUserInfo = new getCurrentUserInformation(_userManager, _spotifyClientId, _spotifyClientSecret);
+            viewModel.User = await getUserInfo.GetCurrentUserInformation(_spotifyClient, _userSpotifyId);
+
+            //Get current logged in user's tracks
+            var getUserTracks = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
+
+            if (await _pRepo.FindByIdAsync(id) == null)
+            {
+                var newPlaylist = viewModel.Playlists.Where(name => name.Id == id);
+                foreach (var playlist in newPlaylist)
+                {
+                    Console.WriteLine(playlist.Id);
+
+                    if (await _pRepo.FindByIdAsync(id) == null)
+                    {
+                        List<Track> Tracks = await getUserTracks.GetPlaylistTrack(_spotifyClient, _userSpotifyId, playlist.Id);
+                        await _pRepo.AddAsync(playlist);
+                        foreach (Track track in Tracks)
+                        {
+                            Console.WriteLine(track.Id);
+                            if (await _tRepo.FindByIdAsync(track.Id) == null)
+                            {
+                                await _tRepo.AddAsync(track);
+                            }
+                            await _tRepo.AddTrackPlaylistMap(track.Id, playlist.Id);
+                        }
+                    }
+                }
+            }
+
+            var currentUserID = await _userManager.GetUserIdAsync(usr);
+            var userPlaylists = _pRepo.GetAllWithUser().Where(i => i.User.Id == currentUserID);
+
+            viewModel._PlaylistsDB = await userPlaylists.ToListAsync();
+            return View("WebPlayer", viewModel);
         }
     }
 }

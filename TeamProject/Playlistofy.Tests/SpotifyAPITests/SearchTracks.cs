@@ -109,22 +109,22 @@ namespace Playlistofy.Tests
         //    Assert.That(trackCount.Result.Count(), Is.EqualTo(10));
         //}
 
-        [Test]
-        public void SearchTracks_ReturnsBackAllDifferentTracks_true()
-        {
-            //Arrange
-            //var setup = Setup(IConfiguration config);
-            var Mangager = GetUserManager();
-            var list = Enumerable.Empty<Track>().AsQueryable();
+        //[Test]
+        //public void SearchTracks_ReturnsBackAllDifferentTracks_true()
+        //{
+        //    //Arrange
+        //    //var setup = Setup(IConfiguration config);
+        //    var Mangager = GetUserManager();
+        //    var list = Enumerable.Empty<Track>().AsQueryable();
 
-            //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
-            var trackCount = SearchSpotify.SearchTracks(SpotifyClient, "Summer of 69", list);
-            bool isUnique = trackCount.Result.Distinct().Count() == trackCount.Result.Count();
+        //    //Act
+        //    var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
+        //    var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+        //    var trackCount = SearchSpotify.SearchTracks(SpotifyClient, "Summer of 69", list);
+        //    bool isUnique = trackCount.Result.Distinct().Count() == trackCount.Result.Count();
 
-            //Assert
-            Assert.That(isUnique, Is.EqualTo(true));
-        }
+        //    //Assert
+        //    Assert.That(isUnique, Is.EqualTo(true));
+        //}
     }
 }
