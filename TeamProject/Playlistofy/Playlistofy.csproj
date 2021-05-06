@@ -39,4 +39,7 @@
   <ItemGroup>
     <Folder Include="Views\Account\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Views\Home\HomePage.cshtml" />
+  </ItemGroup>
 </Project>
