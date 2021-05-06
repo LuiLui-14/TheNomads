@@ -110,7 +110,7 @@ namespace Playlistofy.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> WebPlayerAsync(string id)
+        public async Task<IActionResult> WebPlayer(string id)
         {
             var viewModel = new userPlaylistsTracks();
 
