@@ -20,6 +20,7 @@ namespace Playlistofy.Models
         public bool? Public { get; set; }
         public bool? Collaborative { get; set; }
         public string Uri { get; set; }
+        //public DateTime DateCreated { get; set; }
 
         public virtual PUser User { get; set; }
         public virtual ICollection<PlaylistTrackMap> PlaylistTrackMaps { get; set; }
