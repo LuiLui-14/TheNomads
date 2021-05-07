@@ -92,7 +92,7 @@ namespace Playlistofy.Tests
             //Arrange
             //var setup = Setup(IConfiguration config);
             var Mangager = GetUserManager();
-            var list = new List<Track>();
+            var list = Enumerable.Empty<Track>().AsQueryable();
 
             //Act
             var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
@@ -102,7 +102,7 @@ namespace Playlistofy.Tests
             //{
 
             //}
-
+            
             //Assert
             Assert.That(trackCount.Result.Count(), Is.EqualTo(10));
         }
@@ -113,7 +113,7 @@ namespace Playlistofy.Tests
             //Arrange
             //var setup = Setup(IConfiguration config);
             var Mangager = GetUserManager();
-            var list = new List<Track>();
+            var list = Enumerable.Empty<Track>().AsQueryable();
 
             //Act
             var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);

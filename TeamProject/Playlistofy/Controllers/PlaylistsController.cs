@@ -286,5 +286,21 @@ namespace Playlistofy.Controllers
             return RedirectToAction(nameof(UserPlaylists));
         }
 
+        public IActionResult SearchPlaylists(string userID)
+        {
+            var viewModel = new SearchingSpotifyPlaylists();
+
+            viewModel.PersonalPlaylists = _pRepo.GetAll().Include("PlaylistTrackMaps").Where(name => name.UserId == userID).ToList();
+            viewModel.UserID = userID;
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SearchPlaylists(string userID, [Bind("SearchingPlaylistParameter")] SearchingSpotifyPlaylists viewModel)
+        {
+            return View();
+        }
     }
 }

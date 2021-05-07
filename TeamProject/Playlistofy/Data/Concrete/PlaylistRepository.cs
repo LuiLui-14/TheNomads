@@ -75,6 +75,7 @@ namespace Playlistofy.Data.Concrete
             //var count = await _dbSet.CountAsync();
             //var DBPlaylists = _dbSet.ToList().ElementAtOrDefault(0);
             //int playlistsCount = DBPlaylists.Count();
+
             var DBplaylist = await _dbSet.ToListAsync();
             //var DBplaylist = DBplaylist.OrderByDescending(x => x.Id);
             var countPlaylist = DBplaylist.Count;
