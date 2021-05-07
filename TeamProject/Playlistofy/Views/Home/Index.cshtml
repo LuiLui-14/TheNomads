@@ -52,7 +52,7 @@
         {
             <tr>
                 <td><a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">@p.Name</a></td>
-                <td class="text-center"></td>
+                <td class="text-center">@p.PlaylistTrackMaps.Count</td>
                 <td>@p.Description</td>
                 <td><a type="button" class="btn rounded btn-outline-primary mr-3 float-right" title="goto" asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">Listen to Playlist</a></td>
             </tr>

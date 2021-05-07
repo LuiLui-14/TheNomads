@@ -57,12 +57,12 @@ namespace Playlistofy.Controllers
         {
             if(_userManager.GetUserId(User) != null)
             {
-                var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _aRepo, _arRepo, _userManager.GetUserAsync(User).Result);
+                //var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _aRepo, _arRepo, _userManager.GetUserAsync(User).Result);
 
                 //await uD.SetUserData();
 
                 var tempUser = _userManager.GetUserId(User);
-                var newPlaylist = _pRepo.GetAll().Where(name => name.UserId == tempUser).ToList();
+                var newPlaylist = _pRepo.GetAll().Include("PlaylistTrackMaps").Where(name => name.UserId == tempUser).ToList();
 
                 return View(newPlaylist);
             }
