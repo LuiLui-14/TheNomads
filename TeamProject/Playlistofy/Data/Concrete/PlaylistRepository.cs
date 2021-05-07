@@ -31,8 +31,7 @@ namespace Playlistofy.Data.Concrete
 
         public List<Track> GetAllPlaylistTracks(Playlist playlist)
         {
-            List<Playlist> playlists = _dbSet.Include("PlaylistTrackMaps").ToList();
-            Playlist pl = _dbSet.Find(playlist.Id);
+            Playlist pl = _dbSet.Include("PlaylistTrackMaps").Where(i => i.Id == playlist.Id).FirstOrDefault();
             List<Track> tracks = new List<Track>();
             foreach (var i in pl.PlaylistTrackMaps)
             {

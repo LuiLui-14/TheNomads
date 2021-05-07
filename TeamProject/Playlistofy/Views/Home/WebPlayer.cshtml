@@ -1,0 +1,23 @@
+﻿@model Playlistofy.Models.ViewModel.userPlaylistsTracks
+
+@{
+    ViewData["Title"] = "WebPlayer";
+}
+
+<h1>WebPlayer</h1>
+
+<table class="table table-striped table-hover table-light" width="75%">
+    <tr>
+        <td>Playlist Name</td>
+        <td class="text-center">Listen Now</td>
+        <td class="text-right">Description</td>
+    </tr>
+    @foreach (var p in Model._PlaylistsDB)
+    {
+        <tr>
+            <td><a asp-controller="Playlists" asp-action="DetailsFromSearch">@p.Name</a></td>
+            <td class="text-center"><iframe src="https://open.spotify.com/embed/playlist/@p.Id" width="600" height="250" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></td>
+            <td>@p.Description</td>
+        </tr>
+    }
+</table>
