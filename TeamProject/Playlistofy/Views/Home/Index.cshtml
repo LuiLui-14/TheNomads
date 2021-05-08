@@ -158,7 +158,7 @@
     </div>
 
     @*Fourth Part*@
-    <div class="card mt-5 shadow-sm bg-transparent">
+    <div class="card mt-5 shadow-sm bg-white">
         <h4 class="card-title text-center">
             My Playlists
         </h4>
@@ -172,19 +172,19 @@
                 <td class="text-center">Description</td>
                 <td class="text-right">Listen Now!</td>
             </tr>
-            @foreach (var p in Model.UserPlaylists)
+            @if (Model.UserPlaylists != null)
             {
-                <tr>
-                    <td><a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">@p.Name</a></td>
-                    <td class="text-center">@p.PlaylistTrackMaps.Count</td>
-                    <td>@p.Description</td>
-                    <td><a type="button" class="btn rounded btn-outline-primary mr-3 float-right" title="goto" asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">Listen to Playlist</a></td>
-                </tr>
+                @foreach (var p in Model.UserPlaylists)
+                {
+                    <tr>
+                        <td><a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">@p.Name</a></td>
+                        <td class="text-center">@p.PlaylistTrackMaps.Count</td>
+                        <td>@p.Description</td>
+                        <td><a type="button" class="btn rounded btn-outline-primary mr-3 float-right" title="goto" asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">Listen to Playlist</a></td>
+                    </tr>
+                }
             }
         </table>
     </div>
-
-
-
     <br><br><br><br>
 </body>

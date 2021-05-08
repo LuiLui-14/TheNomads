@@ -34,7 +34,8 @@ CREATE TABLE [Playlist]
     [Public] bit DEFAULT 0,
     [Collaborative] bit DEFAULT 0,
     [URI] nvarchar(max),
-    [TrackCount] INT
+    [TrackCount] INT,
+    [DateCreated] datetime
 )
 GO
 

@@ -58,12 +58,12 @@ namespace Playlistofy.Controllers
 
             //Finds current logged in user using identity 
             IdentityUser usr = await GetCurrentUserAsync();
-            if (usr == null) { return View("~/Views/Home/Privacy.cshtml"); }
+            if (usr == null) { return RedirectToPage("/Account/Login", new { area = "Identity" }); }
 
             //Instantiates the Model to call it's functions - Finds current logged in user's spotify ID
             var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
             string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(usr);
-            if (_userSpotifyId == null || _userSpotifyId == "") { return View("~/Views/Home/Privacy.cshtml"); }
+            if (_userSpotifyId == null || _userSpotifyId == "") { return RedirectToPage("/Account/Login", new { area = "Identity" }); }
 
             //Create's client and then finds all playlists for current logged in user
             var _spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
@@ -168,6 +168,7 @@ namespace Playlistofy.Controllers
             playlist.UserId = usr.Id;
             playlist.Id = randomId;
             playlist.Href = " ";
+            playlist.DateCreated = DateTime.Now;
 
             //playlist.UserId =
             if (ModelState.IsValid)
@@ -286,21 +287,70 @@ namespace Playlistofy.Controllers
             return RedirectToAction(nameof(UserPlaylists));
         }
 
-        public IActionResult SearchPlaylists(string userID)
+        public async Task<IActionResult> AddSpotifyPlaylistsAsync(string userID, string playlistID)
         {
+            //Checks if a user is logged in before proceeding, else takes them to login page
+            IdentityUser usr = await GetCurrentUserAsync();
+            if (usr == null) { return RedirectToPage("/Account/Login", new { area = "Identity" }); }
+
             var viewModel = new SearchingSpotifyPlaylists();
 
             viewModel.PersonalPlaylists = _pRepo.GetAll().Include("PlaylistTrackMaps").Where(name => name.UserId == userID).ToList();
             viewModel.UserID = userID;
+            viewModel.SpotifyPlaylists = new List<Playlist>();
 
-            return View();
+            if(playlistID != null)
+            {
+                //Creates searchSpotify folder with necessary functions to use later
+                var SearchSpotify = new searchSpotify(_userManager, _spotifyClientId, _spotifyClientSecret);
+                //Creates spotify client
+                var _spotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+                var playlist = await SearchSpotify.GetPlaylist(_spotifyClient, playlistID);
+
+                if (await _pRepo.FindByIdAsync(playlistID) == null)
+                {
+                    playlist.UserId = _userManager.GetUserId(User);
+                    await _pRepo.AddAsync(playlist);
+
+                    var playlistTracks = await SearchSpotify.GetPlaylistTracks(_spotifyClient, playlistID);
+                    foreach (var track in playlistTracks)
+                    {
+                        if (await _tRepo.FindByIdAsync(track.Id) == null)
+                        {
+                            await _tRepo.AddAsync(track);
+                        }
+                        await _tRepo.AddTrackPlaylistMap(track.Id, playlist.Id);
+                    }
+                }
+            }
+
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult SearchPlaylists(string userID, [Bind("SearchingPlaylistParameter")] SearchingSpotifyPlaylists viewModel)
+        public async Task<IActionResult> AddSpotifyPlaylistsAsync(string userID, [Bind("SearchingPlaylistParameter")] SearchingSpotifyPlaylists viewModel)
         {
-            return View();
+            var NewViewModel = new SearchingSpotifyPlaylists();
+
+            NewViewModel.PersonalPlaylists = _pRepo.GetAll().Include("PlaylistTrackMaps").Where(name => name.UserId == userID).ToList();
+            NewViewModel.UserID = userID;
+
+            if (ModelState.IsValid)
+            {
+                NewViewModel.SearchingPlaylistParameter = viewModel.SearchingPlaylistParameter;
+                
+                //Creates searchSpotify folder with necessary functions to use later
+                var SearchSpotify = new searchSpotify(_userManager, _spotifyClientId, _spotifyClientSecret);
+                //Creates spotify client
+                var _spotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+                //Search and return a list of tracks
+                var SearchPlaylists = await SearchSpotify.SearchPlaylists(_spotifyClient, viewModel.SearchingPlaylistParameter, NewViewModel.PersonalPlaylists);
+
+                NewViewModel.SpotifyPlaylists = SearchPlaylists;
+            }
+
+            return View(NewViewModel);
         }
     }
 }
