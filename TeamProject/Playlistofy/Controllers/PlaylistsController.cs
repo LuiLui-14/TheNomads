@@ -407,12 +407,23 @@ namespace Playlistofy.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var playlist = await _pRepo.FindByIdAsync(id);
+            var playlist = _pRepo.GetPlaylistWithAllMaps(id);
             //Added to remove tracks too
-            var playlistmaps = _pRepo.GetPlaylistTrackMaps(id);
-            foreach (var map in playlistmaps)
+            foreach(var i in playlist.PlaylistHashtagMaps)
             {
-                await _pRepo.DeleteTrackMapAsync(map);
+                await _hRepo.RemovePlaylistHashtagMap(i.Id);
+            }
+            foreach(var i in playlist.PlaylistKeywordMaps)
+            {
+                await _kRepo.RemovePlaylistKeywordMap(i.Id);
+            }
+            foreach(var i in playlist.PlaylistTrackMaps)
+            {
+                await _tRepo.RemoveTrackPlaylistMap(i.TrackId, i.PlaylistId);
+            }
+            foreach(var i in playlist.FollowedPlaylists)
+            {
+                await _pRepo.RemoveFollowedPlaylist(i.Id);
             }
             await _pRepo.DeleteAsync(playlist);
 
