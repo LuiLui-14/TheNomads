@@ -68,5 +68,23 @@ namespace Playlistofy.Data.Concrete
             var map = trackMaps.Where(i => i.TrackId == tId && i.PlaylistId == pId).FirstOrDefault();
             return map;
         }
+
+        public async Task<List<Playlist>> GetMostRecentPlaylists_5Async()
+        {
+            var playlists = new List<Playlist>();
+
+            var DBplaylist = await _dbSet.Include("PlaylistTrackMaps").ToListAsync();
+            var list = DBplaylist.OrderBy(t => t.DateCreated);
+            var countPlaylist = list.Count();
+
+            for (int i = 0; i < 5; i++)
+            {
+                --countPlaylist;
+                var playlist = list.ElementAtOrDefault(countPlaylist);
+                playlists.Add(playlist);
+            }
+
+            return playlists;
+        }
     }
 }
