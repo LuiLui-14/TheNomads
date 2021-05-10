@@ -20,7 +20,7 @@ namespace Playlistofy.Models
         public bool? Public { get; set; }
         public bool? Collaborative { get; set; }
         public string Uri { get; set; }
-        public DateTime? DateCreated { get; set; }
+        //public DateTime? DateCreated { get; set; }
         //public int TrackCount {get; set;}
 
         public virtual PUser User { get; set; }
