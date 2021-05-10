@@ -482,8 +482,8 @@ namespace Playlistofy.Controllers
                 var SearchPlaylists = await SearchSpotify.SearchPlaylists(_spotifyClient, viewModel.SearchingPlaylistParameter, NewViewModel.PersonalPlaylists);
 
                 NewViewModel.SpotifyPlaylists = SearchPlaylists;
-                return View(NewViewModel);
             }
+            return View(NewViewModel);
         }
         [HttpPost]
         public JsonResult AutoComplete(string prefix, string searchType)
@@ -591,7 +591,6 @@ namespace Playlistofy.Controllers
             await _kRepo.RemovePlaylistKeywordMap(keyMapId);
             return RedirectToAction("Edit", new { id = id });
         }
-            }
-            
-    }
+    }        
 }
+

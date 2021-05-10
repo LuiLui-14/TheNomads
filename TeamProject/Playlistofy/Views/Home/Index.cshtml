@@ -142,8 +142,10 @@
                                                 <option value="Artist">Artist</option>
                                                 <option value="Track">Track</option>
                                                 <option value="Album">Album</option>
+                                                <option value="Tags">Tags</option>
                                             </select>
-                                            <input type="search" name="searchQuery" id="searchQuery" autocomplete="off" class="form-control" placeholder="Search for a Playlist, Artist, Album, or Track by Title or Name..." />
+                                            <input type="text" name="searchQuery" id="searchQuery" class="form-control" placeholder="Search..." pattern=".{2,}" required title="2 characters minimum" />
+                                            <input type="hidden" id="itemId" name="itemId" />
                                             <button type="submit" id="submit" class="btn rounded btn-outline-primary mr-3" data-toggle="tooltip" title="search">Search</button>
                                         </div>
                                     </div>
