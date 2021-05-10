@@ -4,12 +4,28 @@
     ViewData["Title"] = "Details";
 }
 
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    @*th, td {
+        border: 1px solid black;
+    }*@
+
+    table.b {
+        table-layout: fixed;
+        width: 100%;
+        background: skyblue;
+    }
+</style>
+
 <h1>Album Details</h1>
 
-<div>
+<div class="b">
     <h4>@Html.DisplayFor(model => model.album.Name)</h4>
     <hr />
-    <dl class="row">
+    <dl class="row b">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.album.AlbumType)
         </dt>

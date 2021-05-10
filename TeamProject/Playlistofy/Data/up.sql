@@ -29,11 +29,12 @@ CREATE TABLE [Playlist]
     [Id] nvarchar(450) NOT NULL,
     [UserId] nvarchar(450) NOT NULL,
     [Description] nvarchar(450),
-    [Href] nvarchar(max) NOT NULL,
+    [Href] nvarchar(max),
     [Name] nvarchar(450),
     [Public] bit DEFAULT 0,
     [Collaborative] bit DEFAULT 0,
-    [URI] nvarchar(max)
+    [URI] nvarchar(max),
+    [TrackCount] INT
 )
 GO
 
@@ -51,7 +52,8 @@ CREATE TABLE [Track]
     [TrackNumber] INT NOT NULL DEFAULT 0,
     [Uri] NVARCHAR(450),
     [IsLocal] BIT NOT NULL DEFAULT 0,
-    [Duration] NVARCHAR(450)
+    [Duration] NVARCHAR(450),
+    [Artist] NVARCHAR(450)
 )
 GO
 

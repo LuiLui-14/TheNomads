@@ -55,7 +55,5 @@ namespace Playlistofy.Data.Concrete
             var set = _context.Set<Track>().Include("TrackAlbumMaps");
             return set;
         }
-
-        
     }
 }

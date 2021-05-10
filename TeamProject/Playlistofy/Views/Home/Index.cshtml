@@ -40,18 +40,23 @@
     <h4 class="card-title text-center">
         My Playlists
     </h4>
+    <div class="text-right">
+        <a asp-action="WebPlayer">View and Listen to all Playlists</a>
+    </div>
     <table class="table table-striped table-hover table-light" width="75%">
         <tr>
             <td>Playlist Name</td>
             <td class="text-center">Number of Tracks</td>
-            <td class="text-right">Description</td>
+            <td class="text-center">Description</td>
+            <td class="text-right">Listen Now!</td>
         </tr>
         @foreach (var p in Model)
         {
             <tr>
-                <td><a href="@p.Uri">@p.Name</a></td>
+                <td><a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">@p.Name</a></td>
                 <td class="text-center">@p.PlaylistTrackMaps.Count</td>
                 <td>@p.Description</td>
+                <td><a type="button" class="btn rounded btn-outline-primary mr-3 float-right" title="goto" asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">Listen to Playlist</a></td>
             </tr>
         }
     </table>

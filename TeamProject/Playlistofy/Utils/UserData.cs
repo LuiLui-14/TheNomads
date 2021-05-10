@@ -60,32 +60,32 @@ namespace Playlistofy.Utils
                 List<Track> Tracks = await getUserTracks.GetPlaylistTrack(_spotifyClient, _userSpotifyId, i.Id);
 
                 foreach (Track j in Tracks)
+                {
+                    if (!await _tRepo.ExistsAsync(j.Id))
                     {
-                        if (!await _tRepo.ExistsAsync(j.Id))
-                        {
-                            await _tRepo.AddAsync(j);
-                            await _tRepo.AddTrackPlaylistMap(j.Id, i.Id);
-                        }
-                        Album a = _aRepo.GetTrackAlbum(_spotifyClient, j.Id);
+                        await _tRepo.AddAsync(j);
+                        await _tRepo.AddTrackPlaylistMap(j.Id, i.Id);
+                    }
+                    Album a = _aRepo.GetTrackAlbum(_spotifyClient, j.Id);
                     List<Track> trackList = await _aRepo.GetAllAlbumTracks(_spotifyClient, a);
-                        if (!await _aRepo.ExistsAsync(a.Id))
-                        {
-                            await _aRepo.AddAsync(a);
-                            await _aRepo.AddAlbumTrackMap(a, j);
-                        }
+                    if (!await _aRepo.ExistsAsync(a.Id))
+                    {
+                        await _aRepo.AddAsync(a);
+                        await _aRepo.AddAlbumTrackMap(a, j);
+                    }
                     var artists = getUserTracks.GetTrackArtist(_spotifyClient, j.Id);
                     foreach (var b in artists)
+                    {
+                        if (!await _arRepo.ExistsAsync(b.Id))
                         {
-                            if (!await _arRepo.ExistsAsync(b.Id))
-                            {
-                                await _arRepo.AddAsync(b);
-                                await _arRepo.AddArtistTrackMap(b.Id, j.Id);
-                            }
+                            await _arRepo.AddAsync(b);
+                            await _arRepo.AddArtistTrackMap(b.Id, j.Id);
                         }
                     }
-
                 }
+
             }
+        }
         }
     }
 

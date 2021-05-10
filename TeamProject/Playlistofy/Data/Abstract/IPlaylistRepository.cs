@@ -12,7 +12,7 @@ namespace Playlistofy.Data.Abstract
         public IQueryable<Playlist> GetAllWithUser();
         public List<Track> GetAllPlaylistTracks(Playlist playlist);
         public List<PlaylistTrackMap> GetPlaylistTrackMaps(string Id);
-        public  Task DeleteTrackMapAsync(PlaylistTrackMap trackMap);
+        public Task DeleteTrackMapAsync(PlaylistTrackMap trackMap);
         public PlaylistTrackMap GetPlaylistTrackMap(string tId, string pId);
     }
 

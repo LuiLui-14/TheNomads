@@ -113,7 +113,7 @@ namespace Playlistofy.Controllers
             var currentUserID = await _userManager.GetUserIdAsync(usr);
             var userPlaylists = _pRepo.GetAllWithUser().Where(i => i.User.Id == currentUserID);
             
-            viewModel.Playlists = await userPlaylists.ToListAsync();
+            viewModel._PlaylistsDB = await userPlaylists.ToListAsync();
             return View(viewModel);
         }
 

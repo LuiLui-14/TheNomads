@@ -35,7 +35,7 @@ namespace Playlistofy.Utils
             return spotify;
         }
 
-        public async Task<List<Track>> SearchTracks(SpotifyClient _spotifyClient, string SearchKeyword, IQueryable<Track> tracks)
+        public async Task<List<Track>> SearchTracks(SpotifyClient _spotifyClient, string SearchKeyword, List<Track> tracks)
         {
             var searchTracks = await _spotifyClient.Search.Item(new SearchRequest(
               SearchRequest.Types.Track, SearchKeyword
@@ -49,7 +49,7 @@ namespace Playlistofy.Utils
                 var _track = tracks.FirstOrDefault(i => i.Id == item.Id);
                 if (_track == null)
                 {
-                    if (count > 10)
+                    if (count >= 10)
                     {
                         break;
                     }
