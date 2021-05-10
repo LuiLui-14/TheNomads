@@ -100,7 +100,11 @@ namespace Playlistofy.Utils
                     tempPlaylist.Href = item.Href;
                     tempPlaylist.Public = item.Public;
                     tempPlaylist.Uri = item.Uri;
-                    //tempPlaylist.DateCreated = DateTime.Now;
+
+                    //foreach(var track in item.Tracks.Items)
+                    //{
+                    //    ++tempPlaylist.TrackCount;
+                    //}
 
                     PlaylistList.Add(tempPlaylist);
                     ++count;

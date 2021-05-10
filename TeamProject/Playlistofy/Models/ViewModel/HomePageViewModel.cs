@@ -16,7 +16,7 @@ namespace Playlistofy.Models.ViewModel
         public List<Playlist> RecentPlaylists { get; set; }
 
         [Required(ErrorMessage = "Unquerable Search - Try Again")]
-        [MinLength(2, ErrorMessage = "Search Too Short - Try Again")]
+        [MinLength(1, ErrorMessage = "Search Too Short - Try Again")]
         [MaxLength(50, ErrorMessage = "Search Too Long - Try Again")]
         public string SearchingPlaylistParameter { get; set; }
 
