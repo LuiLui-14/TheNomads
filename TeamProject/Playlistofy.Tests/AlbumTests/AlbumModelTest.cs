@@ -39,5 +39,21 @@ namespace Playlistofy.Tests.AlbumTests
 
             Assert.That(mv.Valid, Is.True);
         }
+
+        [Test]
+        public void testingPlaylist()
+        {
+            PUser pUser = new PUser();
+            Playlist p = new Playlist()
+            {
+                Id = "df93idfhio38040fji4",
+                User = pUser,
+                UserId = "wrges45ge45gwse5"
+            };
+
+            ModelValidator mv = new ModelValidator(p);
+
+            Assert.That(mv.Valid, Is.True);
+        }
     }
 }

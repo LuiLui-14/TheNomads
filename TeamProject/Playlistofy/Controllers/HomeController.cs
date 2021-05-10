@@ -32,14 +32,14 @@ namespace Playlistofy.Controllers
         private readonly IPlaylistofyUserRepository _pURepo;
         private readonly IPlaylistRepository _pRepo;
         private readonly ITrackRepository _tRepo;
-
+        private readonly IArtistRepository _arRepo;
+        private readonly IAlbumRepository _aRepo;
+        private readonly IHashtagRepository _hRepo;
+        private readonly IKeywordRepository _kRepo;
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        private readonly IArtistRepository _arRepo;
-        private readonly IAlbumRepository _aRepo;
-
-        public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo, IArtistRepository arRepo)
+        public HomeController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo, IArtistRepository arRepo, IHashtagRepository hRepo, IKeywordRepository kRepo)
         {
             _userManager = userManager;
             _logger = logger;
@@ -49,11 +49,13 @@ namespace Playlistofy.Controllers
             _tRepo = tRepo;
             _aRepo = aRepo;
             _arRepo = arRepo;
+            _hRepo = hRepo;
+            _kRepo = kRepo;
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             if(_userManager.GetUserId(User) != null)
             {
@@ -163,6 +165,93 @@ namespace Playlistofy.Controllers
 
             viewModel._PlaylistsDB = await userPlaylists.ToListAsync();
             return View("WebPlayer", viewModel);
+        }
+        [HttpPost]
+        public JsonResult AutoComplete(string prefix, string searchType)
+        {
+            if (searchType == "Album")
+            {
+                var albums = _aRepo.GetAll().Where(i => i.Name.StartsWith(prefix));
+                var words = new List<ModelforAuto>();
+                foreach(var a in albums)
+                {
+                    words.Add(new ModelforAuto()
+                    {
+                        Id = a.Id,
+                        Label = a.Name
+                    });
+                }
+                return Json(words);
+            }
+            else if (searchType == "Playlist")
+            {
+                var playlists = _pRepo.GetAll().Where(i => i.Name.StartsWith(prefix));
+                var words = new List<ModelforAuto>();
+                foreach (var a in playlists)
+                {
+                    words.Add(new ModelforAuto()
+                    {
+                        Id = a.Id,
+                        Label = a.Name
+                    });
+                }
+                return Json(words);
+            }
+            else if (searchType == "Track")
+            {
+                var tracks = _tRepo.GetAll().Where(i => i.Name.StartsWith(prefix));
+                var words = new List<ModelforAuto>();
+                foreach (var a in tracks)
+                {
+                    words.Add(new ModelforAuto()
+                    {
+                        Id = a.Id,
+                        Label = a.Name
+                    });
+                }
+                return Json(words);
+            }
+            else if (searchType == "Artist")
+            {
+                var artists = _arRepo.GetAll().Where(i => i.Name.StartsWith(prefix));
+                var words = new List<ModelforAuto>();
+                foreach (var a in artists)
+                {
+                    words.Add(new ModelforAuto()
+                    {
+                        Id = a.Id,
+                        Label = a.Name
+                    });
+                }
+                return Json(words);
+            }
+            else if (searchType == "Tags")
+            {
+                var hash = _hRepo.GetAll().Where(i => i.HashTag1.StartsWith(prefix));
+                var key = _kRepo.GetAll().Where(i => i.Keyword1.StartsWith(prefix));
+                var words = new List<TagsModel>();
+                foreach (var h in hash)
+                {
+                    words.Add(new TagsModel()
+                    {
+                        Id = h.Id,
+                        label = h.HashTag1
+                    });
+                }
+                foreach (var k in key)
+                {
+                    words.Add(new TagsModel()
+                    {
+                        Id = k.Id,
+                        label = k.Keyword1
+                    });
+                }
+
+                return Json(words);
+            }else
+            {
+                return null;
+            }
         }
     }
 }
