@@ -21,7 +21,8 @@ namespace Playlistofy.Models
         [Required]
         [Column("Hashtag")]
         [StringLength(450)]
-        [RegularExpression(@"^#*$")]
+        [MinLength(2)]
+        [RegularExpression(@"^#.*$")]
         public string HashTag1 { get; set; }
 
         [InverseProperty(nameof(PlaylistHashtagMap.Hashtag))]

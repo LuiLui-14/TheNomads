@@ -90,7 +90,10 @@ namespace Playlistofy.Controllers
                             List<Playlist> templist = _hRepo.SearchForPlaylist(word);
                             foreach (Playlist p in templist)
                             {
-                                playlists.Add(p);
+                                if (!playlists.Contains(p))
+                                {
+                                    playlists.Add(p);
+                                }
                             }
                         }
                         
@@ -102,7 +105,10 @@ namespace Playlistofy.Controllers
                             List<Playlist> templist = _kRepo.SearchForPlaylist(word);
                             foreach (Playlist p in templist)
                             {
-                                playlists.Add(p);
+                                if (!playlists.Contains(p))
+                                {
+                                    playlists.Add(p);
+                                }
                             }
                         }
                     }

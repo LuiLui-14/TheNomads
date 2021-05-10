@@ -31,6 +31,13 @@ namespace Playlistofy.Data.Concrete
             await _context.SaveChangesAsync();
         }
 
+        public async Task RemovePlaylistKeywordMap(int keyMapId)
+        {
+            PlaylistKeywordMap keyMap = _context.Set<PlaylistKeywordMap>().Find(keyMapId);
+            _context.Remove<PlaylistKeywordMap>(keyMap);
+            await _context.SaveChangesAsync();
+        }
+
         public List<Keyword> GetAllForPlaylist(string pId)
         {
             List<Keyword> keywords = new List<Keyword>();
