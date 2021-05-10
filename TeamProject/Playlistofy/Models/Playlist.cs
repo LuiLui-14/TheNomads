@@ -46,5 +46,8 @@ namespace Playlistofy.Models
         [InverseProperty(nameof(FollowedPlaylist.playlist))]
         public virtual ICollection<FollowedPlaylist> FollowedPlaylists { get; set; }
 
+        public DateTime? DateCreated { get; set; }
+        //public int TrackCount {get; set;}
+
     }
 }
