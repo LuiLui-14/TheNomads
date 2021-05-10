@@ -77,6 +77,8 @@ namespace Playlistofy.Models
 
                 entity.Property(e => e.Public).HasDefaultValueSql("((0))");
 
+                entity.Property(e => e.DateCreated).HasDefaultValueSql("2021-1-01 01:01:01");
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Playlists)
                     .HasForeignKey(d => d.UserId)

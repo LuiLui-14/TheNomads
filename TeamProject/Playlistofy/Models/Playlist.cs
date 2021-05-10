@@ -43,5 +43,8 @@ namespace Playlistofy.Models
         [InverseProperty(nameof(PlaylistTrackMap.Playlist))]
         public virtual ICollection<PlaylistTrackMap> PlaylistTrackMaps { get; set; }
 
+        public DateTime? DateCreated { get; set; }
+        //public int TrackCount {get; set;}
+
     }
 }
