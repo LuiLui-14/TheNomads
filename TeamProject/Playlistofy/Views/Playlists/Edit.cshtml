@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit";
+    var tags = ViewData["Tags"] as List<string>;
 }
 
 <style>
@@ -30,15 +31,15 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
                     @*<div class="form-group">
-                            <label asp-for="UserId" class="control-label"></label>
-                            <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                            <span asp-validation-for="UserId" class="text-danger"></span>
-                        </div>*@
+            <label asp-for="UserId" class="control-label"></label>
+            <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+            <span asp-validation-for="UserId" class="text-danger"></span>
+        </div>*@
                     @*<div class="form-group">
-                            <label asp-for="Href" class="control-label"></label>
-                            <input asp-for="Href" class="form-control" />
-                            <span asp-validation-for="Href" class="text-danger"></span>
-                        </div>*@
+            <label asp-for="Href" class="control-label"></label>
+            <input asp-for="Href" class="form-control" />
+            <span asp-validation-for="Href" class="text-danger"></span>
+        </div>*@
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
                         <input style="height:40px; width:350px;" asp-for="Name" class="form-control" />
@@ -59,11 +60,34 @@
                         <textarea rows="5" cols="35" asp-for="Description" class="form-control" placeholder="Enter description here..."></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
+                    <div class="form-group row">
+                        <div class="col-md">
+                            <label class="control-label">Tags</label>
+                            <input style="height:40px; width:350px;" name="tags" class="form-control" />
+                        </div>
+                        <div class="col-md">
+                            <table class="b">
+                                <thead>
+                                    <tr>
+                                        <th>Existing Tags</th>
+                                    </tr>
+                                </thead>
+                                @foreach(var i in tags)
+                                {
+                                    <tr>
+                                        <td>
+                                            @i
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
                     @*<div class="form-group">
-                            <label asp-for="Uri" class="control-label"></label>
-                            <input asp-for="Uri" class="form-control" />
-                            <span asp-validation-for="Uri" class="text-danger"></span>
-                        </div>*@
+            <label asp-for="Uri" class="control-label"></label>
+            <input asp-for="Uri" class="form-control" />
+            <span asp-validation-for="Uri" class="text-danger"></span>
+        </div>*@
                     <div class="form-group">
                         <input type="submit" value="Save" class="btn btn-primary" />
                     </div>

@@ -21,6 +21,8 @@ namespace Playlistofy.Controllers
         private readonly IPlaylistRepository _pRepo;
         private readonly ITrackRepository _tRepo;
         private readonly IPlaylistofyUserRepository _puRepo;
+        private readonly IKeywordRepository _kRepo;
+        private readonly IHashtagRepository _hRepo;
         private readonly UserManager<IdentityUser> _userManager;
 
         private readonly IConfiguration _config;
@@ -28,11 +30,13 @@ namespace Playlistofy.Controllers
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public PlaylistsController(IPlaylistRepository pRepo, ITrackRepository tRepo, IPlaylistofyUserRepository puRepo, IConfiguration config, UserManager<IdentityUser> userManager)
+        public PlaylistsController(IPlaylistRepository pRepo, ITrackRepository tRepo, IPlaylistofyUserRepository puRepo, IKeywordRepository kRepo, IHashtagRepository hRepo, IConfiguration config, UserManager<IdentityUser> userManager)
         {
             _pRepo = pRepo;
             _tRepo = tRepo;
             _puRepo = puRepo;
+            _kRepo = kRepo;
+            _hRepo = hRepo;
             _userManager = userManager;
 
             _config = config;
@@ -44,10 +48,17 @@ namespace Playlistofy.Controllers
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Playlists
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var spotifyDBContext = _pRepo.GetAllWithUser().ToList();
-            return View(spotifyDBContext);
+            if (await GetCurrentUserAsync() != null)
+            {
+                var spotifyDBContext = _pRepo.GetAllWithUser().ToList();
+                return View(spotifyDBContext);
+            }
+            else
+            {
+                return RedirectToAction("Error", "Error");
+            }
         }
 
         // GET: Playlists
@@ -120,6 +131,17 @@ namespace Playlistofy.Controllers
                 return NotFound();
             }
             var Tracks = _pRepo.GetAllPlaylistTracks(playlist);
+            var hashtags = _hRepo.GetAllForPlaylist(playlist.Id);
+            var keywords = _kRepo.GetAllForPlaylist(playlist.Id);
+            List<string> words = new List<string>();
+            foreach(Hashtag hash in hashtags)
+            {
+                words.Add(hash.HashTag1);
+            }
+            foreach(Keyword key in keywords)
+            {
+                words.Add(key.Keyword1);
+            }
             foreach(Track t in Tracks)
             {
                 if(t.Duration == null)
@@ -130,16 +152,24 @@ namespace Playlistofy.Controllers
             var TracksForPlaylistModel = new TracksForPlaylist
             {
                 Playlist = playlist,
-                Tracks = Tracks
+                Tracks = Tracks,
+                Tags = words
             };
             return View(TracksForPlaylistModel);
         }
 
         // GET: Playlists/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["UserId"] = new SelectList(_puRepo.GetAll(), "Id", "Id");
-            return View();
+            if (await GetCurrentUserAsync() != null)
+            {
+                ViewData["UserId"] = new SelectList(_puRepo.GetAll(), "Id", "Id");
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Error", "Error");
+            }
         }
 
         // POST: Playlists/Create
@@ -147,54 +177,122 @@ namespace Playlistofy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,Description,Href,Name,Public,Collaborative,Uri")] Playlist playlist)
+        public async Task<IActionResult> Create([Bind("Description,Name")] Playlist playlist, string keywordList)
         {
-            Random ran = new Random();
-
-            string b = "a1b2c3d4e5f6g7h8i9jklmnopqrstuvwxyz";
-            int length = 25;
-            string randomId = "";
-
-            for (int i = 0; i < length; i++)
+            if (await GetCurrentUserAsync() != null)
             {
-                int a = ran.Next(35);
-                randomId = randomId + b.ElementAt(a);
+                    Random ran = new Random();
+
+                string b = "a1b2c3d4e5f6g7h8i9jklmnopqrstuvwxyz";
+                int length = 25;
+                string randomId = "";
+
+                for (int i = 0; i < length; i++)
+                {
+                    int a = ran.Next(35);
+                    randomId = randomId + b.ElementAt(a);
+                }
+
+                Console.WriteLine("The random alphabet generated is: {0}", randomId);
+
+                IdentityUser usr = await GetCurrentUserAsync();
+                playlist.User = await _puRepo.FindByIdAsync(usr.Id);
+                playlist.UserId = usr.Id;
+                playlist.Id = randomId;
+                //playlist.Href = " ";
+
+                //playlist.UserId =
+                if (ModelState.IsValid)
+                {
+                    await _pRepo.AddAsync(playlist);
+
+                    string[] list = keywordList.Split(',',' ');
+                    List<string> kwList = list.ToList();
+                    foreach (var word in kwList)
+                    {
+                        if(word.Length > 0)
+                        {
+                            if(word.StartsWith("#"))
+                            {
+                                if (_hRepo.FindByHashtag(word) == null)
+                                {
+                                    Hashtag h = new Hashtag()
+                                    {
+                                        HashTag1 = word
+                                    };
+                                    await _hRepo.AddAsync(h);
+                                    await _hRepo.AddPlaylistHashtagMap(playlist.Id, h.Id);
+                                }
+                                else
+                                {
+                                    await _hRepo.AddPlaylistHashtagMap(playlist.Id, _hRepo.FindByHashtag(word).Id);
+                                }
+                            }
+                            else
+                            {
+                                if (_kRepo.FindByKeyword(word) == null)
+                                {
+                                    Keyword k = new Keyword()
+                                    {
+                                        Keyword1 = word
+                                    };
+                                    await _kRepo.AddAsync(k);
+                                    await _kRepo.AddPlaylistKeywordMap(playlist.Id, k.Id);
+                                }
+                                else
+                                {
+                                    await _kRepo.AddPlaylistKeywordMap(playlist.Id, _kRepo.FindByKeyword(word).Id);
+                                }
+                            }
+                        }
+                    }
+                    return RedirectToAction("SearchTracks", "Tracks", new { id = playlist.Id });
+                }
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                ViewData["UserId"] = new SelectList(_puRepo.GetAll(), "Id", "Id", playlist.UserId);
+                return View(playlist);
             }
-
-            Console.WriteLine("The random alphabet generated is: {0}", randomId);
-
-            IdentityUser usr = await GetCurrentUserAsync();
-            playlist.UserId = usr.Id;
-            playlist.Id = randomId;
-            playlist.Href = " ";
-
-            //playlist.UserId =
-            if (ModelState.IsValid)
+            else
             {
-                await _pRepo.AddAsync(playlist);
-
-                string id = playlist.Id;
-                return RedirectToAction("SearchTracks", "Tracks", new { id = id });
+                return RedirectToAction("Error", "Error");
             }
-            ViewData["UserId"] = new SelectList(_puRepo.GetAll(), "Id", "Id", playlist.UserId);
-            return View(playlist);
         }
 
         // GET: Playlists/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
+            var usr = await GetCurrentUserAsync();
             if (id == null)
             {
                 return NotFound();
             }
 
-            var playlist = await _pRepo.FindByIdAsync(id);
+            var playlist = _pRepo.GetAll().Include("PlaylistHashtagMaps").Include("PlaylistKeywordMaps").Where(i => i.Id == id).FirstOrDefault();
             if (playlist == null)
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_puRepo.GetAll(), "Id", "Id", playlist.UserId);
-            return View(playlist);
+            if(usr.Id == playlist.UserId)
+            {
+                List<string> tags = new List<string>();
+                List<Hashtag> hashtags = _hRepo.GetAllForPlaylist(id);
+                List<Keyword> keywords = _kRepo.GetAllForPlaylist(id);
+                foreach (var i in hashtags)
+                {
+                    tags.Add(i.HashTag1);
+                }
+                foreach (var i in keywords)
+                {
+                    tags.Add(i.Keyword1);
+                }
+                ViewData["UserId"] = new SelectList(_puRepo.GetAll(), "Id", "Id", playlist.UserId);
+                ViewData["Tags"] = tags;
+                return View(playlist);
+            }
+            else
+            {
+                return RedirectToAction("Error", "Error");
+            }
         }
 
         // POST: Playlists/Edit/5
@@ -202,51 +300,65 @@ namespace Playlistofy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,UserId,Description,Href,Name,Public,Collaborative,Uri")] Playlist playlist)
+        public async Task<IActionResult> Edit([Bind("Id,Name,Public,Collaborative,Description,User")] Playlist playlist, string tags)
         {
-            if (id != playlist.Id)
+            var usr = await GetCurrentUserAsync();
+            if (playlist == null)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            if(playlist.User == null)
             {
-                try
-                {
-                    await _pRepo.UpdateAsync(playlist);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await _pRepo.ExistsAsync(playlist.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                playlist.User = await _puRepo.FindByIdAsync(usr.Id);
+                playlist.UserId = playlist.User.Id;
             }
-            ViewData["UserId"] = new SelectList(_puRepo.GetAll(), "Id", "Id", playlist.UserId);
-            return View(playlist);
+            
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        await _pRepo.UpdateAsync(playlist);
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!await _pRepo.ExistsAsync(playlist.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(UserPlaylists));
+                }
+                ViewData["UserId"] = new SelectList(_puRepo.GetAll(), "Id", "Id", playlist.UserId);
+                return View(playlist);
+            
         }
 
         // GET: Playlists/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
+            var usr = await GetCurrentUserAsync();
             if (id == null)
             {
                 return NotFound();
             }
-
-            var playlist = _pRepo.GetAllWithUser().Where(i => i.Id == id);
-            if (playlist == null)
+            var playlist = _pRepo.GetAllWithUser().Where(i => i.Id == id).FirstOrDefault();
+            if (usr.Id == playlist.UserId)
             {
-                return NotFound();
-            }
+                if (playlist == null)
+                {
+                    return NotFound();
+                }
 
-            return View(playlist);
+                return View(playlist);
+            }
+            else
+            {
+                return RedirectToAction("Error", "Error");
+            }
         }
 
         // POST: Playlists/Delete/5
@@ -255,17 +367,20 @@ namespace Playlistofy.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var playlist = await _pRepo.FindByIdAsync(id);
-            await _pRepo.DeleteAsync(playlist);
-
             //Added to remove tracks too
             var playlistmaps = _pRepo.GetPlaylistTrackMaps(id);
-            foreach(var map in playlistmaps)
+            foreach (var map in playlistmaps)
             {
                 await _pRepo.DeleteTrackMapAsync(map);
             }
-            //----------------------------
+            await _pRepo.DeleteAsync(playlist);
+
+            
+            
             return RedirectToAction(nameof(UserPlaylists));
         }
+
+       
 
     }
 }
