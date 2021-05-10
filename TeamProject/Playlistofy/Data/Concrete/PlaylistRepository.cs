@@ -86,5 +86,18 @@ namespace Playlistofy.Data.Concrete
 
             return playlists;
         }
+
+        public Playlist GetPlaylistWithAllMaps(string id)
+        {
+            Playlist playlist = _dbSet.Include("PlaylistTrackMaps").Include("PlaylistKeywordMaps").Include("PlaylistHashtagMaps").Include("FollowedPlaylists").Where(i => i.Id == id).FirstOrDefault();
+            return playlist;
+        }
+
+        public async Task RemoveFollowedPlaylist(int Id)
+        {
+            FollowedPlaylist follow = _context.Set<FollowedPlaylist>().Find(Id);
+            _context.Remove<FollowedPlaylist>(follow);
+            await _context.SaveChangesAsync();
+        }
     }
 }

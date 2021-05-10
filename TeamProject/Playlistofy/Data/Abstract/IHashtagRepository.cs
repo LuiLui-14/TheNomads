@@ -10,6 +10,7 @@ namespace Playlistofy.Data.Abstract
     {
         Hashtag FindByHashtag(string word);
         Task AddPlaylistHashtagMap(string pId, int hId);
+        Task RemovePlaylistHashtagMap(int hId);
         List<Hashtag> GetAllForPlaylist(string pId);
         List<Playlist> SearchForPlaylist(string word);
     }

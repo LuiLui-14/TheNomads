@@ -16,6 +16,7 @@ namespace Playlistofy.Models
             PlaylistHashtagMaps = new HashSet<PlaylistHashtagMap>();
             PlaylistKeywordMaps = new HashSet<PlaylistKeywordMap>();
             PlaylistTrackMaps = new HashSet<PlaylistTrackMap>();
+            FollowedPlaylists = new HashSet<FollowedPlaylist>();
         }
 
         [Key]
@@ -42,6 +43,8 @@ namespace Playlistofy.Models
         public virtual ICollection<PlaylistKeywordMap> PlaylistKeywordMaps { get; set; }
         [InverseProperty(nameof(PlaylistTrackMap.Playlist))]
         public virtual ICollection<PlaylistTrackMap> PlaylistTrackMaps { get; set; }
+        [InverseProperty(nameof(FollowedPlaylist.playlist))]
+        public virtual ICollection<FollowedPlaylist> FollowedPlaylists { get; set; }
 
         public DateTime? DateCreated { get; set; }
         //public int TrackCount {get; set;}

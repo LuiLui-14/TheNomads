@@ -142,8 +142,10 @@
                                                 <option value="Artist">Artist</option>
                                                 <option value="Track">Track</option>
                                                 <option value="Album">Album</option>
+                                                <option value="Tags">Tags</option>
                                             </select>
-                                            <input type="search" name="searchQuery" id="searchQuery" autocomplete="off" class="form-control" placeholder="Search for a Playlist, Artist, Album, or Track by Title or Name..." />
+                                            <input type="text" name="searchQuery" id="searchQuery" class="form-control" placeholder="Search..." pattern=".{2,}" required title="2 characters minimum" />
+                                            <input type="hidden" id="itemId" name="itemId" />
                                             <button type="submit" id="submit" class="btn rounded btn-outline-primary mr-3" data-toggle="tooltip" title="search">Search</button>
                                         </div>
                                     </div>
@@ -259,31 +261,31 @@
         <h3 class="b">Bring all your favorite playlists together in once place so that you can jam out endlessly!</h3>
     </div>
 
-    <div class="centered">
-        <p>Search for a Playlist, Artist, Album, or Track by Title or Name</p>
-    </div>
-    <div class="row w-100 container">
-    <div class="col">
-        <div class="card p-2 m-0  rounded-pill shadow-lg">
-            <form asp-controller="Search" asp-action="Search" method="get">
-                <div class="row">
-                    <div class="input-group w-100 h-100">
-                        <select name="searchType" id="searchType" class="custom-select border-0 ml-3">
-                            <option value="Playlist" selected>Playlist</option>
-                            <option value="Artist">Artist</option>
-                            <option value="Track">Track</option>
-                            <option value="Album">Album</option>
-                            <option value="Tags">Tags</option>
-                        </select>
-                        <input type="text" name="searchQuery" id="searchQuery" class="form-control" placeholder="Search..." />
-                        <input type="hidden" id="itemId" name="itemId" />
-                        <button type="submit" id="submit" class="btn rounded btn-outline-primary mr-3" data-toggle="tooltip" title="search">Search</button>
-                    </div>
+<div class="centered">
+    <p>Search for a Playlist, Artist, Album, or Track by Title or Name</p>
+</div>
+<div class="row w-100 container">
+<div class="col">
+    <div class="card p-2 m-0  rounded-pill shadow-lg">
+        <form asp-controller="Search" asp-action="Search" method="get">
+            <div class="row">
+                <div class="input-group w-100 h-100">
+                    <select name="searchType" id="searchType" class="custom-select border-0 ml-3">
+                        <option value="Playlist" selected>Playlist</option>
+                        <option value="Artist">Artist</option>
+                        <option value="Track">Track</option>
+                        <option value="Album">Album</option>
+                        <option value="Tags">Tags</option>
+                    </select>
+                    <input type="text" name="searchQuery" id="searchQuery" class="form-control" placeholder="Search..." pattern=".{2,}"   required title="2 characters minimum" />
+                    <input type="hidden" id="itemId" name="itemId" />
+                    <button type="submit" id="submit" class="btn rounded btn-outline-primary mr-3" data-toggle="tooltip" title="search">Search</button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
-    </div>
+</div>
+</div>
 
     <div class="card mt-5 shadow-sm bg-transparent">
         <h4 class="card-title text-center">

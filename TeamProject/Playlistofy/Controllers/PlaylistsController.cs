@@ -13,6 +13,7 @@ using Playlistofy.Models.ViewModel;
 using Playlistofy.Utils;
 using Playlistofy.Controllers;
 using Playlistofy.Data.Abstract;
+using Playlistofy.Utils.AlgorithmicOperations;
 
 namespace Playlistofy.Controllers
 {
@@ -23,6 +24,8 @@ namespace Playlistofy.Controllers
         private readonly IPlaylistofyUserRepository _puRepo;
         private readonly IKeywordRepository _kRepo;
         private readonly IHashtagRepository _hRepo;
+        private readonly IAlbumRepository _aRepo;
+        private readonly IArtistRepository _arRepo;
         private readonly UserManager<IdentityUser> _userManager;
 
         private readonly IConfiguration _config;
@@ -30,13 +33,15 @@ namespace Playlistofy.Controllers
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public PlaylistsController(IPlaylistRepository pRepo, ITrackRepository tRepo, IPlaylistofyUserRepository puRepo, IKeywordRepository kRepo, IHashtagRepository hRepo, IConfiguration config, UserManager<IdentityUser> userManager)
+        public PlaylistsController(IPlaylistRepository pRepo, ITrackRepository tRepo, IPlaylistofyUserRepository puRepo, IKeywordRepository kRepo, IHashtagRepository hRepo, IAlbumRepository aRepo, IArtistRepository arRepo, IConfiguration config, UserManager<IdentityUser> userManager)
         {
             _pRepo = pRepo;
             _tRepo = tRepo;
             _puRepo = puRepo;
             _kRepo = kRepo;
             _hRepo = hRepo;
+            _aRepo = aRepo;
+            _arRepo = arRepo;
             _userManager = userManager;
 
             _config = config;
@@ -177,20 +182,15 @@ namespace Playlistofy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Description,Name")] Playlist playlist, string keywordList)
+        public async Task<IActionResult> Create([Bind("Description,Name")] Playlist playlist, string searchTerm)
         {
             if (await GetCurrentUserAsync() != null)
             {
-                    Random ran = new Random();
-
-                string b = "a1b2c3d4e5f6g7h8i9jklmnopqrstuvwxyz";
-                int length = 25;
-                string randomId = "";
-
-                for (int i = 0; i < length; i++)
+                string randomId = RandomString.GetRandomString();
+                
+                while (_pRepo.FindByIdAsync(randomId) != null)
                 {
-                    int a = ran.Next(35);
-                    randomId = randomId + b.ElementAt(a);
+                    randomId = RandomString.GetRandomString();
                 }
 
                 Console.WriteLine("The random alphabet generated is: {0}", randomId);
@@ -207,7 +207,7 @@ namespace Playlistofy.Controllers
                 {
                     await _pRepo.AddAsync(playlist);
 
-                    string[] list = keywordList.Split(',',' ');
+                    string[] list = searchTerm.Split(',',' ');
                     List<string> kwList = list.ToList();
                     foreach (var word in kwList)
                     {
@@ -301,7 +301,7 @@ namespace Playlistofy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("Id,Name,Public,Collaborative,Description,User")] Playlist playlist, string tags)
+        public async Task<IActionResult> Edit([Bind("Id,Name,Public,Collaborative,Description,User")] Playlist playlist, string searchTerm)
         {
             var usr = await GetCurrentUserAsync();
             if (playlist == null)
@@ -331,8 +331,48 @@ namespace Playlistofy.Controllers
                             throw;
                         }
                     }
-                    return RedirectToAction(nameof(UserPlaylists));
+                string[] list = searchTerm.Split(',', ' ');
+                List<string> kwList = list.ToList();
+                foreach (var word in kwList)
+                {
+                    if (word.Length > 0)
+                    {
+                        if (word.StartsWith("#"))
+                        {
+                            if (_hRepo.FindByHashtag(word) == null)
+                            {
+                                Hashtag h = new Hashtag()
+                                {
+                                    HashTag1 = word
+                                };
+                                await _hRepo.AddAsync(h);
+                                await _hRepo.AddPlaylistHashtagMap(playlist.Id, h.Id);
+                            }
+                            else
+                            {
+                                await _hRepo.AddPlaylistHashtagMap(playlist.Id, _hRepo.FindByHashtag(word).Id);
+                            }
+                        }
+                        else
+                        {
+                            if (_kRepo.FindByKeyword(word) == null)
+                            {
+                                Keyword k = new Keyword()
+                                {
+                                    Keyword1 = word
+                                };
+                                await _kRepo.AddAsync(k);
+                                await _kRepo.AddPlaylistKeywordMap(playlist.Id, k.Id);
+                            }
+                            else
+                            {
+                                await _kRepo.AddPlaylistKeywordMap(playlist.Id, _kRepo.FindByKeyword(word).Id);
+                            }
+                        }
+                    }
                 }
+                return RedirectToAction("Edit", new { id = playlist.Id });
+            }
                 ViewData["UserId"] = new SelectList(_puRepo.GetAll(), "Id", "Id", playlist.UserId);
                 return View(playlist);
             
@@ -367,12 +407,23 @@ namespace Playlistofy.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var playlist = await _pRepo.FindByIdAsync(id);
+            var playlist = _pRepo.GetPlaylistWithAllMaps(id);
             //Added to remove tracks too
-            var playlistmaps = _pRepo.GetPlaylistTrackMaps(id);
-            foreach (var map in playlistmaps)
+            foreach(var i in playlist.PlaylistHashtagMaps)
             {
-                await _pRepo.DeleteTrackMapAsync(map);
+                await _hRepo.RemovePlaylistHashtagMap(i.Id);
+            }
+            foreach(var i in playlist.PlaylistKeywordMaps)
+            {
+                await _kRepo.RemovePlaylistKeywordMap(i.Id);
+            }
+            foreach(var i in playlist.PlaylistTrackMaps)
+            {
+                await _tRepo.RemoveTrackPlaylistMap(i.TrackId, i.PlaylistId);
+            }
+            foreach(var i in playlist.FollowedPlaylists)
+            {
+                await _pRepo.RemoveFollowedPlaylist(i.Id);
             }
             await _pRepo.DeleteAsync(playlist);
 
@@ -443,8 +494,114 @@ namespace Playlistofy.Controllers
 
                 NewViewModel.SpotifyPlaylists = SearchPlaylists;
             }
-
             return View(NewViewModel);
         }
-    }
+        [HttpPost]
+        public JsonResult AutoComplete(string prefix, string searchType)
+        {
+            if (searchType == "Album")
+            {
+                var albums = _aRepo.GetAll().Where(i => i.Name.StartsWith(prefix));
+                var words = new List<ModelforAuto>();
+                foreach (var a in albums)
+                {
+                    words.Add(new ModelforAuto()
+                    {
+                        Id = a.Id,
+                        Label = a.Name
+                    });
+                }
+                return Json(words);
+            }
+            else if (searchType == "Playlist")
+            {
+                var playlists = _pRepo.GetAll().Where(i => i.Name.StartsWith(prefix));
+                var words = new List<ModelforAuto>();
+                foreach (var a in playlists)
+                {
+                    words.Add(new ModelforAuto()
+                    {
+                        Id = a.Id,
+                        Label = a.Name
+                    });
+                }
+                return Json(words);
+            }
+            else if (searchType == "Track")
+            {
+                var tracks = _tRepo.GetAll().Where(i => i.Name.StartsWith(prefix));
+                var words = new List<ModelforAuto>();
+                foreach (var a in tracks)
+                {
+                    words.Add(new ModelforAuto()
+                    {
+                        Id = a.Id,
+                        Label = a.Name
+                    });
+                }
+                return Json(words);
+            }
+            else if (searchType == "Artist")
+            {
+                var artists = _arRepo.GetAll().Where(i => i.Name.StartsWith(prefix));
+                var words = new List<ModelforAuto>();
+                foreach (var a in artists)
+                {
+                    words.Add(new ModelforAuto()
+                    {
+                        Id = a.Id,
+                        Label = a.Name
+                    });
+                }
+                return Json(words);
+            }
+            else if (searchType == "Tags")
+            {
+                var hash = _hRepo.GetAll().Where(i => i.HashTag1.StartsWith(prefix));
+                var key = _kRepo.GetAll().Where(i => i.Keyword1.StartsWith(prefix));
+                var words = new List<TagsModel>();
+                foreach (var h in hash)
+                {
+                    words.Add(new TagsModel()
+                    {
+                        Id = h.Id,
+                        label = h.HashTag1
+                    });
+                }
+                foreach (var k in key)
+                {
+                    words.Add(new TagsModel()
+                    {
+                        Id = k.Id,
+                        label = k.Keyword1
+                    });
+                }
+
+                return Json(words);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<IActionResult> RemoveHashMap(string key, string id)
+        {
+            Playlist playlist = _pRepo.GetAll().Include("PlaylistHashtagMaps").Where(i => i.Id == id).FirstOrDefault();
+            Hashtag hash = _hRepo.FindByHashtag(key);
+            int hashMapId = playlist.PlaylistHashtagMaps.Where(i => i.HashtagId == hash.Id).FirstOrDefault().Id;
+            await _hRepo.RemovePlaylistHashtagMap(hashMapId);
+            return RedirectToAction("Edit", new { id = id });
+        }
+
+        public async Task<IActionResult> RemoveKeyMap(string key, string id)
+        {
+            Playlist playlist = _pRepo.GetAll().Include("PlaylistKeywordMaps").Where(i => i.Id == id).FirstOrDefault();
+            Keyword keyword = _kRepo.FindByKeyword(key);
+            int keyMapId = playlist.PlaylistKeywordMaps.Where(i => i.KeywordId == keyword.Id).FirstOrDefault().Id;
+            await _kRepo.RemovePlaylistKeywordMap(keyMapId);
+            return RedirectToAction("Edit", new { id = id });
+        }
+    }        
 }
+

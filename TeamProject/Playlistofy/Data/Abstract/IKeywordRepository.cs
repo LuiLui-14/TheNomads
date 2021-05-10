@@ -10,6 +10,7 @@ namespace Playlistofy.Data.Abstract
     {
         public Keyword FindByKeyword(string word);
         Task AddPlaylistKeywordMap(string pId, int kId);
+        Task RemovePlaylistKeywordMap(int keyMapId);
         List<Keyword> GetAllForPlaylist(string pId);
         List<Playlist> SearchForPlaylist(string word);
     }

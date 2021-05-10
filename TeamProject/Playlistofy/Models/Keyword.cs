@@ -21,6 +21,7 @@ namespace Playlistofy.Models
         [Required]
         [Column("Keyword")]
         [StringLength(450)]
+        [RegularExpression("[^#].*")]
         public string Keyword1 { get; set; }
 
         [InverseProperty(nameof(PlaylistKeywordMap.Keyword))]

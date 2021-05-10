@@ -31,6 +31,13 @@ namespace Playlistofy.Data.Concrete
             await _context.SaveChangesAsync();
         }
 
+        public async Task RemovePlaylistHashtagMap(int hId)
+        {
+            PlaylistHashtagMap hashMap = _context.Set<PlaylistHashtagMap>().Find(hId);
+            _context.Remove<PlaylistHashtagMap>(hashMap);
+            await _context.SaveChangesAsync();
+        }
+
         public List<Hashtag> GetAllForPlaylist(string pId)
         {
             List<Hashtag> hashtags = new List<Hashtag>();
