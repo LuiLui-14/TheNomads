@@ -100,12 +100,14 @@ namespace Playlistofy.Data.Concrete
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddTrackPlaylistMap(string pUId, string pId)
+        public async Task AddTrackPlaylistMap(string pUId, string pId, PUser pU, Playlist pl)
         {
             try
             {
-                _context.Add<FollowedPlaylist>(new FollowedPlaylist()
+                _context.Add(new FollowedPlaylist()
                 {
+                    pUser = pU,
+                    playlist = pl,
                     PUserId = pUId,
                     PlaylistId = pId
                 });

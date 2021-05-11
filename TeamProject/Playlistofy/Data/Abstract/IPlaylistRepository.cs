@@ -17,7 +17,7 @@ namespace Playlistofy.Data.Abstract
         public Task RemoveFollowedPlaylist(int Id);
         public PlaylistTrackMap GetPlaylistTrackMap(string tId, string pId);
         public Task<List<Playlist>> GetMostRecentPlaylists_5Async();
-        public Task AddTrackPlaylistMap(string pUId, string pId);
+        public Task AddTrackPlaylistMap(string pUId, string pId, PUser pU, Playlist pl);
         public Task DeletePlaylistMap(int? id);
     }
 
