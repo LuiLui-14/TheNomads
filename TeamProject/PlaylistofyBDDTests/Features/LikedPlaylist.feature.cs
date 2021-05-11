@@ -20,26 +20,24 @@ namespace PlaylistofyBDDTests.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.7.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("As a registered user, I want to be able to tag my own playlists with specific key" +
-        "words, tags, or hashtags(#), so that other users can find my playlist based on t" +
-        "hese keywords, tags, or hashtags.")]
-    public partial class AsARegisteredUserIWantToBeAbleToTagMyOwnPlaylistsWithSpecificKeywordsTagsOrHashtagsSoThatOtherUsersCanFindMyPlaylistBasedOnTheseKeywordsTagsOrHashtags_Feature
+    [NUnit.Framework.DescriptionAttribute("As a registered user I want to be able to like playlists so that I can access tho" +
+        "se playlists easily at my convenience")]
+    public partial class AsARegisteredUserIWantToBeAbleToLikePlaylistsSoThatICanAccessThosePlaylistsEasilyAtMyConvenienceFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = ((string[])(null));
         
-#line 1 "KeywordandTags.feature"
+#line 1 "LikedPlaylist.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "As a registered user, I want to be able to tag my own playlists with specific key" +
-                    "words, tags, or hashtags(#), so that other users can find my playlist based on t" +
-                    "hese keywords, tags, or hashtags.", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "As a registered user I want to be able to like playlists so that I can access tho" +
+                    "se playlists easily at my convenience", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -78,15 +76,13 @@ namespace PlaylistofyBDDTests.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Tag Association")]
-        [NUnit.Framework.CategoryAttribute("mytag")]
-        public virtual void TagAssociation()
+        [NUnit.Framework.DescriptionAttribute("Liking a Playlist")]
+        public virtual void LikingAPlaylist()
         {
-            string[] tagsOfScenario = new string[] {
-                    "mytag"};
+            string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Tag Association", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 4
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Liking a Playlist", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 3
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -106,30 +102,30 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+#line 4
+ testRunner.Given("a registered user, user 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
 #line 5
- testRunner.Given("a playlist that is being created by a registered and logged in user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.And("that user is viewing a playlist details page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 6
- testRunner.And("the Tags form is filled in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("the like playlist button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 7
- testRunner.When("the playlist creation form is submitted", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 8
- testRunner.Then("that playlist should be associated with the tags entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("that user will be associated to that playlist in the LikedPlaylist table", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Playlist Edit Tag")]
-        public virtual void PlaylistEditTag()
+        [NUnit.Framework.DescriptionAttribute("Like Playlist Button")]
+        public virtual void LikePlaylistButton()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Playlist Edit Tag", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 10
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Like Playlist Button", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 9
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -149,18 +145,57 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+#line 10
+ testRunner.Given("a registered user, user 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
 #line 11
- testRunner.Given("a playlist that is already in the database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.And("that user is viewing a playlist details page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 12
- testRunner.And("being viewed by the creator of the playlist on the usersPlaylist page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("the like playlist button is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 13
- testRunner.When("the edit button is pressed for that playlist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("the like playlist button will change to a liked button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 14
- testRunner.Then("there will be an area on the edit page to enter new tags and delete existing tags" +
-                        " for that playlist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Liked Playlist Table")]
+        public virtual void LikedPlaylistTable()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Liked Playlist Table", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 15
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 16
+ testRunner.Given("a registered user, user 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 17
+ testRunner.When("the Account page is navigated to", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 18
+ testRunner.Then("there will be a liked playlist table on the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
