@@ -123,14 +123,15 @@ namespace Playlistofy.Controllers
         }
 
         // GET: Playlists/Details/5
-        public IActionResult DetailsFromSearch(string id)
+        public async Task<IActionResult> DetailsFromSearch(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            
-            var playlist = _pRepo.GetAllWithUser().Where(i => i.Id == id).FirstOrDefault();
+
+            var usr = await GetCurrentUserAsync();
+            var playlist = _pRepo.GetPlaylistWithAllMaps(id);
             if (playlist == null)
             {
                 return NotFound();
@@ -158,7 +159,8 @@ namespace Playlistofy.Controllers
             {
                 Playlist = playlist,
                 Tracks = Tracks,
-                Tags = words
+                Tags = words,
+                PUser = _puRepo.GetPUserByID(usr.Id)
             };
             return View(TracksForPlaylistModel);
         }
@@ -188,7 +190,7 @@ namespace Playlistofy.Controllers
             {
                 string randomId = RandomString.GetRandomString();
                 
-                while (_pRepo.FindByIdAsync(randomId) != null)
+                while (await _pRepo.ExistsAsync(randomId))
                 {
                     randomId = RandomString.GetRandomString();
                 }
