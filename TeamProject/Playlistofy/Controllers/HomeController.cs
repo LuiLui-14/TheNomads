@@ -328,5 +328,17 @@ namespace Playlistofy.Controllers
                 return null;
             }
         }
+
+        public async Task<IActionResult> FollowPlaylist(string Uid, string pId)
+        {
+
+            await _pRepo.AddTrackPlaylistMap(Uid, pId);
+            return RedirectToAction("DetailsFromSearch", "Playlists", new { id = pId });
+        }
+
+        public async void UnfollowPlaylist(int? id)
+        {
+            await _pRepo.DeletePlaylistMap(id);
+        }
     }
 }
