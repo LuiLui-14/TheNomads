@@ -79,6 +79,8 @@ namespace Playlistofy.Models
 
                 entity.Property(e => e.DateCreated).HasDefaultValueSql("2021-1-01 01:01:01");
 
+                entity.Property(e => e.TrackCount).HasDefaultValueSql("int(0)");
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Playlists)
                     .HasForeignKey(d => d.UserId)

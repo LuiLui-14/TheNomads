@@ -101,6 +101,7 @@ namespace Playlistofy.Utils
                     tempPlaylist.Public = item.Public;
                     tempPlaylist.Uri = item.Uri;
 
+                    tempPlaylist.TrackCount = item.Tracks.Total;
                     //foreach(var track in item.Tracks.Items)
                     //{
                     //    ++tempPlaylist.TrackCount;

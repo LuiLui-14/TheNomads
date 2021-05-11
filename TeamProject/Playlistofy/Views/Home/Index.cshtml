@@ -14,7 +14,7 @@
     <div class="banner" style="background: url('https://cdn.pixabay.com/photo/2014/04/04/14/56/background-313415_1280.jpg')">
         <h1 class="playlistofyTitle" style="color:white !important">♫♫  Playlistofy  ♫♫</h1>
         <h5 class="b" style="color:antiquewhite">
-            Playlistofy is a revolutionizing idea that brings Spotify users together together into a new platform with
+            Playlistofy is a revolutionizing idea that brings Spotify users together into a new platform with
             features unlike the one's that are offered by Spotify! Ever wish you could tag your playlists and showcase them
             to the world? Or ever wish you could quickly search the leading and most popular playlist? You've come to the right
             spot! With Playlistofy, you will be able to do this and much more! Bring all your favorite playlists together
@@ -48,14 +48,15 @@
 
     @*Second Part*@
     <div class="card mt-5 shadow-sm bg-white">
-        <h4 class="card-title text-center">
+        <h3 class="card-title text-center">
             Most Recently Created Playlists
-        </h4>
+        </h3>
         <table class="table table-striped table-hover table-light" width="75%">
             <tr>
                 <td style="color:red">User Name</td>
                 <td style="color:red">Playlist Name</td>
-                <td style="color:red" class="text-right">Number of Tracks</td>
+                <td style="color:red"><center># of Tracks</center></td>
+                <td style="color:red"><center>Add?</center></td>
             </tr>
             @if (Model.RecentPlaylists != null)
             {
@@ -68,26 +69,29 @@
                     }
                     <tr>
                         <td>
-                            <a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@playlist.Id">
-                                
-                                    @{
-                                        var listUser = Model.SearchedPlaylistsUsers.ElementAt(count);
-                                        if (listUser.Length > 25)
-                                        {
-                                            <h1>@listUser.Substring(0, 25)...</h1>
-                                        }
-                                        else
-                                        {
-                                            <p>@listUser</p>
-                                        }
-                                    }
-
-                            </a>
+                            @{
+                                var listUser = Model.SearchedPlaylistsUsers.ElementAt(count);
+                                if (listUser.Length > 25)
+                                {
+                                    <h1>@listUser.Substring(0, 25)...</h1>
+                                }
+                                else
+                                {
+                                    <p>@listUser</p>
+                                }
+                            }
                         </td>
                         <td>
-                            @playlist.Name
+                            <a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@playlist.Id">
+                                @playlist.Name
+                            </a>
                         </td>
-                        <td class="text-right">@playlist.PlaylistTrackMaps.Count</td>
+                        <td class="text-right"><center>@playlist.PlaylistTrackMaps.Count</center></td>
+                        <td>
+                            <center>
+                                <a asp-action="Index" asp-route-PlaylistIDAdded="@playlist.Id"> Add </a>
+                            </center>
+                        </td>
                     </tr>
                     ++count;
                 }
@@ -97,9 +101,9 @@
 
     @*Fourth Part*@
     <div class="card mt-5 shadow-sm bg-white">
-        <h4 class="card-title text-center">
+        <h3 class="card-title text-center">
             My Playlists
-        </h4>
+        </h3>
         @if (Model.UserID != null)
         {
             <div class="text-right">
@@ -108,9 +112,9 @@
             <table class="table table-striped table-hover table-light" width="75%">
                 <tr>
                     <td>Playlist Name</td>
-                    <td class="text-center">Number of Tracks</td>
-                    <td class="text-center">Description</td>
-                    <td class="text-right">Listen Now!</td>
+                    <td>Description</td>
+                    <td class="text-center"># of Tracks</td>
+                    <td class="text-center"style="padding-left:80px !important">Listen Now!</td>
                 </tr>
                 @if (Model.UserPlaylists != null)
                 {
@@ -118,9 +122,9 @@
                     {
                         <tr>
                             <td><a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">@p.Name</a></td>
-                            <td class="text-center">@p.PlaylistTrackMaps.Count</td>
                             <td>@p.Description</td>
-                            <td><a type="button" class="btn rounded btn-outline-primary mr-3 float-right" title="goto" asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">Listen to Playlist</a></td>
+                            <td class="text-center">@p.PlaylistTrackMaps.Count</td>
+                            <td><a type="button" class="btn rounded btn-outline-primary mr-3 float-right text-right" title="goto" asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">Listen to Playlist</a></td>
                         </tr>
                     }
                 }
