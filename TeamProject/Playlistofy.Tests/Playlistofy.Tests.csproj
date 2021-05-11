@@ -1,12 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+    <UserSecretsId>b14ff34f-4070-43d2-ab86-d4b4bbca6275</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="LiquidTestReports.Markdown" Version="1.0.9" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="NUnit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
@@ -20,4 +22,7 @@
     <ProjectReference Include="..\Playlistofy\Playlistofy.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="SpotifyAPITests\" />
+  </ItemGroup>
 </Project>

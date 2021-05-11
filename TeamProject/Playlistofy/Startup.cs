@@ -68,13 +68,16 @@ namespace Playlistofy
                             return Task.CompletedTask;
                         };
                     options.SaveTokens = true;
-                    });
+                });
 
             services.AddScoped<IPlaylistRepository, PlaylistRepository>();
             services.AddScoped<IAlbumRepository, AlbumRepository>();
             services.AddScoped<ITrackRepository, TrackRepository>();
             services.AddScoped<IPlaylistofyUserRepository, PlaylistofyUserRepository>();
+
             services.AddScoped<IArtistRepository, ArtistRepository>();
+            services.AddScoped<IKeywordRepository, KeywordRepository>();
+            services.AddScoped<IHashtagRepository, HashtagRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

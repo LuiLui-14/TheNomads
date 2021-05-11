@@ -14,5 +14,8 @@ namespace Playlistofy.Data.Abstract
         public Task AddArtistAlbumMap(string aId, string alId);
         public Task<List<Track>> GetAllAlbumTracks(SpotifyClient _spotifyClient, Album a);
         public List<Album> FindAlbumsBySearch(string searchQuery);
+
+        public TrackAlbumMap GetAlbumTrackMap(string tId);
+        public Task DeleteAlbumTrackMapAsync(TrackAlbumMap AlbumTrackMap);
     }
 }
