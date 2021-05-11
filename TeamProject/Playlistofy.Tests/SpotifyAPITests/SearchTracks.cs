@@ -86,45 +86,43 @@ namespace Playlistofy.Tests
             Assert.That(SpotifyClient.Equals(SpotifyClient));
         }
 
-        //Below, on lines 97 and 102 list should be type List<Track>
+        [Test]
+        public void SearchTracks_ReturnsBackListCount_10()
+        {
+            //Arrange
+            //var setup = Setup(IConfiguration config);
+            var Mangager = GetUserManager();
+            var list = new List<Track>();
 
-        //[Test]
-        //public void SearchTracks_ReturnsBackListCount_10()
-        //{
-        //    //Arrange
-        //    //var setup = Setup(IConfiguration config);
-        //    var Mangager = GetUserManager();
-        //    var list = Enumerable.Empty<Track>().AsQueryable();
+            //Act
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var trackCount = SearchSpotify.SearchTracks(SpotifyClient, "Summer of 69", list);
+            //foreach(var track in trackCount.Result)
+            //{
 
-        //    //Act
-        //    var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-        //    var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
-        //    var trackCount = SearchSpotify.SearchTracks(SpotifyClient, "Summer of 69", list);
-        //    //foreach(var track in trackCount.Result)
-        //    //{
-        
-        //    //}
-            
-        //    //Assert
-        //    Assert.That(trackCount.Result.Count(), Is.EqualTo(10));
-        //}
+            //}
 
-        //[Test]
-        //public void SearchTracks_ReturnsBackAllDifferentTracks_true()
-        //{
-        //    //Arrange
-        //    //var setup = Setup(IConfiguration config);
-        //    var Mangager = GetUserManager();
-        //    var list = Enumerable.Empty<Track>().AsQueryable();
+            //Assert
+            Assert.That(trackCount.Result.Count(), Is.EqualTo(10));
+        }
 
-        //    //Act
-        //    var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-        //    var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
-        //    var trackCount = SearchSpotify.SearchTracks(SpotifyClient, "Summer of 69", list);
-        //    bool isUnique = trackCount.Result.Distinct().Count() == trackCount.Result.Count();
+        [Test]
+        public void SearchTracks_ReturnsBackAllDifferentTracks_true()
+        {
+            //Arrange
+            //var setup = Setup(IConfiguration config);
+            var Mangager = GetUserManager();
+            var list = new List<Track>();
 
-        //    //Assert
-        //    Assert.That(isUnique, Is.EqualTo(true));
-        //}
+            //Act
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var trackCount = SearchSpotify.SearchTracks(SpotifyClient, "Summer of 69", list);
+            bool isUnique = trackCount.Result.Distinct().Count() == trackCount.Result.Count();
+
+            //Assert
+            Assert.That(isUnique, Is.EqualTo(true));
+        }
     }
 }
