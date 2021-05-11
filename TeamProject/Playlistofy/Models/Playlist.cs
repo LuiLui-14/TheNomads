@@ -47,7 +47,7 @@ namespace Playlistofy.Models
         public virtual ICollection<FollowedPlaylist> FollowedPlaylists { get; set; }
 
         public DateTime? DateCreated { get; set; }
-        //public int TrackCount {get; set;}
+        public int? TrackCount {get; set;}
 
     }
 }

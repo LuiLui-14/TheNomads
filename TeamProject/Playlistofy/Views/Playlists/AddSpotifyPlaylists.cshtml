@@ -51,8 +51,8 @@
 
 <body style="background: url('https://cdn.pixabay.com/photo/2019/05/20/10/28/violin-4216384__480.jpg') no-repeat center center fixed !important; background-size: cover !important; height: 100% !important; width: 100% !important; min-height: 100% !important; min-width: 100% !important">
     <div class="div_a">
-        <h2 class="playlistofyTitle" style="color:darkslategray !important">♫ Add Playlists From Spotify ♫</h2>
-        <h5 class="b" style="background: #060101; color: red">
+        <h1 class="playlistofyTitle" style="color:antiquewhite !important; background: #060101">♫ Add Playlists From Spotify ♫</h1>
+        <h5 class="b" style="background: #060101; color: darkgrey">
             Ever wish you could import any playlist directly from spotify! With this
             new feature, you will be able to search for any playlist on spotify based
             on the name of the playlist, artist, or album.
@@ -89,7 +89,7 @@
             <tr>
                 <td> <a href=@("https://open.spotify.com/playlist/" + playlist.Id)> @playlist.Name </a></td>
                 <td>
-                    @*@playlist.TrackCount*@
+                    <center>@playlist.TrackCount</center>
                 </td>
                 <td> <center> <a asp-action="AddSpotifyPlaylists" asp-route-userID="@Model.UserID" asp-route-playlistID="@playlist.Id"> Add </a> </center> </td>
             </tr>
