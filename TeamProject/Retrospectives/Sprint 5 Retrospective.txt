@@ -1,0 +1,37 @@
+What did we learn from Sprint 5:
+    - Learned to do more and more testing. Thinking 
+        outside the box
+    - Learned styling, including HTML and CSS
+    - How to create BDD tests
+    - Creating more refined user stories
+    - Learned to interact more with Spotify's API
+    - Learned more about GET and POST requests
+
+
+What isn't going well:
+    - How everything is starting to speed up: class, 
+        testing, sprints, graduation
+    - Trying to catch up with more sprint expectations
+    - Communication amongst team members.
+    - Explaining thought process before implementing 
+        designs and algorithms
+    - Sometimes working on top of each others Features
+        which can lead to confusion and errors
+    - More communication and comments on the code
+
+
+What can the team do better next Sprint:
+    - Time management, especially as everything 
+        is coming to a close (school, graudation)
+    - Testing and making sure features are tested from 
+        all angles to avoid exceptions and errors
+    - Helping each other with code and being quick 
+        to respond and help one another
+    - More refined user stories that better explain 
+        what we are trying to implement
+    - Adding more and more comments to the code when
+        implementing so others can walk through it easier
+
+
+What needs to be brought up to Scot:
+    - N/A
