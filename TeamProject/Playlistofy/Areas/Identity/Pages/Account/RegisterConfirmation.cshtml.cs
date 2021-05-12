@@ -58,7 +58,11 @@ namespace Playlistofy.Areas.Identity.Pages.Account
                 return NotFound($"Unable to load user with email '{email}'.");
             }
             var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _aRepo, _arRepo, user);
-            await uD.SetUserData();
+            var t = await _userManager.GetLoginsAsync(user);
+            if (t.Count > 0)
+            {
+                await uD.SetUserData();
+            }
             Email = email;
             // Once you add a real email sender, you should remove this code that lets you confirm the account
             DisplayConfirmAccountLink = true;
