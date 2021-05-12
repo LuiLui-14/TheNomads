@@ -66,7 +66,7 @@ namespace Playlistofy.Data.Concrete
                 if(await _context.FindAsync<Track>(m.Id) == null)
                 {
                     FullTrack n = await _spotifyClient.Tracks.Get(m.Id);
-                    await _context.AddAsync<Track>(new Track()
+                    Track j = new Track()
                     {
                         DiscNumber = n.DiscNumber,
                         DurationMs = n.DurationMs,
@@ -81,13 +81,10 @@ namespace Playlistofy.Data.Concrete
                         TrackNumber = n.TrackNumber,
                         Uri = n.Uri,
                         IsLocal = n.IsLocal
-                    });
-                    await _context.AddAsync<TrackAlbumMap>(new TrackAlbumMap()
-                    {
-                        TrackId = n.Id,
-                        AlbumId = a.Id
-                    });
+                    };
+                    await _context.AddAsync<Track>(j);
                     await _context.SaveChangesAsync();
+                    await AddAlbumTrackMap(a, j);
                 }
                 tracks.Add(await _context.FindAsync<Track>(m.Id));
             }
