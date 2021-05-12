@@ -55,5 +55,53 @@ namespace Playlistofy.Tests.SearchTests
             //Verify that two results were returned
             Assert.That(playlistList.Count, Is.EqualTo(2));
         }
+
+        [Test]
+        public void TagSearch_ShouldReturn_ListofResults()
+        {
+            // Create a List of Playlists to use for DbSet
+            List<Playlist> playlist = new List<Playlist>
+            {
+                new Playlist {Id = "a", UserId = "a", Href = "a", Name = "Test"},
+                new Playlist {Id = "b", UserId = "b", Href = "b", Name = "AlsoTest"},
+                new Playlist {Id = "c", UserId = "c", Href = "c", Name = "Bananas"}
+            };
+
+            List<Hashtag> tags = new List<Hashtag>
+            {
+                new Hashtag {Id = 1, HashTag1 = "#One"},
+                new Hashtag {Id = 2, HashTag1 = "#Two"}
+            };
+
+            List<PlaylistHashtagMap> maps = new List<PlaylistHashtagMap>
+            {
+                new PlaylistHashtagMap {Id = 3, PlaylistId = "a", HashtagId = 1},
+                new PlaylistHashtagMap {Id = 3, PlaylistId = "b", HashtagId = 1},
+                new PlaylistHashtagMap {Id = 3, PlaylistId = "a", HashtagId = 2},
+                new PlaylistHashtagMap {Id = 3, PlaylistId = "b", HashtagId = 2},
+                new PlaylistHashtagMap {Id = 3, PlaylistId = "c", HashtagId = 2}
+            };
+            //Mock the DbSet using the list above
+            Mock<DbSet<Playlist>> mockPlaylistSet = GetMockDbSet(playlist.AsQueryable());
+            Mock<DbSet<Hashtag>> mockTagSet = GetMockDbSet(tags.AsQueryable());
+            Mock<DbSet<PlaylistHashtagMap>> mockMapSet = GetMockDbSet(maps.AsQueryable());
+            //Mock the Context
+            Mock<SpotifyDbContext> mockContext = new Mock<SpotifyDbContext>();
+            //Ensure that a call to ctx returns the mocked DbSet
+            mockContext.Setup(ctx => ctx.Set<Playlist>()).Returns(mockPlaylistSet.Object);
+            mockContext.Setup(ctx => ctx.Set<Hashtag>()).Returns(mockTagSet.Object);
+            mockContext.Setup(ctx => ctx.Set<PlaylistHashtagMap>()).Returns(mockMapSet.Object);
+            //Mock the Playlist Repo using the mocked context
+            IPlaylistRepository playlistRepo = new PlaylistRepository(mockContext.Object);
+            IHashtagRepository hashtagRepo = new HashtagRepository(mockContext.Object);
+            //Setup search string
+            string searchQuery = "#One";
+
+            //Create list of search results from the repo with mocked context and mocked dbset
+            List<Playlist> playlistList = hashtagRepo.SearchForPlaylist(searchQuery);
+
+            //Verify that two results were returned
+            Assert.That(playlistList.Count, Is.EqualTo(2));
+        }
     }
 }
