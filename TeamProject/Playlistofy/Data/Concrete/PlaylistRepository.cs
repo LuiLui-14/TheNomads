@@ -99,5 +99,28 @@ namespace Playlistofy.Data.Concrete
             _context.Remove<FollowedPlaylist>(follow);
             await _context.SaveChangesAsync();
         }
+
+        public async Task AddTrackPlaylistMap(string pUId, string pId)
+        {
+            try
+            {
+                _context.Add<FollowedPlaylist>(new FollowedPlaylist()
+                {
+                    PUserId = pUId,
+                    PlaylistId = pId
+                });
+                await _context.SaveChangesAsync();
+            }catch (Exception e)
+            {
+
+            }
+        }
+
+        public virtual async Task DeletePlaylistMap(int? id)
+        {
+            FollowedPlaylist follow = _context.Set<FollowedPlaylist>().Find(id);
+            _context.Remove<FollowedPlaylist>(follow);
+            await _context.SaveChangesAsync();
+        }
     }
 }
