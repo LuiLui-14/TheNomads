@@ -163,5 +163,41 @@ namespace Playlistofy.Utils
             }
             return playlistTracks;
         }
+
+        public async Task<List<Playlist>> GetTopPlaylists(SpotifyClient spotifyClient, List<Playlist> DbPaylists)
+        {
+            List<Playlist> playlists = new List<Playlist>();
+
+            var browsePlaylists = await spotifyClient.Browse.GetFeaturedPlaylists();
+
+            int count = 0;
+            await foreach (var item in spotifyClient.Paginate(browsePlaylists.Playlists, (s) => s.Playlists))
+            {
+                var _playlist = DbPaylists.Find(i => i.Id == item.Id);
+                if (_playlist == null)
+                {
+                    if (count >= 15)
+                    {
+                        break;
+                    }
+                    var tempPlaylist = new Playlist();
+                    tempPlaylist.Name = item.Name;
+                    Console.WriteLine(item.Name);
+                    tempPlaylist.Id = item.Id;
+                    tempPlaylist.Collaborative = item.Collaborative;
+                    tempPlaylist.Description = item.Description;
+                    tempPlaylist.Href = item.Href;
+                    tempPlaylist.Public = item.Public;
+                    tempPlaylist.Uri = item.Uri;
+
+                    tempPlaylist.TrackCount = item.Tracks.Total;
+
+                    playlists.Add(tempPlaylist);
+                    ++count;
+                }
+            }
+
+            return playlists;
+        }
     }
 }
