@@ -1,0 +1,2 @@
+﻿ALTER TABLE Album
+ADD ImageUrl NVARCHAR(450)
