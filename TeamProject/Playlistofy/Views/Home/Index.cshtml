@@ -114,6 +114,7 @@
                     <td>Playlist Name</td>
                     <td>Description</td>
                     <td class="text-center"># of Tracks</td>
+                    <td># of Followers</td>
                     <td class="text-center"style="padding-left:80px !important">Listen Now!</td>
                 </tr>
                 @if (Model.UserPlaylists != null)
@@ -124,6 +125,7 @@
                             <td><a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">@p.Name</a></td>
                             <td>@p.Description</td>
                             <td class="text-center">@p.PlaylistTrackMaps.Count</td>
+                            <td></td>
                             <td><a type="button" class="btn rounded btn-outline-primary mr-3 float-right text-right" title="goto" asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">Listen to Playlist</a></td>
                         </tr>
                     }

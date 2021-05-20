@@ -138,6 +138,19 @@ namespace Playlistofy.Controllers
                 UserPlaylistPlaylist.UserPlaylists = newPlaylist;
             }
 
+            if (_userManager.GetUserId(User) != null)
+            {
+                var playlists = _pRepo.GetAllPlaylistTracks(UserPlaylistPlaylist.UserPlaylists.GetEnumerator().Current);
+                var albums = new List<Album>();
+
+                foreach (var t in playlists)
+                {
+                    albums.Add(_aRepo.GetAlbumFromTrack(t.Id));
+                }
+
+                UserPlaylistPlaylist.PlaylistAlbums = albums;
+            }
+
             return View(UserPlaylistPlaylist);
             //return View(new List<Playlist>());
         }

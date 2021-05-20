@@ -17,5 +17,6 @@ namespace Playlistofy.Data.Abstract
 
         public TrackAlbumMap GetAlbumTrackMap(string tId);
         public Task DeleteAlbumTrackMapAsync(TrackAlbumMap AlbumTrackMap);
+        public Album GetAlbumFromTrack(string tId);
     }
 }

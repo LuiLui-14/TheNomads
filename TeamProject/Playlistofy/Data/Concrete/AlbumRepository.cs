@@ -100,7 +100,7 @@ namespace Playlistofy.Data.Concrete
 
         public TrackAlbumMap GetAlbumTrackMap(string tId)
         {
-            var map = AlbumMaps.Where(i => i.TrackId == tId).FirstOrDefault();
+            var map = AlbumMaps.Include("Album").FirstOrDefault(i => i.TrackId == tId);
             return map;
         }
 
@@ -116,6 +116,18 @@ namespace Playlistofy.Data.Concrete
                 await _context.SaveChangesAsync();
             }
             return;
+        }
+
+        public Album GetAlbumFromTrack(string tId)
+        {
+            if (tId == null)
+            {
+                throw new Exception("Track Id provided is null");
+            }
+            
+            var map = GetAlbumTrackMap(tId);
+
+            return map.Album;
         }
     }
 }
