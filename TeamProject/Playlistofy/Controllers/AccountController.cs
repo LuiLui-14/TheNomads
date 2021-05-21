@@ -15,6 +15,8 @@ using System;
 using System.Linq;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Playlistofy.Data.Abstract;
+using Playlistofy.Data.Concrete;
 using Playlistofy.Models.ViewModel;
 using Playlistofy.Utils;
 
@@ -27,18 +29,24 @@ namespace Playlistofy.Controllers
 
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
-
+        private readonly IPlaylistofyUserRepository _pURepo;
+        private readonly IPlaylistRepository _pRepo;
+        private readonly ITrackRepository _tRepo;
+        private readonly IArtistRepository _arRepo;
+        private readonly IAlbumRepository _aRepo;
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<IdentityUser> userManager)
+        public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo, IArtistRepository arRepo)
         {
             _userManager = userManager;
-            
-
             _logger = logger;
             _config = config;
-
+            _pURepo = pURepo;
+            _pRepo = pRepo;
+            _tRepo = tRepo;
+            _aRepo = aRepo;
+            _arRepo = arRepo;
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
@@ -76,5 +84,12 @@ namespace Playlistofy.Controllers
         }
 
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+        public async void ReSync()
+        {
+            var usr = await GetCurrentUserAsync();
+            var resync = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _aRepo, _arRepo, usr);
+            resync.ReSyncPlaylistData();
+        }
     }
 }
