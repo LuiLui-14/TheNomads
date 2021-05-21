@@ -122,12 +122,27 @@
                     @foreach (var p in Model.UserPlaylists)
                     {
                         <tr>
-                            <td class="d-flex flex-wrap align-content-start">
-                                <img class="rounded-sm" src="@Model.PlaylistAlbums.ToArray()[0]" alt="Rounded image">
-                                <img class="rounded-sm" src="@Model.PlaylistAlbums.ToArray()[1]" alt="Rounded image">
-                                <img class="rounded-sm" src="@Model.PlaylistAlbums.ToArray()[2]" alt="Rounded image">
-                                <img class="rounded-sm" src="@Model.PlaylistAlbums.ToArray()[3]" alt="Rounded image">
+                            <td>
+                                <script type="text/javascript">
+                                    function NextAlbumImage() {
+                                        x = (x === @Model.PlaylistAlbums.Count - 1) ? 0 : x + 1;
+                                        document.getElementById("img").src = @Model.PlaylistAlbums.GetEnumerator();
+                                    }
+
+                                    function PreviousAlbumImage() {
+                                        x = (x <= 0) ? @Model.PlaylistAlbums.Count - 1 : x - 1;
+                                        document.getElementById("img").src = @Model.PlaylistAlbums.GetEnumerator();
+                                    }
+                                    function startTimer() {
+                                        setInterval(NextAlbumImage, 3000);
+                                    }
+
+                                    var x = -1;
+                                </script>
+
+                                <img onload="startTimer" class="rounded-sm" src="@Model.PlaylistAlbums" alt="Rounded image">
                             </td>
+
                             <td><a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">@p.Name</a></td>
                             <td>@p.Description</td>
                             <td class="text-center">@p.PlaylistTrackMaps.Count</td>

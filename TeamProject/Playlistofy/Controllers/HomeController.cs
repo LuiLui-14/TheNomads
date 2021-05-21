@@ -145,7 +145,10 @@ namespace Playlistofy.Controllers
 
                 foreach (var t in playlists)
                 {
-                    albums.Add(_aRepo.GetAlbumFromTrack(t.Id));
+                    if (t.TrackAlbumMaps.Count < 1)
+                    {
+                        albums.Add(_aRepo.GetAlbumFromTrack(t.Id));
+                    }
                 }
 
                 UserPlaylistPlaylist.PlaylistAlbums = albums;

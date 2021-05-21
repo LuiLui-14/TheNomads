@@ -36,7 +36,7 @@ namespace Playlistofy.Data.Concrete
             List<Track> tracks = new List<Track>();
             foreach (var i in pl.PlaylistTrackMaps)
             {
-                tracks.Add(_context.Set<Track>().Find(i.TrackId));
+                tracks.Add(_context.Set<Track>().Include("TrackAlbumMaps").Where(j => j.Id == i.TrackId).FirstOrDefault());
             }
             return tracks;
         }
