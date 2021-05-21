@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 
 namespace Playlistofy.Data.Concrete
 {
@@ -31,7 +32,7 @@ namespace Playlistofy.Data.Concrete
 
         public List<Track> GetAllPlaylistTracks(Playlist playlist)
         {
-            Playlist pl = _dbSet.Include("PlaylistTrackMaps").Where(i => i.Id == playlist.Id).FirstOrDefault();
+            Playlist pl = _dbSet.Include("PlaylistTrackMaps").FirstOrDefault(i => (playlist == null) || i.Id == playlist.Id);
             List<Track> tracks = new List<Track>();
             foreach (var i in pl.PlaylistTrackMaps)
             {
