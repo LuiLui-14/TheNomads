@@ -15,6 +15,8 @@ using Playlistofy.Controllers;
 using Playlistofy.Data.Abstract;
 using Playlistofy.Utils.AlgorithmicOperations;
 using Microsoft.AspNetCore.Authorization;
+using SpotifyAPI.Web;
+using SpotifyAPI.Web.Auth;
 
 namespace Playlistofy.Controllers
 {
@@ -524,6 +526,53 @@ namespace Playlistofy.Controllers
             }
             return View(NewViewModel);
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> UploadPlaylistofyPlaylists(string code, string PlaylistID)
+        {
+            //Checks if a user is logged in before proceeding, else takes them to login page
+            IdentityUser usr = await GetCurrentUserAsync();
+            if (usr == null) { return RedirectToPage("/Account/Login", new { area = "Identity" }); }
+            var viewModel = new UploadPlaylistTracks();
+            if (code != null) { viewModel.Code = code; } else { return RedirectToAction("AccountPage", "Account"); }
+
+            //Instantiates the Model to call it's functions - Finds current logged in user's spotify ID
+            var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
+            string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(usr);
+            if (_userSpotifyId == null || _userSpotifyId == "") { return RedirectToPage("/Account/Login", new { area = "Identity" }); }
+
+            var currentUserID = await _userManager.GetUserIdAsync(usr);
+            viewModel.PersonalPlaylists = _pRepo.GetAll().Include("PlaylistTrackMaps").Where(name => name.UserId == currentUserID).ToList();
+
+            var spotifyclient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            viewModel.SpotifyPlaylists = await getUserPlaylists.GetCurrentUserPlaylists(spotifyclient, _userSpotifyId, currentUserID);
+
+            Console.WriteLine(code);
+            if (code != null)
+            {
+                if (PlaylistID != null)
+                {
+                    var listIDs = new List<string>();
+                    if (_pRepo.FindByIdAsync(PlaylistID) != null)
+                    {
+                        var playlist = await _pRepo.FindByIdAsync(PlaylistID);
+                        var tracks = _pRepo.GetAllPlaylistTracks(playlist);
+                        foreach (var track in tracks) { listIDs.Add(track.Id); }
+                        viewModel.TracksIDs = listIDs;
+                        //Creates searchSpotify folder with necessary functions to use later
+                        var UploadSpotify = new UploadToSpotify(_userManager, _spotifyClientId, _spotifyClientSecret);
+                        //Creates spotify client
+                        var client = await UploadSpotify.makeSpotifyClientAsync(_spotifyClientId, _spotifyClientSecret, code);
+                        //Search and return a list of tracks
+                        var NewPlaylistID = await UploadSpotify.UploadPlaylist(client, _spotifyClientId, _spotifyClientSecret, _userSpotifyId, playlist.Name, viewModel.TracksIDs);
+                        return Redirect("https://open.spotify.com/playlist/" + NewPlaylistID);
+                    }
+                }
+            }
+            return View(viewModel);
+        }
+
         [HttpPost]
         public JsonResult AutoComplete(string prefix, string searchType)
         {
