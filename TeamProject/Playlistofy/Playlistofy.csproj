@@ -35,8 +35,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="Moq" Version="4.16.1" />
-    <PackageReference Include="NUnit" Version="3.13.0" />
-    <PackageReference Include="SpecFlow.NUnit" Version="3.7.38" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="SpecFlow.NUnit" Version="3.8.14" />
     <PackageReference Include="SpotifyAPI.Web" Version="6.2.0" />
     <PackageReference Include="SpotifyAPI.Web.Auth" Version="6.2.0" />
   </ItemGroup>

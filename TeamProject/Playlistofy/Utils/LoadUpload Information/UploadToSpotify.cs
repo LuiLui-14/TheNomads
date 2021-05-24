@@ -23,7 +23,12 @@ namespace Playlistofy.Utils
         public async Task<SpotifyClient> makeSpotifyClientAsync(string spotifyClientId, string spotifyClientSecret, string code)
         {
             var response = await new OAuthClient().RequestToken(
-                new AuthorizationCodeTokenRequest(_spotifyClientId, _spotifyClientSecret, code, new Uri("https://localhost:5001/Playlists/UploadPlaylistofyPlaylists/")));
+                new AuthorizationCodeTokenRequest(
+                    _spotifyClientId, _spotifyClientSecret,
+                    code,
+                    new Uri("https://playlistofy.azurewebsites.net/Playlists/UploadPlaylistofyPlaylists/")
+                    /*new Uri("https://localhost:5001/Playlists/UploadPlaylistofyPlaylists/")*/
+                    ));
 
             var spotify = new SpotifyClient(response.AccessToken);
             // Also important for later: response.RefreshToken
@@ -31,7 +36,7 @@ namespace Playlistofy.Utils
             return spotify;
         }
 
-        public async Task<string> UploadPlaylist(SpotifyClient client, string _spotifyClientID, string _spotifyClientSecret, string UserID, string PlaylistName, List<string> TracksIDs)
+        public async Task<string> UploadPlaylist(SpotifyClient client, string UserID, string PlaylistName, List<string> TracksIDs)
         {
             var PlalistCreate = new PlaylistCreateRequest(PlaylistName);
             var playlist = await client.Playlists.Create(UserID, PlalistCreate);

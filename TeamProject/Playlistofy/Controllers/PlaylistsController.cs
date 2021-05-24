@@ -580,7 +580,7 @@ namespace Playlistofy.Controllers
                         //Creates spotify client
                         var client = await UploadSpotify.makeSpotifyClientAsync(_spotifyClientId, _spotifyClientSecret, code);
                         //Search and return a list of tracks
-                        var NewPlaylistID = await UploadSpotify.UploadPlaylist(client, _spotifyClientId, _spotifyClientSecret, _userSpotifyId, playlist.Name, viewModel.TracksIDs);
+                        var NewPlaylistID = await UploadSpotify.UploadPlaylist(client, _userSpotifyId, playlist.Name, viewModel.TracksIDs);
                         return Redirect("https://open.spotify.com/playlist/" + NewPlaylistID);
                     }
                 }
