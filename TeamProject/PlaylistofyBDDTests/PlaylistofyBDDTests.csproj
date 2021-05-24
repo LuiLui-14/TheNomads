@@ -11,6 +11,7 @@
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
     <PackageReference Include="nunit" Version="3.13.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />   
+    <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.8.35" />
 
     
 
@@ -21,7 +22,9 @@
     
 
     
-    <PackageReference Include="SpecFlow.NUnit" Version="3.7.38" />
+    <PackageReference Include="SpecFlow.NUnit" Version="3.8.7" />
+    <PackageReference Include="nunit" Version="3.13.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     
 
     
@@ -39,4 +42,9 @@
     <ProjectReference Include="..\Playlistofy\Playlistofy.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <SpecFlowFeatureFiles Update="Features\TopPlaylistsSpotify.feature">
+      <Visible>False</Visible>
+    </SpecFlowFeatureFiles>
+  </ItemGroup>
 </Project>
