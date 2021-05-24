@@ -14,6 +14,7 @@ using Playlistofy.Utils;
 using Playlistofy.Controllers;
 using Playlistofy.Data.Abstract;
 using Playlistofy.Utils.AlgorithmicOperations;
+using Playlistofy.Utils.LoadUpload_Information;
 using Microsoft.AspNetCore.Authorization;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
@@ -159,12 +160,23 @@ namespace Playlistofy.Controllers
                     t.Duration = Utils.AlgorithmicOperations.MsConversion.ConvertMsToMinSec(t.DurationMs);
                 }
             }
+            IdentityUser user = await GetCurrentUserAsync();
+            PUser us = _puRepo.GetPUserByID(user.Id);
+            
+            if (user != null && us == null)
+            {
+                var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
+                var _spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+                string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(user);
+                await _puRepo.AddAsync(await getNewUser.GetANewUser(_spotifyClient, _userSpotifyId, user));
+            }
+            
             var TracksForPlaylistModel = new TracksForPlaylist
             {
                 Playlist = playlist,
                 Tracks = Tracks,
                 Tags = words,
-                PUser = _puRepo.GetPUserByID(usr.Id)
+                PUser = us
             };
             return View(TracksForPlaylistModel);
         }
@@ -188,7 +200,7 @@ namespace Playlistofy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Description,Name")] Playlist playlist, string searchTerm)
+        public async Task<IActionResult> Create([Bind("Description,Name,Public,Collaborative")] Playlist playlist, string searchTerm)
         {
             if (await GetCurrentUserAsync() != null)
             {
@@ -337,42 +349,45 @@ namespace Playlistofy.Controllers
                             throw;
                         }
                     }
-                string[] list = searchTerm.Split(',', ' ');
-                List<string> kwList = list.ToList();
-                foreach (var word in kwList)
+                if (searchTerm != null)
                 {
-                    if (word.Length > 0)
+                    string[] list = searchTerm.Split(',', ' ');
+                    List<string> kwList = list.ToList();
+                    foreach (var word in kwList)
                     {
-                        if (word.StartsWith("#"))
+                        if (word.Length > 0)
                         {
-                            if (_hRepo.FindByHashtag(word) == null)
+                            if (word.StartsWith("#"))
                             {
-                                Hashtag h = new Hashtag()
+                                if (_hRepo.FindByHashtag(word) == null)
                                 {
-                                    HashTag1 = word
-                                };
-                                await _hRepo.AddAsync(h);
-                                await _hRepo.AddPlaylistHashtagMap(playlist.Id, h.Id);
+                                    Hashtag h = new Hashtag()
+                                    {
+                                        HashTag1 = word
+                                    };
+                                    await _hRepo.AddAsync(h);
+                                    await _hRepo.AddPlaylistHashtagMap(playlist.Id, h.Id);
+                                }
+                                else
+                                {
+                                    await _hRepo.AddPlaylistHashtagMap(playlist.Id, _hRepo.FindByHashtag(word).Id);
+                                }
                             }
                             else
                             {
-                                await _hRepo.AddPlaylistHashtagMap(playlist.Id, _hRepo.FindByHashtag(word).Id);
-                            }
-                        }
-                        else
-                        {
-                            if (_kRepo.FindByKeyword(word) == null)
-                            {
-                                Keyword k = new Keyword()
+                                if (_kRepo.FindByKeyword(word) == null)
                                 {
-                                    Keyword1 = word
-                                };
-                                await _kRepo.AddAsync(k);
-                                await _kRepo.AddPlaylistKeywordMap(playlist.Id, k.Id);
-                            }
-                            else
-                            {
-                                await _kRepo.AddPlaylistKeywordMap(playlist.Id, _kRepo.FindByKeyword(word).Id);
+                                    Keyword k = new Keyword()
+                                    {
+                                        Keyword1 = word
+                                    };
+                                    await _kRepo.AddAsync(k);
+                                    await _kRepo.AddPlaylistKeywordMap(playlist.Id, k.Id);
+                                }
+                                else
+                                {
+                                    await _kRepo.AddPlaylistKeywordMap(playlist.Id, _kRepo.FindByKeyword(word).Id);
+                                }
                             }
                         }
                     }

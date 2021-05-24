@@ -15,6 +15,7 @@ namespace Playlistofy.Models
         {
             Playlists = new HashSet<Playlist>();
             FollowedPlaylists = new HashSet<FollowedPlaylist>();
+            LikedPlaylists = new HashSet<LikedPlaylist>();
         }
 
         [Key]
@@ -51,5 +52,7 @@ namespace Playlistofy.Models
         public virtual ICollection<Playlist> Playlists { get; set; }
         [InverseProperty(nameof(FollowedPlaylist.pUser))]
         public virtual ICollection<FollowedPlaylist> FollowedPlaylists { get; set; }
+        [InverseProperty(nameof(LikedPlaylist.pUser))]
+        public virtual ICollection<LikedPlaylist> LikedPlaylists { get; set; }
     }
 }

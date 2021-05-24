@@ -96,6 +96,22 @@
                         <tr>
                             <td>
                                 <div class="form-group">
+                                    <label asp-for="Public" class="control-label">Public --- Making public will show playlist on public account page</label>
+                                    <input title="Check to make Public" type="checkbox" style="height:40px; width:100px;" asp-for="Public" class="form-control" />
+                                    <span asp-validation-for="Public" class="text-danger"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <label asp-for="Collaborative" class="control-label"></label>
+                                    <input type="checkbox" style="height:40px; width:100px;" asp-for="Collaborative" class="form-control" />
+                                    <span asp-validation-for="Collaborative" class="text-danger"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group">
                                     <center>
                                         <label>Enter Keywords and Hashtags Here! More Than One Keyword or Hashtag is Acceptable</label>
                                         <input type="text" name="searchTerm" id="searchTerm" class="form-control" placeholder="Enter Tags Here..." pattern=".{2,}" required title="2 characters minimum" />

@@ -66,7 +66,7 @@ namespace Playlistofy.Utils
                         await _tRepo.AddAsync(j);
                         await _tRepo.AddTrackPlaylistMap(j.Id, i.Id);
                     }
-                    Album a = _aRepo.GetTrackAlbum(_spotifyClient, j.Id);
+                    Album a = await _aRepo.GetTrackAlbum(_spotifyClient, j.Id);
                     //List<Track> trackList = await _aRepo.GetAllAlbumTracks(_spotifyClient, a);
                     if (!await _aRepo.ExistsAsync(a.Id))
                     {

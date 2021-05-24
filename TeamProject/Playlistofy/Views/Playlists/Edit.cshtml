@@ -46,13 +46,13 @@
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Public" class="control-label"></label>
-                        <input style="height:40px; width:100px;" asp-for="Public" class="form-control" />
+                        <label asp-for="Public" class="control-label">Public --- Making public will show playlist on public account page</label>
+                        <input title="Check to make Public" type="checkbox" style="height:40px; width:100px;" asp-for="Public" class="form-control" />
                         <span asp-validation-for="Public" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Collaborative" class="control-label"></label>
-                        <input style="height:40px; width:100px;" asp-for="Collaborative" class="form-control" />
+                        <input type="checkbox" style="height:40px; width:100px;" asp-for="Collaborative" class="form-control" />
                         <span asp-validation-for="Collaborative" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -60,10 +60,10 @@
                         <textarea rows="5" cols="35" asp-for="Description" class="form-control" placeholder="Enter description here..."></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="col-md">
                             <label class="control-label">Tags</label>
-                            <input type="text" name="searchTerm" id="searchTerm" class="form-control" placeholder="Add New Tags Here..." pattern=".{2,}" required title="2 characters minimum" />
+                            <input type="text" name="searchTerm" id="searchTerm" class="form-control" placeholder="Add New Tags Here..."  />
                             <input type="hidden" id="searchType" value="Tags" />
                             <input type="hidden" id="itemId" name="itemId" />
                         </div>
