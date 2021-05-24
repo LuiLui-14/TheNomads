@@ -20,7 +20,6 @@ using Playlistofy.Data.Abstract;
 using Playlistofy.Data.Concrete;
 using Playlistofy.Models.ViewModel;
 using Playlistofy.Utils;
-using Playlistofy.Data.Abstract;
 using SpotifyAPI.Web.Auth;
 
 namespace Playlistofy.Controllers
@@ -28,9 +27,6 @@ namespace Playlistofy.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IPlaylistofyUserRepository _pURepo;
-        private readonly IPlaylistRepository _pRepo;
-
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
         private readonly IPlaylistofyUserRepository _pURepo;
@@ -122,7 +118,6 @@ namespace Playlistofy.Controllers
             };
             return View(viewModel);
         }
-        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
         private async Task<IdentityUser> GetCurrentUserAsync() => await _userManager.GetUserAsync(HttpContext.User);
 
         public async Task<IActionResult> ReSync()

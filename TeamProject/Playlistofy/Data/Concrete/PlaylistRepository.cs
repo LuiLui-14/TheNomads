@@ -103,18 +103,12 @@ namespace Playlistofy.Data.Concrete
 
         public async Task AddTrackPlaylistMap(string pUId, string pId)
         {
-            try
+            _context.Add(new FollowedPlaylist() 
             {
-                _context.Add(new FollowedPlaylist()
-                {
-                    PUserId = pUId,
-                    PlaylistId = pId
-                });
-                await _context.SaveChangesAsync();
-            }catch (Exception e)
-            {
-
-            }
+                PUserId = pUId,
+                PlaylistId = pId
+            });
+            await _context.SaveChangesAsync();
         }
 
         public virtual async Task DeletePlaylistMap(string Uid, string pId)

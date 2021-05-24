@@ -34,7 +34,8 @@ namespace Playlistofy.Data.Concrete
                 Name = fullAlbum.Name,
                 Popularity = fullAlbum.Popularity,
                 ReleaseDate = fullAlbum.ReleaseDate,
-                ReleaseDatePrecision = fullAlbum.ReleaseDatePrecision
+                ReleaseDatePrecision = fullAlbum.ReleaseDatePrecision,
+                ImageUrl = fullAlbum.Images.ToArray()[0].Url
             };
             return album;
         }
