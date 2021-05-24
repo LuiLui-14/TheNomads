@@ -68,6 +68,8 @@ namespace Playlistofy
                             return Task.CompletedTask;
                         };
                     options.SaveTokens = true;
+                    //options.Scope.Add(string.Join(",", Scopes.PlaylistModifyPrivate, Scopes.PlaylistModifyPublic, Scopes.PlaylistReadCollaborative, Scopes.UserFollowModify,
+                    //    Scopes.PlaylistReadPrivate, Scopes.UserLibraryModify, Scopes.UserModifyPlaybackState));
                 });
 
             services.AddScoped<IPlaylistRepository, PlaylistRepository>();

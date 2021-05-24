@@ -18,5 +18,7 @@ namespace Playlistofy.Models.ViewModel
         [MinLength(2, ErrorMessage = "Search Too Short - Try Again")]
         [MaxLength(50, ErrorMessage = "Search Too Long - Try Again")]
         public string SearchingPlaylistParameter { get; set; }
+
+        public string QueryPlaylistsConfirmation { get; set; }
     }
 }

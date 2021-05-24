@@ -20,26 +20,24 @@ namespace PlaylistofyBDDTests.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.8.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("As a registered user, I want to be able to tag my own playlists with specific key" +
-        "words, tags, or hashtags(#), so that other users can find my playlist based on t" +
-        "hese keywords, tags, or hashtags.")]
-    public partial class AsARegisteredUserIWantToBeAbleToTagMyOwnPlaylistsWithSpecificKeywordsTagsOrHashtagsSoThatOtherUsersCanFindMyPlaylistBasedOnTheseKeywordsTagsOrHashtags_Feature
+    [NUnit.Framework.DescriptionAttribute("As a registered user, I want to be able to upload any playlist I want from my Pla" +
+        "ylistofy account to my Spotify Account.")]
+    public partial class AsARegisteredUserIWantToBeAbleToUploadAnyPlaylistIWantFromMyPlaylistofyAccountToMySpotifyAccount_Feature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = ((string[])(null));
         
-#line 1 "KeywordandTags.feature"
+#line 1 "UploadPlaylistofyPlaylists.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "As a registered user, I want to be able to tag my own playlists with specific key" +
-                    "words, tags, or hashtags(#), so that other users can find my playlist based on t" +
-                    "hese keywords, tags, or hashtags.", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "As a registered user, I want to be able to upload any playlist I want from my Pla" +
+                    "ylistofy account to my Spotify Account.", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
