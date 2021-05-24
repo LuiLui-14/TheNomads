@@ -102,13 +102,13 @@ namespace Playlistofy.Data.Concrete
 
         public async Task<TrackAlbumMap> GetAlbumTrackMap(string tId, SpotifyClient spotty)
         {
-            var map = AlbumMaps.Include("Album").Where(i => i.TrackId == tId).FirstOrDefault();
+            var map = AlbumMaps.Include("Album").FirstOrDefault(i => i.TrackId == tId);
             if (map == null)
             {
-                Track t = _context.Set<Track>().Where(i => i.Id == tId).FirstOrDefault();
+                Track t = _context.Set<Track>().FirstOrDefault(i => i.Id == tId);
                 Album a = await GetTrackAlbum(spotty, tId);
                 await AddAlbumTrackMap(a, t);
-                var newMap = AlbumMaps.Include("Album").Where(i => i.TrackId == tId).FirstOrDefault();
+                var newMap = AlbumMaps.Include("Album").FirstOrDefault(i => i.TrackId == tId);
                 return newMap;
             }
             return map;
