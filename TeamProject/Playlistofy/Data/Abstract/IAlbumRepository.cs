@@ -17,6 +17,6 @@ namespace Playlistofy.Data.Abstract
 
         public Task<TrackAlbumMap> GetAlbumTrackMap(string tId, SpotifyClient spotty);
         public Task DeleteAlbumTrackMapAsync(TrackAlbumMap AlbumTrackMap);
-        public Album GetAlbumFromTrack(string tId);
+        public Task<Album> GetAlbumFromTrack(string tId, SpotifyClient spotty);
     }
 }

@@ -147,7 +147,8 @@ namespace Playlistofy.Controllers
                 {
                     if (t.TrackAlbumMaps.Count < 1)
                     {
-                        albums.Add(_aRepo.GetAlbumFromTrack(t.Id));
+                        SpotifyClient spotty = getSpotifyClient.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+                        albums.Add(await _aRepo.GetAlbumFromTrack(t.Id, spotty));
                     }
                 }
 

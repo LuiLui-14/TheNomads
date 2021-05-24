@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Playlistofy.Data.Abstract;
 using Playlistofy.Data.Concrete;
@@ -86,6 +88,54 @@ namespace Playlistofy.Utils
 
             }
         }
+
+        public async Task ReSyncPlaylistData()
+        {
+            var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
+            var getUserTracks = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
+            var _spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(_usr);
+            List<Playlist> Playlists = await getUserPlaylists.GetCurrentUserPlaylists(_spotifyClient, _userSpotifyId, _usr.Id);
+
+            foreach (Playlist i in Playlists)
+            {
+                Thread.Sleep(75);
+                if (!await _pRepo.ExistsAsync(i.Id))
+                {
+                    await _pRepo.AddAsync(i);
+                }
+
+                List<Track> Tracks = await getUserTracks.GetPlaylistTrack(_spotifyClient, _userSpotifyId, i.Id);
+
+                foreach (Track j in Tracks)
+                {
+                    Thread.Sleep(75);
+                    if (!await _tRepo.ExistsAsync(j.Id))
+                    {
+                        await _tRepo.AddAsync(j);
+                        await _tRepo.AddTrackPlaylistMap(j.Id, i.Id);
+                    }
+
+                    Album a = await _aRepo.GetTrackAlbum(_spotifyClient, j.Id);
+                    if (!await _aRepo.ExistsAsync(a.Id))
+                    {
+                        await _aRepo.AddAsync(a);
+                        await _aRepo.AddAlbumTrackMap(a, j);
+                    }
+
+                    var artists = getUserTracks.GetTrackArtist(_spotifyClient, j.Id);
+                    foreach (var b in artists)
+                    {
+                        Thread.Sleep(75);
+                        if (!await _arRepo.ExistsAsync(b.Id))
+                        {
+                            await _arRepo.AddAsync(b);
+                            await _arRepo.AddArtistTrackMap(b.Id, j.Id);
+                        }
+                    }
+                }
+            }
         }
     }
+}
 
