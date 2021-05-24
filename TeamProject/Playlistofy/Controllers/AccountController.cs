@@ -14,6 +14,7 @@ using System;
 
 using System.Linq;
 using System.Text.Json;
+using System.Threading;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Playlistofy.Data.Abstract;
 using Playlistofy.Data.Concrete;
@@ -83,13 +84,15 @@ namespace Playlistofy.Controllers
             return View(viewModel);
         }
 
-        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+        private async Task<IdentityUser> GetCurrentUserAsync() => await _userManager.GetUserAsync(HttpContext.User);
 
-        public async void ReSync()
+        public async Task<IActionResult> ReSync()
         {
-            var usr = await GetCurrentUserAsync();
+            var usr = await _userManager.GetUserAsync(HttpContext.User);
             var resync = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _aRepo, _arRepo, usr);
-            resync.ReSyncPlaylistData();
+            await resync.ReSyncPlaylistData();
+
+            return RedirectToAction("AccountPage");
         }
     }
 }

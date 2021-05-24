@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -95,20 +96,17 @@ namespace Playlistofy.Utils
             }
         }
 
-        public async void ReSyncPlaylistData()
+        public async Task ReSyncPlaylistData()
         {
             var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
             var getUserTracks = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
             var _spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
             string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(_usr);
             List<Playlist> Playlists = await getUserPlaylists.GetCurrentUserPlaylists(_spotifyClient, _userSpotifyId, _usr.Id);
-            if (!await _pURepo.ExistsAsync(_usr.Id))
-            {
-                await _pURepo.AddAsync(await getNewUser.GetANewUser(_spotifyClient, _userSpotifyId, _usr));
-            }
 
             foreach (Playlist i in Playlists)
             {
+                Thread.Sleep(75);
                 if (!await _pRepo.ExistsAsync(i.Id))
                 {
                     await _pRepo.AddAsync(i);
@@ -118,6 +116,7 @@ namespace Playlistofy.Utils
 
                 foreach (Track j in Tracks)
                 {
+                    Thread.Sleep(75);
                     if (!await _tRepo.ExistsAsync(j.Id))
                     {
                         await _tRepo.AddAsync(j);
@@ -134,6 +133,7 @@ namespace Playlistofy.Utils
                     var artists = getUserTracks.GetTrackArtist(_spotifyClient, j.Id);
                     foreach (var b in artists)
                     {
+                        Thread.Sleep(75);
                         if (!await _arRepo.ExistsAsync(b.Id))
                         {
                             await _arRepo.AddAsync(b);
