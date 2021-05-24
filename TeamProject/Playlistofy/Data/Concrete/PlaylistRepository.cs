@@ -90,7 +90,7 @@ namespace Playlistofy.Data.Concrete
 
         public Playlist GetPlaylistWithAllMaps(string id)
         {
-            Playlist playlist = _dbSet.Include("PlaylistTrackMaps").Include("PlaylistKeywordMaps").Include("PlaylistHashtagMaps").Include("FollowedPlaylists").Where(i => i.Id == id).FirstOrDefault();
+            Playlist playlist = _dbSet.Include("User").Include("PlaylistTrackMaps").Include("PlaylistKeywordMaps").Include("PlaylistHashtagMaps").Include("FollowedPlaylists").Where(i => i.Id == id).FirstOrDefault();
             return playlist;
         }
 
@@ -117,10 +117,65 @@ namespace Playlistofy.Data.Concrete
             }
         }
 
-        public virtual async Task DeletePlaylistMap(int? id)
+        public virtual async Task DeletePlaylistMap(string Uid, string pId)
         {
-            FollowedPlaylist follow = _context.Set<FollowedPlaylist>().Find(id);
-            _context.Remove<FollowedPlaylist>(follow);
+            PUser p = _context.Set<PUser>().Where(i => i.Id == Uid).FirstOrDefault();
+            FollowedPlaylist followed = _context.Set<FollowedPlaylist>().Where(i => i.PlaylistId == pId && i.PUserId == p.Id).FirstOrDefault();
+            _context.Remove<FollowedPlaylist>(followed);
+            await _context.SaveChangesAsync();
+        }
+
+        public List<Playlist> GetAllForUser(string id)
+        {
+            List<Playlist> playlists = _dbSet.Include("User").Include("PlaylistTrackMaps").Include("PlaylistKeywordMaps").Include("PlaylistHashtagMaps").Include("FollowedPlaylists").Where(i => i.UserId == id).ToList();
+            return playlists;
+        }
+
+        public List<Playlist> GetAllPublicForUser(string id)
+        {
+            List<Playlist> playlists = _dbSet.Include("User").Include("PlaylistTrackMaps").Include("PlaylistKeywordMaps").Include("PlaylistHashtagMaps").Include("FollowedPlaylists").Where(i => i.UserId == id).Where(i => i.Public == true).ToList();
+            return playlists;
+        }
+
+
+        public async Task<List<Playlist>> GetAllFollowedPlaylists(string id)
+        {
+            List<FollowedPlaylist> allPlaylists = _context.Set<FollowedPlaylist>().Where(i => i.PUserId == id).ToList();
+            List<Playlist> playlists = new List<Playlist>();
+            foreach(var i in allPlaylists)
+            {
+                playlists.Add(await FindByIdAsync(i.PlaylistId));
+            }
+            return playlists;
+        }
+
+        public async Task<List<Playlist>> GetAllLikedPlaylists(string id)
+        {
+            List<LikedPlaylist> allPlaylists = _context.Set<LikedPlaylist>().Where(i => i.PUserId == id).ToList();
+            List<Playlist> playlists = new List<Playlist>();
+            foreach (var i in allPlaylists)
+            {
+                playlists.Add(await FindByIdAsync(i.PlaylistId));
+            }
+            return playlists;
+        }
+
+        public async Task LikePlaylist(string DispName, string pId)
+        {
+            PUser p = _context.Set<PUser>().Where(i => i.DisplayName == DispName).FirstOrDefault();
+            _context.Add<LikedPlaylist>(new LikedPlaylist()
+            {
+                PUserId = p.Id,
+                PlaylistId = pId
+            });
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UnlikePlaylist(string DispName, string pId)
+        {
+            PUser p = _context.Set<PUser>().Where(i => i.DisplayName == DispName).FirstOrDefault();
+            LikedPlaylist liked = _context.Set<LikedPlaylist>().Where(i => i.PlaylistId == pId && i.PUserId == p.Id).FirstOrDefault();
+            _context.Remove<LikedPlaylist>(liked);
             await _context.SaveChangesAsync();
         }
     }

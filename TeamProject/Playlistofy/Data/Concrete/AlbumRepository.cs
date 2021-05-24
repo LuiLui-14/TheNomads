@@ -21,9 +21,10 @@ namespace Playlistofy.Data.Concrete
             AlbumMaps = _context.Set<TrackAlbumMap>();
         }
 
-        public Album GetTrackAlbum(SpotifyClient _spotifyClient, string TrackId)
+        public async Task<Album> GetTrackAlbum(SpotifyClient _spotifyClient, string TrackId)
         {
-            FullAlbum fullAlbum = _spotifyClient.Albums.Get(_spotifyClient.Tracks.Get(TrackId).Result.Album.Id).Result;
+            var aId = await _spotifyClient.Tracks.Get(TrackId);
+            FullAlbum fullAlbum = await _spotifyClient.Albums.Get(aId.Album.Id);
             Album album = new Album()
             {
                 AlbumType = fullAlbum.AlbumType,
@@ -98,9 +99,17 @@ namespace Playlistofy.Data.Concrete
             return t;
         }
 
-        public TrackAlbumMap GetAlbumTrackMap(string tId)
+        public async Task<TrackAlbumMap> GetAlbumTrackMap(string tId, SpotifyClient spotty)
         {
-            var map = AlbumMaps.Include("Album").FirstOrDefault(i => i.TrackId == tId);
+            var map = AlbumMaps.Include("Album").Where(i => i.TrackId == tId).FirstOrDefault();
+            if(map == null)
+            {
+                Track t = _context.Set<Track>().Where(i => i.Id == tId).FirstOrDefault();
+                Album a = await GetTrackAlbum(spotty, tId);
+                await AddAlbumTrackMap(a, t);
+                var newMap = AlbumMaps.Include("Album").Where(i => i.TrackId == tId).FirstOrDefault();
+                return newMap;
+            }
             return map;
         }
 

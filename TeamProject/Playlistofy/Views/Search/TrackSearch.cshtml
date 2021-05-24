@@ -1,37 +1,38 @@
-﻿@model IEnumerable<Playlistofy.Models.Track>
+﻿@model Playlistofy.Models.ViewModel.SearchViewModels.TrackSearchViewModel
 
 @{
     ViewData["Title"] = "TrackSearch";
 }
 
-<h1>TrackSearch</h1>
+<h1>Track Search</h1>
+<h3>Searching for: @Model.searchTerm</h3>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Explicit)
+                Explicit
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Popularity)
+                Popularity
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PreviewUrl)
+                Preview
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TrackNumber)
+                TrackNumber
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Duration)
+                Duration
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.tracks) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -43,7 +44,13 @@
                 @Html.DisplayFor(modelItem => item.Popularity)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PreviewUrl)
+                @if (item.PreviewUrl != null)
+                {
+                    <iframe src="@item.PreviewUrl" width="300" height="75" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                }else
+                {
+                    <p>No Preview Available</p>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TrackNumber)

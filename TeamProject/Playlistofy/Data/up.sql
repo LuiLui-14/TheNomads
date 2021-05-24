@@ -134,6 +134,15 @@ CREATE TABLE [FollowedPlaylist]
 )
 GO
 
+CREATE TABLE [LikedPlaylist]
+(
+	[Id] INT NOT NULL IDENTITY (1,1),
+    [PlaylistId] NVARCHAR(450) NOT NULL,
+    [PUserId] NVARCHAR(450) NOT NULL
+)
+GO
+
+
 ALTER TABLE [PUser] ADD CONSTRAINT [PK_PUser] PRIMARY KEY CLUSTERED ([Id] ASC)
 GO
 
@@ -170,9 +179,12 @@ GO
 ALTER TABLE [FollowedPlaylist] ADD CONSTRAINT [PK_FollowedPlaylist] PRIMARY KEY CLUSTERED ([Id] ASC)
 GO
 
-
 ALTER TABLE [PlaylistKeywordMap] ADD CONSTRAINT [PK_PlaylistKeywordMap] PRIMARY KEY CLUSTERED ([Id] ASC)
 GO
+
+ALTER TABLE [LikedPlaylist] ADD CONSTRAINT [LikedPlaylist_PK] PRIMARY KEY CLUSTERED ([Id] ASC)
+GO
+
 
 ALTER TABLE [Playlist] ADD CONSTRAINT [Playlist_FK_PUser] FOREIGN KEY ([UserId]) REFERENCES [PUser] ([ID])
 GO
@@ -211,4 +223,10 @@ ALTER TABLE [FollowedPlaylist] ADD CONSTRAINT [FollowedPlaylist_FK_Playlist] FOR
 GO
 
 ALTER TABLE [FollowedPlaylist] ADD CONSTRAINT [FollowedPlaylist_FK_PUser] FOREIGN KEY ([PUserId]) REFERENCES [PUser] ([Id])
+GO
+
+ALTER TABLE [LikedPlaylist] ADD CONSTRAINT [LikedPlaylist_FK_Playlist] FOREIGN KEY ([PlaylistId]) REFERENCES [Playlist] ([Id])
+GO
+
+ALTER TABLE [LikedPlaylist] ADD CONSTRAINT [LikedPlaylist_FK_PUser] FOREIGN KEY ([PUserId]) REFERENCES [PUser] ([Id])
 GO

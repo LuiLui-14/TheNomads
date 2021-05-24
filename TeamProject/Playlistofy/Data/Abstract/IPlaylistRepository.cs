@@ -18,7 +18,14 @@ namespace Playlistofy.Data.Abstract
         public PlaylistTrackMap GetPlaylistTrackMap(string tId, string pId);
         public Task<List<Playlist>> GetMostRecentPlaylists_5Async();
         public Task AddTrackPlaylistMap(string pUId, string pId);
-        public Task DeletePlaylistMap(int? id);
+        public Task DeletePlaylistMap(string Uid, string pId);
+        public List<Playlist> GetAllForUser(string id);
+        public List<Playlist> GetAllPublicForUser(string id);
+
+        public Task<List<Playlist>> GetAllFollowedPlaylists(string id);
+        public Task<List<Playlist>> GetAllLikedPlaylists(string id);
+        public Task LikePlaylist(string DispName, string pId);
+        public Task UnlikePlaylist(string DispName, string pId);
     }
 
     
