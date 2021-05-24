@@ -10,6 +10,7 @@ namespace Playlistofy.Data.Abstract
     {
         PUser GetPUserByID(string ID);
         bool Exists(PUser pu);
+        PUser GetPUserByUsername(string username);
 
     }
 }

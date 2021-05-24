@@ -1,0 +1,152 @@
+﻿@model Playlistofy.Models.ViewModel.PublicUserDetailsModel
+@{
+    ViewData["Title"] = "View";
+}
+
+<div style="background-image: url('https://lockpaperscissors.co/wp-content/uploads/spotify-theme-music-bkg-dark.png')">
+    <div class="container">
+        <div class="main-body">
+            <div class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                @if (Model.Puser.ImageUrl != null)
+                                {
+                                    <img src=@Model.Puser.ImageUrl alt="Admin" class="rounded-circle" width="150"> }
+                                else
+                                {
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                                }
+
+                                <div class="mt-3">
+                                    <a href=@("https://open.spotify.com/user/" + Model.Puser.SpotifyUserId)><h3>@Model.Puser.DisplayName</h3></a>
+                                    <p class="text-secondary mb-1">@Model.Puser.Email</p>
+                                    <p class="text-secondary">Spotify ID - @Model.Puser.SpotifyUserId</p>
+                                    <button class="btn btn-primary">Followers - @Model.Puser.Followers</button>
+                                    <button class="btn btn-outline-primary">Message</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe mr-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>Spotify Website</h6>
+                                <span class="text-secondary"><a href=@("https://open.spotify.com/user/" + Model.Puser.SpotifyUserId)>Link URL</a></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <center>
+                                <h3>Bio-Description</h3>
+                            </center>
+                            <hr>
+                            Bio to Come...
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row gutters-sm">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <center>
+                                        <h4>
+                                            Playlists Created
+                                        </h4>
+                                        <br />
+                                        <table class="table table-bordered table-striped table-sm">
+                                            @foreach (var playlist in Model.CreatedPlaylists)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <img src="https://via.placeholder.com/75" />
+                                                    </td>
+                                                    <td>
+                                                        <center>
+                                                            <a href=@("https://open.spotify.com/playlist/" + playlist.Id)>
+                                                                <h5>@playlist.Name</h5>
+                                                            </a>
+                                                        </center>
+                                                    </td>
+                                                    <td>
+                                                        <center>
+                                                            @*<h5>@playlist.trackCount</h5>*@
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </center>
+                                </div>
+                                <div class="card-body">
+                                    <center>
+                                        <h4>
+                                            Playlists of Followed Users
+                                        </h4>
+                                        <br />
+                                        <table class="table table-bordered table-striped table-sm">
+                                            @foreach (var playlist in Model.FollowedPlaylists)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <img src="https://via.placeholder.com/75" />
+                                                    </td>
+                                                    <td>
+                                                        <center>
+                                                            <a href=@("https://open.spotify.com/playlist/" + playlist.Id)>
+                                                                <h5>@playlist.Name</h5>
+                                                            </a>
+                                                        </center>
+                                                    </td>
+                                                    <td>
+                                                        <center>
+                                                            @*<h5>@playlist.trackCount</h5>*@
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </center>
+                                </div>
+                                <div class="card-body">
+                                    <center>
+                                        <h4>
+                                            Liked Playlists
+                                        </h4>
+                                        <br />
+                                        <table class="table table-bordered table-striped table-sm">
+                                            @foreach (var playlist in Model.LikedPlaylists)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <img src="https://via.placeholder.com/75" />
+                                                    </td>
+                                                    <td>
+                                                        <center>
+                                                            <a href=@("https://open.spotify.com/playlist/" + playlist.Id)>
+                                                                <h5>@playlist.Name</h5>
+                                                            </a>
+                                                        </center>
+                                                    </td>
+                                                    <td>
+                                                        <center>
+                                                            @*<h5>@playlist.trackCount</h5>*@
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

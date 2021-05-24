@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Playlistofy.Data.Abstract;
 using Playlistofy.Models;
+using Playlistofy.Models.ViewModel.SearchViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,20 +31,21 @@ namespace Playlistofy.Controllers
 
         public ActionResult Search(string searchType, string searchQuery)
         {
-            if(searchType == "Album")
+            string[] list = searchQuery.Split(',');
+            if (searchType == "Album")
             {
-                return RedirectToAction("AlbumSearch", new { searchTerm = searchQuery });
+                return RedirectToAction("AlbumSearch", new { searchTerm = list[0] });
             }else if(searchType == "Playlist")
             {
-                return RedirectToAction("PlaylistSearch", new { searchTerm = searchQuery });
+                return RedirectToAction("PlaylistSearch", new { searchTerm = list[0] });
             }
             else if (searchType == "Track")
             {
-                return RedirectToAction("TrackSearch", new { searchTerm = searchQuery });
+                return RedirectToAction("TrackSearch", new { searchTerm = list[0] });
             }
             else if (searchType == "Artist")
             {
-                return RedirectToAction("ArtistSearch", new { searchTerm = searchQuery });
+                return RedirectToAction("ArtistSearch", new { searchTerm = list[0] });
             }else if (searchType == "Tags")
             {
                 return RedirectToAction("TagSearch", new { searchTerm = searchQuery });
@@ -59,7 +61,12 @@ namespace Playlistofy.Controllers
         public ViewResult TrackSearch(string searchTerm)
         {
             var a = _tRepo.FindTracksBySearch(searchTerm);
-            return View(a);
+            var model = new TrackSearchViewModel()
+            {
+                tracks = a,
+                searchTerm = searchTerm
+            };
+            return View(model);
         }
 
         public ViewResult ArtistSearch(string searchTerm)

@@ -98,7 +98,7 @@ namespace Playlistofy.Utils
                     tempPlaylist.Collaborative = item.Collaborative;
                     tempPlaylist.Description = item.Description;
                     tempPlaylist.Href = item.Href;
-                    tempPlaylist.Public = item.Public;
+                    tempPlaylist.Public = getCurrentUserPlaylists.getPublic(item.Public);
                     tempPlaylist.Uri = item.Uri;
 
                     tempPlaylist.TrackCount = item.Tracks.Total;
@@ -125,8 +125,8 @@ namespace Playlistofy.Utils
             newPlaylist.Name = fullplaylist.Name;
             newPlaylist.Id = fullplaylist.Id;
             newPlaylist.Description = fullplaylist.Description;
-            newPlaylist.Collaborative = fullplaylist.Collaborative;
-            newPlaylist.Public = fullplaylist.Public;
+            newPlaylist.Collaborative = getCurrentUserPlaylists.getPublic(fullplaylist.Collaborative);
+            newPlaylist.Public = getCurrentUserPlaylists.getPublic(fullplaylist.Public);
             newPlaylist.Href = fullplaylist.Href;
             newPlaylist.Uri = fullplaylist.Uri;
             newPlaylist.DateCreated = DateTime.Now;
