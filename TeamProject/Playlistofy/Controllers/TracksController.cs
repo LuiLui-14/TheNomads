@@ -13,6 +13,8 @@ using Playlistofy.Models.ViewModel;
 using Playlistofy.Utils;
 using Microsoft.AspNetCore.Http;
 using Playlistofy.Data.Abstract;
+using Playlistofy.Utils.LoadUpload_Information;
+using SpotifyAPI.Web;
 
 namespace Playlistofy.Controllers
 {
@@ -185,7 +187,8 @@ namespace Playlistofy.Controllers
             await _aRepo.DeleteArtistTrackMapAsync(ArtistMap);
 
             //Removes Map for Album and track
-            var AlbumMap = _alRepo.GetAlbumTrackMap(TrackId);
+            SpotifyClient spotty = getSpotifyClient.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var AlbumMap = await _alRepo.GetAlbumTrackMap(TrackId, spotty);
             await _alRepo.DeleteAlbumTrackMapAsync(AlbumMap);
 
             var track = await _tRepo.FindByIdAsync(TrackId);

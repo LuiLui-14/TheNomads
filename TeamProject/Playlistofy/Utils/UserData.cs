@@ -73,7 +73,7 @@ namespace Playlistofy.Utils
                         await _tRepo.AddTrackPlaylistMap(j.Id, i.Id);
                     }
 
-                    Album a = _aRepo.GetTrackAlbum(_spotifyClient, j.Id);
+                    Album a = await _aRepo.GetTrackAlbum(_spotifyClient, j.Id);
                     //List<Track> trackList = await _aRepo.GetAllAlbumTracks(_spotifyClient, a);
                     if (!await _aRepo.ExistsAsync(a.Id))
                     {
@@ -101,8 +101,7 @@ namespace Playlistofy.Utils
             var getUserTracks = new getCurrentUserTracks(_userManager, _spotifyClientId, _spotifyClientSecret);
             var _spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
             string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(_usr);
-            List<Playlist> Playlists =
-                await getUserPlaylists.GetCurrentUserPlaylists(_spotifyClient, _userSpotifyId, _usr.Id);
+            List<Playlist> Playlists = await getUserPlaylists.GetCurrentUserPlaylists(_spotifyClient, _userSpotifyId, _usr.Id);
             if (!await _pURepo.ExistsAsync(_usr.Id))
             {
                 await _pURepo.AddAsync(await getNewUser.GetANewUser(_spotifyClient, _userSpotifyId, _usr));
@@ -125,8 +124,7 @@ namespace Playlistofy.Utils
                         await _tRepo.AddTrackPlaylistMap(j.Id, i.Id);
                     }
 
-                    Album a = _aRepo.GetTrackAlbum(_spotifyClient, j.Id);
-                    //List<Track> trackList = await _aRepo.GetAllAlbumTracks(_spotifyClient, a);
+                    Album a = await _aRepo.GetTrackAlbum(_spotifyClient, j.Id);
                     if (!await _aRepo.ExistsAsync(a.Id))
                     {
                         await _aRepo.AddAsync(a);
