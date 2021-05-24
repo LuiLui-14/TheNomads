@@ -59,10 +59,11 @@ namespace Playlistofy.Utils
             {
                 spotifyPlaylists.Add(new Playlist()
                 {
+                    
                     Name = playlist.Name,
                     Id = playlist.Id,
                     Description = playlist.Description,
-                    Public = playlist.Public,
+                    Public = getPublic(playlist.Public),
                     Collaborative = playlist.Collaborative,
                     Href = playlist.Href,
                     Uri = playlist.Uri,
@@ -72,6 +73,18 @@ namespace Playlistofy.Utils
                 });
             }
             return spotifyPlaylists;
+        }
+
+        public static bool getPublic(bool? pub)
+        {
+            if(pub == null)
+            {
+                return false;
+            }
+            else
+            {
+                return (bool)pub;
+            }
         }
     }
 }

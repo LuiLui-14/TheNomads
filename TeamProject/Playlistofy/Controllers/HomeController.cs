@@ -74,13 +74,13 @@ namespace Playlistofy.Controllers
                     var playlistTracks = new List<Track>();
                     if (DbPlaylist != null)
                     {
-                        NewPlaylist.Collaborative = DbPlaylist?.Collaborative;
+                        NewPlaylist.Collaborative = getCurrentUserPlaylists.getPublic(DbPlaylist?.Collaborative);
                         NewPlaylist.DateCreated = DateTime.Now;
                         NewPlaylist.Description = DbPlaylist?.Description;
                         NewPlaylist.Href = DbPlaylist?.Href;
                         NewPlaylist.Id = randomId;
                         NewPlaylist.Name = DbPlaylist?.Name;
-                        NewPlaylist.Public = DbPlaylist?.Public;
+                        NewPlaylist.Public = getCurrentUserPlaylists.getPublic(DbPlaylist?.Public);
                         NewPlaylist.Uri = DbPlaylist?.Uri;
                         NewPlaylist.PlaylistHashtagMaps = DbPlaylist?.PlaylistHashtagMaps;
                         NewPlaylist.PlaylistKeywordMaps = DbPlaylist?.PlaylistKeywordMaps;
@@ -162,7 +162,7 @@ namespace Playlistofy.Controllers
         [NonAction]
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
             return View();
         }
@@ -323,9 +323,23 @@ namespace Playlistofy.Controllers
             return RedirectToAction("DetailsFromSearch", "Playlists", new { id = pId });
         }
 
-        public async void UnfollowPlaylist(int? id)
+        public async Task<IActionResult> UnfollowPlaylist(string Uid, string pId)
         {
-            await _pRepo.DeletePlaylistMap(id);
+            await _pRepo.DeletePlaylistMap(Uid, pId);
+            return RedirectToAction("DetailsFromSearch", "Playlists", new { id = pId });
+        }
+
+        public async Task<IActionResult> LikePlaylist(string DispName, string pId)
+        {
+
+            await _pRepo.LikePlaylist(DispName, pId);
+            return RedirectToAction("DetailsFromSearch", "Playlists", new { id = pId });
+        }
+
+        public async Task<IActionResult> UnLikePlaylist(string DispName, string pId)
+        {
+            await _pRepo.UnlikePlaylist(DispName, pId);
+            return RedirectToAction("DetailsFromSearch", "Playlists", new { id = pId });
         }
     }
 }

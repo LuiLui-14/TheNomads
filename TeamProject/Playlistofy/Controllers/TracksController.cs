@@ -13,6 +13,8 @@ using Playlistofy.Models.ViewModel;
 using Playlistofy.Utils;
 using Microsoft.AspNetCore.Http;
 using Playlistofy.Data.Abstract;
+using SpotifyAPI.Web;
+using Playlistofy.Utils.LoadUpload_Information;
 
 namespace Playlistofy.Controllers
 {
@@ -42,14 +44,22 @@ namespace Playlistofy.Controllers
             _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
 
-        // GET: Tracks
+        /// <summary>
+        /// This is the index view method for Tracks. Should not be accessable to anyone for now
+        /// </summary>
+        /// <returns>A view of all tracks in the database</returns>
+        [NonAction]
         public async Task<IActionResult> Index()
         {
             var spotifyDBContext = _tRepo.GetAll();
             return View(await spotifyDBContext.ToListAsync());
         }
 
-        // GET: Tracks/Details/5
+        /// <summary>
+        /// This is the Details view method for a specific track. Should be accessible to everyone.
+        /// </summary>
+        /// <param name="id">Track Id</param>
+        /// <returns>A view of the details of the Track whos Id is inputted</returns>
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -78,18 +88,26 @@ namespace Playlistofy.Controllers
             return View(InfoForTracksModel);
         }
 
-        // GET: Tracks/Create
+
+        /// <summary>
+        /// The Create view method of a track. Should not be accessible to anyone
+        /// </summary>
+        /// <returns>A Create view for a Track</returns>
+        [NonAction]
         public IActionResult Create()
         {
             //ViewData["PlaylistId"] = new SelectList(_context.Playlists, "Id", "Id");
             return View();
         }
 
-        // POST: Tracks/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// The action method of creating a track. Should not be accessible to anyone.
+        /// </summary>
+        /// <param name="track">The Track being created in the database</param>
+        /// <returns>A creation view of the track being created</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [NonAction]
         public async Task<IActionResult> Create([Bind("Id,DiscNumber,DurationMs,Explicit,Href,IsPlayable,Name,Popularity,PreviewUrl,TrackNumber,Uri,IsLocal")] Track track)
         {
             if (ModelState.IsValid)
@@ -101,7 +119,12 @@ namespace Playlistofy.Controllers
             return View(track);
         }
 
-        // GET: Tracks/Edit/5
+        /// <summary>
+        /// The Edit view of a Track. Should not be accessible to anyone.
+        /// </summary>
+        /// <param name="id">The Track Id of the Track being editted</param>
+        /// <returns>An Edit view for the track being editted</returns>
+        [NonAction]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -118,9 +141,13 @@ namespace Playlistofy.Controllers
             return View(track);
         }
 
-        // POST: Tracks/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// The action method for editting a track. Should not be accessible to anyone.
+        /// </summary>
+        /// <param name="id">The Track Id of the track being editted</param>
+        /// <param name="track">The Track being editted</param>
+        /// <returns>An edit view of the track, or redirect to the index method</returns>
+        [NonAction]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,DiscNumber,DurationMs,Explicit,Href,IsPlayable,Name,Popularity,PreviewUrl,TrackNumber,Uri,IsLocal")] Track track)
@@ -138,7 +165,7 @@ namespace Playlistofy.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await TrackExists(track.Id))
+                    if (!await _tRepo.ExistsAsync(id))
                     {
                         return NotFound();
                     }
@@ -153,7 +180,12 @@ namespace Playlistofy.Controllers
             return View(track);
         }
 
-        // GET: Tracks/Delete/5
+        /// <summary>
+        /// The delete view for a track. Should not be accessible to anyone but the spotify api
+        /// </summary>
+        /// <param name="TrackId">The Id of the Track being Deleted</param>
+        /// <param name="PlaylistId">A Playlist Id</param>
+        /// <returns></returns>
         public async Task<IActionResult> Delete(string TrackId, string PlaylistId)
         {
             if (TrackId == null)
@@ -171,7 +203,13 @@ namespace Playlistofy.Controllers
             return View(track);
         }
 
-        // POST: Tracks/Delete/5
+        
+        /// <summary>
+        /// The action method for deleting a Track. Should not be accessible to anyone but the spotify api.
+        /// </summary>
+        /// <param name="TrackId">The Id for the Track Being deleted</param>
+        /// <param name="PlaylistId">The id of a Playlist</param>
+        /// <returns></returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string TrackId, string PlaylistId)
@@ -185,17 +223,13 @@ namespace Playlistofy.Controllers
             await _aRepo.DeleteArtistTrackMapAsync(ArtistMap);
 
             //Removes Map for Album and track
-            var AlbumMap = _alRepo.GetAlbumTrackMap(TrackId);
+            SpotifyClient spotty = getSpotifyClient.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var AlbumMap = await _alRepo.GetAlbumTrackMap(TrackId, spotty);
             await _alRepo.DeleteAlbumTrackMapAsync(AlbumMap);
 
             var track = await _tRepo.FindByIdAsync(TrackId);
             await _tRepo.DeleteAsync(track);
             return RedirectToAction("SearchTracks", "Tracks", new { id = PlaylistId });
-        }
-
-        private async Task<bool> TrackExists(string id)
-        {
-            return await _tRepo.ExistsAsync(id);
         }
 
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);

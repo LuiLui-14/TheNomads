@@ -30,13 +30,29 @@
         </div>
         <div class="d-flex justify-content-between">
 
-            @if (Model.PUser.FollowedPlaylists.Where(i => i.PlaylistId == Model.Playlist.Id) != null)
+            @if (Model.PUser != null)
             {
-    <a class="h4 button-container" asp-controller="Home" asp-action="FollowPlaylist" asp-route-Uid="@Model.PUser.Id" asp-route-pId="@Model.Playlist.Id">Follow Playlist</a> }
+                @if (!Model.PUser.FollowedPlaylists.Where(i => i.PlaylistId == Model.Playlist.Id).Any())
+                {
+                    <a class="h4 button-container" asp-controller="Home" asp-action="FollowPlaylist" asp-route-Uid="@Model.PUser.Id" asp-route-pId="@Model.Playlist.Id">Follow Playlist</a> }
                 else
                 {
-    <a class="h4 button-container text-dark" asp-controller="Home" asp-action="UnfollowPlaylist" asp-route-id="@Model.PUser.FollowedPlaylists.Where(i => i.PlaylistId == Model.Playlist.Id).FirstOrDefault().Id">Unfollow Playlist</a>}
-            <h4>(Playlist Details Below)</h4>
+                    <a class="h4 button-container text-dark" asp-controller="Home" asp-action="UnfollowPlaylist" asp-route-Uid="@Model.PUser.Id" asp-route-pId="@Model.Playlist.Id">Unfollow Playlist</a>}}
+            
+        </div>
+        <div class="d-flex justify-content-between">
+
+            @if (Model.PUser != null)
+            {
+                @if (!Model.PUser.LikedPlaylists.Where(i => i.PlaylistId == Model.Playlist.Id).Any())
+                {
+                    <input type="button" id="LikePlaylist" value="Like Playlist" onclick="@("window.location.href='" + @Url.Action("LikePlaylist", "Home", new { DispName = Model.PUser.DisplayName, pId = Model.Playlist.Id }) + "'");" />
+                }
+                else
+                {
+                    <input type="button" id="UnlikePlaylist" value="Unlike Playlist" onclick="@("window.location.href='" + @Url.Action("UnlikePlaylist", "Home", new { DispName = Model.PUser.DisplayName, pId = Model.Playlist.Id }) + "'");" />
+                }}
+
         </div>
     </div>
         <hr />
@@ -56,7 +72,7 @@
                             <tr></tr>
                             <tr>
                                 <td>
-                                    @if (@Html.ViewData.Model.Playlist.Public != null && (bool)@Html.ViewData.Model.Playlist.Public)
+                                    @if (Model.Playlist.Public)
                                     {
                                         <h5>Public</h5>
                                     }
@@ -72,13 +88,18 @@
                             <tr></tr>
                             <tr>
                                 <td>
-                                    @if (@Html.ViewData.Model.Playlist.Collaborative != null && (bool)@Html.ViewData.Model.Playlist.Collaborative)
+                                    @if (Model.Playlist.Collaborative)
                                     {
                                         <h5>Collaborative</h5>
                                     }
+                                    else if(Model.Playlist.Public)
+                                    {
+                                        <h3>Creator</h3>
+                                        <a asp-controller="Account" asp-action="PublicUserDetails" asp-route-Id="@Model.Playlist.User.DisplayName">@Model.Playlist.User.DisplayName</a>
+                                    }
                                     else
                                     {
-                                        <h5>Single Creator</h5>
+                                        <h5>Private</h5>
                                     }
                                 </td>
                             </tr>
@@ -89,9 +110,9 @@
                             <tr>
                                 <td>
                                     <h3>Description</h3>
-                                    @if (@Html.ViewData.Model.Playlist.Description != null)
+                                    @if (Model.Playlist.Description != null)
                                     {
-                                        <h5>@Html.ViewData.Model.Playlist.Description</h5>
+                                        <h5>@Model.Playlist.Description</h5>
                                     }
                                     else
                                     {

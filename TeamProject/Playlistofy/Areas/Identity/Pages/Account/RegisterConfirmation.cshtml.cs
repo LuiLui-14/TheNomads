@@ -59,7 +59,15 @@ namespace Playlistofy.Areas.Identity.Pages.Account
             }
             var uD = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _aRepo, _arRepo, user);
             var t = await _userManager.GetLoginsAsync(user);
-            if (t.Count > 0)
+            int k = 0;
+            foreach(var r in t)
+            {
+                if(r.LoginProvider == "Spotify")
+                {
+                    k++;
+                };
+            }
+            if (k > 0)
             {
                 await uD.SetUserData();
             }

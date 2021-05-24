@@ -67,20 +67,22 @@ namespace Playlistofy.Tests.SearchTests
                 new Playlist {Id = "c", UserId = "c", Href = "c", Name = "Bananas"}
             };
 
-            List<Hashtag> tags = new List<Hashtag>
-            {
-                new Hashtag {Id = 1, HashTag1 = "#One"},
-                new Hashtag {Id = 2, HashTag1 = "#Two"}
-            };
-
             List<PlaylistHashtagMap> maps = new List<PlaylistHashtagMap>
             {
-                new PlaylistHashtagMap {Id = 3, PlaylistId = "a", HashtagId = 1},
-                new PlaylistHashtagMap {Id = 3, PlaylistId = "b", HashtagId = 1},
+                new PlaylistHashtagMap {Id = 1, PlaylistId = "a", HashtagId = 1},
+                new PlaylistHashtagMap {Id = 2, PlaylistId = "b", HashtagId = 1},
                 new PlaylistHashtagMap {Id = 3, PlaylistId = "a", HashtagId = 2},
-                new PlaylistHashtagMap {Id = 3, PlaylistId = "b", HashtagId = 2},
-                new PlaylistHashtagMap {Id = 3, PlaylistId = "c", HashtagId = 2}
+                new PlaylistHashtagMap {Id = 4, PlaylistId = "b", HashtagId = 2},
+                new PlaylistHashtagMap {Id = 5, PlaylistId = "c", HashtagId = 2}
             };
+
+            List<Hashtag> tags = new List<Hashtag>
+            {
+                new Hashtag {Id = 1, HashTag1 = "#One", PlaylistHashtagMaps = maps.Where(i => i.HashtagId == 1).ToList() },
+                new Hashtag {Id = 2, HashTag1 = "#Two", PlaylistHashtagMaps = maps.Where(i => i.HashtagId == 2).ToList() }
+            };
+
+            
             //Mock the DbSet using the list above
             Mock<DbSet<Playlist>> mockPlaylistSet = GetMockDbSet(playlist.AsQueryable());
             Mock<DbSet<Hashtag>> mockTagSet = GetMockDbSet(tags.AsQueryable());

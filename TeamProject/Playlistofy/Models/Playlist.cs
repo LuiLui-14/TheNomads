@@ -17,6 +17,9 @@ namespace Playlistofy.Models
             PlaylistKeywordMaps = new HashSet<PlaylistKeywordMap>();
             PlaylistTrackMaps = new HashSet<PlaylistTrackMap>();
             FollowedPlaylists = new HashSet<FollowedPlaylist>();
+            LikedPlaylists = new HashSet<LikedPlaylist>();
+            Public = false;
+            Collaborative = false;
         }
 
         [Key]
@@ -29,8 +32,8 @@ namespace Playlistofy.Models
         public string Href { get; set; }
         [StringLength(450)]
         public string Name { get; set; }
-        public bool? Public { get; set; }
-        public bool? Collaborative { get; set; }
+        public bool Public { get; set; } 
+        public bool Collaborative { get; set; }
         [Column("URI")]
         public string Uri { get; set; }
 
@@ -45,6 +48,8 @@ namespace Playlistofy.Models
         public virtual ICollection<PlaylistTrackMap> PlaylistTrackMaps { get; set; }
         [InverseProperty(nameof(FollowedPlaylist.playlist))]
         public virtual ICollection<FollowedPlaylist> FollowedPlaylists { get; set; }
+        [InverseProperty(nameof(LikedPlaylist.playlist))]
+        public virtual ICollection<LikedPlaylist> LikedPlaylists { get; set; }
 
         public DateTime? DateCreated { get; set; }
         public int? TrackCount {get; set;}

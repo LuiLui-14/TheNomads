@@ -36,15 +36,17 @@ namespace Playlistofy.Utils.LoadUpload_Information
                 AccessFailedCount = usr.AccessFailedCount,
                 
             };
+            if (userSpotifyId.Length > 0)
+            {
+                //Gets the user spotify info from the user Spotify Id passed in
+                var userInfo = await spotifyClient.UserProfile.Get(userSpotifyId);
 
-            //Gets the user spotify info from the user Spotify Id passed in
-            var userInfo = await spotifyClient.UserProfile.Get(userSpotifyId);
-
-            //Assigns the Spotify info to the new user
-            currentSpotifyUserInfo.Href = userInfo.Href;
-            currentSpotifyUserInfo.DisplayName = userInfo.DisplayName;
-            currentSpotifyUserInfo.Followers = userInfo.Followers.Total;
-            currentSpotifyUserInfo.SpotifyUserId = userInfo.Id;
+                //Assigns the Spotify info to the new user
+                currentSpotifyUserInfo.Href = userInfo.Href;
+                currentSpotifyUserInfo.DisplayName = userInfo.DisplayName;
+                currentSpotifyUserInfo.Followers = userInfo.Followers.Total;
+                currentSpotifyUserInfo.SpotifyUserId = userInfo.Id;
+            }
 
             //Returns the new user
             return currentSpotifyUserInfo;

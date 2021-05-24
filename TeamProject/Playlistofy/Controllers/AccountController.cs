@@ -17,13 +17,15 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Playlistofy.Models.ViewModel;
 using Playlistofy.Utils;
+using Playlistofy.Data.Abstract;
 
 namespace Playlistofy.Controllers
 {
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
-        
+        private readonly IPlaylistofyUserRepository _pURepo;
+        private readonly IPlaylistRepository _pRepo;
 
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
@@ -31,10 +33,11 @@ namespace Playlistofy.Controllers
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<IdentityUser> userManager)
+        public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo)
         {
             _userManager = userManager;
-            
+            _pURepo = pURepo;
+            _pRepo = pRepo;
 
             _logger = logger;
             _config = config;
@@ -75,6 +78,22 @@ namespace Playlistofy.Controllers
             return View(viewModel);
         }
 
+        public async Task<IActionResult> PublicUserDetails(string id)
+        {
+            
+            PUser p = _pURepo.GetPUserByUsername(id);
+            List<Playlist> playlists = _pRepo.GetAllPublicForUser(p.Id);
+            List<Playlist> followed = await _pRepo.GetAllFollowedPlaylists(p.Id);
+            List<Playlist> liked = await _pRepo.GetAllLikedPlaylists(p.Id);
+            PublicUserDetailsModel viewModel = new PublicUserDetailsModel()
+            {
+                CreatedPlaylists = playlists,
+                FollowedPlaylists = followed,
+                LikedPlaylists = liked,
+                Puser = p
+            };
+            return View(viewModel);
+        }
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }
