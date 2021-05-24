@@ -187,7 +187,7 @@ namespace Playlistofy.Utils
                     tempPlaylist.Collaborative = item.Collaborative;
                     tempPlaylist.Description = item.Description;
                     tempPlaylist.Href = item.Href;
-                    tempPlaylist.Public = item.Public;
+                    tempPlaylist.Public = getPublic(item.Public);
                     tempPlaylist.Uri = item.Uri;
 
                     tempPlaylist.TrackCount = item.Tracks.Total;
@@ -198,6 +198,18 @@ namespace Playlistofy.Utils
             }
 
             return playlists;
+        }
+
+        public static bool getPublic(bool? pub)
+        {
+            if (pub == null)
+            {
+                return false;
+            }
+            else
+            {
+                return (bool)pub;
+            }
         }
     }
 }
