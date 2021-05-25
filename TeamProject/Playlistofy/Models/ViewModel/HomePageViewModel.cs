@@ -20,6 +20,7 @@ namespace Playlistofy.Models.ViewModel
         [MaxLength(50, ErrorMessage = "Search Too Long - Try Again")]
         public string SearchingPlaylistParameter { get; set; }
         public List<Album> PlaylistAlbums { get; set; }
+        public List<string> AlbumImageUrls { get; set; }
 
         //Old Home Page Variables
         public IEnumerable<Playlist> UserPlaylists { get; set; }
