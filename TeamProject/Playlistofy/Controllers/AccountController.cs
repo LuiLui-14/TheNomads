@@ -69,6 +69,7 @@ namespace Playlistofy.Controllers
                 var TempUri = loginRequest.ToUri();
                 //return TempUri;
                 // This call requires Spotify.Web.Auth
+                //return RedirectPermanent(TempUri.AbsoluteUri);
                 BrowserUtil.Open(TempUri);
             }
 
