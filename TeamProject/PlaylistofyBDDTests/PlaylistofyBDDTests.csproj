@@ -30,7 +30,7 @@
     
 
     
-    <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.7.141" />
+    <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.8.35" />
     
   </ItemGroup>
 
