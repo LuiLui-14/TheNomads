@@ -1,0 +1,29 @@
+What did we learn from Sprint 6:
+    - Learned to do more and more testing. Thinking 
+        outside the box
+    - Learned more about and how to create BDD tests
+    - Learned to interact more with Spotify's API
+    - Learned how to do more and more Unit tests
+    - Learned more about OAuth requests
+
+
+What isn't going well:
+    - How everything is starting to speed up: class, 
+        testing, sprints, graduation
+    - Communication amongst team members.
+    - More communication and comments on the code
+    - Testing can be very difficult and hard, 
+	especially BDD tests
+
+
+What can the team do better next Sprint:
+    - Time management, especially as everything 
+        is coming to a close (school, graudation)
+    - Testing and making sure features are tested from 
+        all angles to avoid exceptions and errors
+    - Adding more and more comments to the code when
+        implementing so others can walk through it easier
+
+
+What needs to be brought up to Scot:
+    - N/A
