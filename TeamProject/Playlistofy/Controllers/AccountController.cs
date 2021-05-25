@@ -53,8 +53,8 @@ namespace Playlistofy.Controllers
             {
                 // Make sure "spotifyapi.web.oauth://token" is in your applications redirect URIs!
                 var loginRequest = new LoginRequest(
-                    new Uri("https://playlistofy.azurewebsites.net/Playlists/UploadPlaylistofyPlaylists/"),
-                    /*new Uri("https://localhost:5001/Playlists/UploadPlaylistofyPlaylists/"),*/
+                    new Uri("https://playlistofy.azurewebsites.net/Playlists/UploadPlaylistofyPlaylists"),
+                    /*new Uri("https://localhost:5001/Playlists/UploadPlaylistofyPlaylists"),*/
                     _spotifyClientId,
                     LoginRequest.ResponseType.Code
                 )
@@ -65,7 +65,8 @@ namespace Playlistofy.Controllers
                 var TempUri = loginRequest.ToUri();
                 //return TempUri;
                 // This call requires Spotify.Web.Auth
-                BrowserUtil.Open(TempUri);
+                Response.Redirect(TempUri.AbsoluteUri);
+                //BrowserUtil.Open(TempUri);
             }
 
             var viewModel = new userPlaylistsTracks();
