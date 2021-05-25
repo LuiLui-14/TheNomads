@@ -9,10 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Playlistofy.Utils.LoadUpload_Information;
 
 namespace Playlistofy.Data.Concrete
 {
-    public class AlbumRepository :Repository<Album>, IAlbumRepository
+    public class AlbumRepository : Repository<Album>, IAlbumRepository
     {
         private DbSet<TrackAlbumMap> AlbumMaps;
 
@@ -33,14 +34,15 @@ namespace Playlistofy.Data.Concrete
                 Name = fullAlbum.Name,
                 Popularity = fullAlbum.Popularity,
                 ReleaseDate = fullAlbum.ReleaseDate,
-                ReleaseDatePrecision = fullAlbum.ReleaseDatePrecision
+                ReleaseDatePrecision = fullAlbum.ReleaseDatePrecision,
+                ImageUrl = fullAlbum.Images.ToArray()[0].Url
             };
             return album;
         }
 
         public async Task AddAlbumTrackMap(Album a, Track t)
         {
-            _context.Add<TrackAlbumMap>(new TrackAlbumMap()
+            _context.Add(new TrackAlbumMap()
             {
                 TrackId = t.Id,
                 AlbumId = a.Id
@@ -125,6 +127,18 @@ namespace Playlistofy.Data.Concrete
                 await _context.SaveChangesAsync();
             }
             return;
+        }
+
+        public async Task<Album> GetAlbumFromTrack(string tId, SpotifyClient spotty)
+        {
+            if (tId == null)
+            {
+                throw new Exception("Track Id provided is null");
+            }
+
+            var map = await GetAlbumTrackMap(tId, spotty);
+
+            return map.Album;
         }
     }
 }

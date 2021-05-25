@@ -73,6 +73,37 @@
             </div>
         </form>
     </div>
+
+    <div>
+        <center>
+            <a asp-action="AddSpotifyPlaylists" asp-route-topPlaylists="QueryTopPlaylists">
+                <input type="submit" value="Browse Playlists" class="btn btn-primary" />
+            </a>
+        </center>
+        @if (Model.QueryPlaylistsConfirmation != null)
+        {
+            <div class="card mt-5 shadow-sm bg-white">
+                <table class="b">
+                        <tr>
+                            <td><center>Playlist Name</center></td>
+                            <td><center># of Songs</center></td>
+                            <td><center>Add?</center></td>
+                        </tr>
+                        @foreach (var playlist in Model.SpotifyPlaylists)
+                        {
+                            <tr id="CountPlaylists">
+                                <td> <a href=@("https://open.spotify.com/playlist/" + playlist.Id)> @playlist.Name </a></td>
+                                <td>
+                                    <center>@playlist.TrackCount</center>
+                                </td>
+                                <td> <center> <a asp-action="AddSpotifyPlaylists" asp-route-playlistID="@playlist.Id"> Add </a> </center> </td>
+                            </tr>
+                        }
+                </table>
+            </div>
+        }
+    </div>
+
     @if (Model.SearchingPlaylistParameter != null)
     {
     <div class="card mt-5 shadow-sm bg-white">
@@ -91,7 +122,7 @@
                 <td>
                     <center>@playlist.TrackCount</center>
                 </td>
-                <td> <center> <a asp-action="AddSpotifyPlaylists" asp-route-userID="@Model.UserID" asp-route-playlistID="@playlist.Id"> Add </a> </center> </td>
+                <td> <center> <a id="AddPlaylist" asp-action="AddSpotifyPlaylists" asp-route-playlistID="@playlist.Id"> Add </a> </center> </td>
             </tr>
                     }
                 }

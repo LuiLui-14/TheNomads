@@ -53,10 +53,10 @@
         </h3>
         <table class="table table-striped table-hover table-light" width="75%">
             <tr>
-                <td style="color:red">User Name</td>
-                <td style="color:red">Playlist Name</td>
-                <td style="color:red"><center># of Tracks</center></td>
-                <td style="color:red"><center>Add?</center></td>
+                <th style="color:red">User Name</th>
+                <th style="color:red">Playlist Name</th>
+                <th style="color:red"><center># of Tracks</center></th>
+                <th style="color:red"><center>Add?</center></th>
             </tr>
             @if (Model.RecentPlaylists != null)
             {
@@ -100,42 +100,69 @@
     </div>
 
     @*Fourth Part*@
-    <div class="card mt-5 shadow-sm bg-white">
-        <h3 class="card-title text-center">
-            My Playlists
-        </h3>
-        @if (Model.UserID != null)
-        {
-            <div class="text-right">
-                <a asp-action="WebPlayer">View and Listen to all Playlists</a>
-            </div>
-            <table class="table table-striped table-hover table-light" width="75%">
-                <tr>
-                    <td>Playlist Name</td>
-                    <td>Description</td>
-                    <td class="text-center"># of Tracks</td>
-                    <td class="text-center"style="padding-left:80px !important">Listen Now!</td>
-                </tr>
-                @if (Model.UserPlaylists != null)
+<div class="card mt-5 shadow-sm bg-white">
+    <h3 class="card-title text-center">
+        My Playlists
+    </h3>
+    @if (Model.UserID != null)
+    {
+        <div class="text-right">
+            <a asp-action="WebPlayer">View and Listen to all Playlists</a>
+        </div>
+
+        <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+
+        <table class="table table-striped table-hover table-light sortable" width="75%">
+            <tr>
+                <th></th>
+                <th>Playlist Name</th>
+                <th>Description</th>
+                <th class="text-center"># of Tracks</th>
+                <th class="text-center" style="padding-left: 80px !important">Listen Now!</th>
+            </tr>
+            @if (Model.UserPlaylists != null)
+            {
+                @foreach (var p in Model.UserPlaylists)
                 {
-                    @foreach (var p in Model.UserPlaylists)
-                    {
-                        <tr>
-                            <td><a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">@p.Name</a></td>
-                            <td>@p.Description</td>
-                            <td class="text-center">@p.PlaylistTrackMaps.Count</td>
-                            <td><a type="button" class="btn rounded btn-outline-primary mr-3 float-right text-right" title="goto" asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">Listen to Playlist</a></td>
-                        </tr>
-                    }
+                    <tr class="item">
+                        <td>
+                            <script type="text/javascript">
+                                    function NextAlbumImage() {
+                                        x = (x === @Model.PlaylistAlbums.Count - 1) ? 0 : x + 1;
+                                        document.getElementById("img").src = @Model.PlaylistAlbums.GetEnumerator();
+                                    }
+
+                                    function PreviousAlbumImage() {
+                                        x = (x <= 0) ? @Model.PlaylistAlbums.Count - 1 : x - 1;
+                                        document.getElementById("img").src = @Model.PlaylistAlbums.GetEnumerator();
+                                    }
+                                    function startTimer() {
+                                        setInterval(NextAlbumImage, 3000);
+                                    }
+
+                                    var x = -1;
+                            </script>
+
+                            <img onload="startTimer" class="rounded-sm" src="@Model.PlaylistAlbums" alt="Rounded image">
+                        </td>
+
+                        <td><a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">@p.Name</a></td>
+                        <td>@p.Description</td>
+                        <td class="text-center">@p.PlaylistTrackMaps.Count</td>
+                        <td><a type="button" class="btn rounded btn-outline-primary mr-3 float-right text-right" title="goto" asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">Listen to Playlist</a></td>
+                    </tr>
                 }
-            </table>
-        }
-        else
-        {
-            <center>
-                <h4 style="color:red">Access To This Feature Is Disabled - Register Account or Login</h4>
-            </center>
-        }
-    </div>
-    <br><br><br><br>
+            }
+        </table>
+
+    }
+    else
+    {
+        <center>
+            <h4 style="color:red">Access To This Feature Is Disabled - Register Account or Login</h4>
+        </center>
+    }
+</div>
+<br><br><br><br>
+
 </body>

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 
 namespace Playlistofy.Data.Concrete
 {
@@ -31,11 +32,11 @@ namespace Playlistofy.Data.Concrete
 
         public List<Track> GetAllPlaylistTracks(Playlist playlist)
         {
-            Playlist pl = _dbSet.Include("PlaylistTrackMaps").Where(i => i.Id == playlist.Id).FirstOrDefault();
+            Playlist pl = _dbSet.Include("PlaylistTrackMaps").FirstOrDefault(i => (playlist == null) || i.Id == playlist.Id);
             List<Track> tracks = new List<Track>();
             foreach (var i in pl.PlaylistTrackMaps)
             {
-                tracks.Add(_context.Set<Track>().Find(i.TrackId));
+                tracks.Add(_context.Set<Track>().Include("TrackAlbumMaps").Where(j => j.Id == i.TrackId).FirstOrDefault());
             }
             return tracks;
         }
@@ -102,18 +103,12 @@ namespace Playlistofy.Data.Concrete
 
         public async Task AddTrackPlaylistMap(string pUId, string pId)
         {
-            try
+            _context.Add(new FollowedPlaylist() 
             {
-                _context.Add<FollowedPlaylist>(new FollowedPlaylist()
-                {
-                    PUserId = pUId,
-                    PlaylistId = pId
-                });
-                await _context.SaveChangesAsync();
-            }catch (Exception e)
-            {
-
-            }
+                PUserId = pUId,
+                PlaylistId = pId
+            });
+            await _context.SaveChangesAsync();
         }
 
         public virtual async Task DeletePlaylistMap(string Uid, string pId)

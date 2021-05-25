@@ -1,0 +1,86 @@
+﻿@model Playlistofy.Models.ViewModel.UploadPlaylistTracks
+
+@{
+    ViewData["Title"] = "UploadPlaylistofyPlaylists";
+}
+
+<style>
+    div.div_a:hover {
+        opacity: 0.7;
+        text-align: center;
+        vertical-align: central;
+        height: 300px;
+        width: 100%;
+        background: url('https://image.shutterstock.com/image-photo/london-uk-march-2021-spotify-600w-1934386349.jpg');
+        background-size: cover;
+        background-position: center;
+        margin-bottom: 20px;
+    }
+
+    div.div_a {
+        opacity: 1.0;
+        text-align: center;
+        vertical-align: central;
+        height: 300px;
+        width: 100%;
+        background: url('https://image.shutterstock.com/image-photo/london-uk-march-2021-spotify-600w-1934386349.jpg');
+        background-size: cover;
+        background-position: center;
+        margin-bottom: 20px;
+    }
+</style>
+
+<body onload="window.history.forward();" style="background: url('https://image.shutterstock.com/image-photo/charismatic-disc-jockey-turntable-dj-600w-415922566.jpg') no-repeat center center fixed !important; background-size: cover !important; height: 100% !important; width: 100% !important; min-height: 100% !important; min-width: 100% !important">
+    <div class="div_a">
+        <h1 class="playlistofyTitle" style="color:black !important; font-weight: bold; padding-top:15px; padding-bottom: 15px;">♫ Upload Playlists To Spotify ♫</h1>
+        <h5 class="b" style="background: #ffffff; color: black; height: 115px;">
+            Ever wish you could upload any Playlistofy playlist directly to spotify! With this
+            new feature, you will be able to add any playlist from Playlistofy directly to
+            your Spotify account! Upon adding the playlist, it will take you directly to the new
+            Playlist in Spotify and you won't be able to access this same page once on Spotify. To
+            access this page again, go to your Playlistofy account and click on "Upload Playlistofy
+            Playlists" link to access this page again.
+        </h5>
+    </div>
+    <div class="card mt-5 shadow-sm bg-white">
+        <h2 class="card-title text-center">
+            Current Database Playlists
+        </h2>
+        <table class="table table-striped table-hover table-light" width="75%">
+            <tr>
+                <td style="color:red">Playlist Name</td>
+                <td style="color:red">Description</td>
+                <td style="color:red"><center># of Tracks</center></td>
+                <td style="color:red"><center>Add?</center></td>
+            </tr>
+            @if (Model.PersonalPlaylists != null)
+            {
+                @foreach (var playlist in Model.PersonalPlaylists)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@playlist.Id">@playlist.Name</a>
+                        </td>
+                        <td>
+                            @playlist.Description
+                        </td>
+                        <td class="text-right">
+                            <center>
+                                @playlist.PlaylistTrackMaps.Count
+                            </center>
+                        </td>
+                        <td>
+                            @if (Model.SpotifyPlaylists.FirstOrDefault(a => a.Name == playlist.Name) == null)
+                            {
+                                <center>
+                                    <a id="AddPlaylist" asp-action="UploadPlaylistofyPlaylists" asp-route-code="@Model.Code" asp-route-PlaylistID="@playlist.Id"> Add </a>
+                                </center>
+                            }
+                        </td>
+                    </tr>
+
+                }
+            }
+        </table>
+    </div>
+</body>
