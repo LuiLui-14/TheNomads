@@ -152,7 +152,10 @@ namespace Playlistofy.Controllers
                     }
                 }
 
+                var images = albums.Select(a => a.ImageUrl).ToList();
+
                 UserPlaylistPlaylist.PlaylistAlbums = albums;
+                UserPlaylistPlaylist.AlbumImageUrls = images;
             }
 
             return View(UserPlaylistPlaylist);

@@ -28,11 +28,11 @@ namespace PlaylistofyBDDTests.Hooks
             options.AcceptInsecureCertificates = true;
             // This version of the constructor was needed if using the SpecFlow+ testrunner rather than NUnit test runner
             // I'm not sure why but I needed to tell it where the geckodriver folder was or it wouldn't run
-            //FirefoxDriver driver = new FirefoxDriver("C:\\Users\\bspen\\Downloads\\geckodriver-v0.29.1-win64", options);
+            //FirefoxDriver driver = new FirefoxDriver("C:\\Users\\morses", options);
             FirefoxDriver driver = new FirefoxDriver(options);
 
             //ChromeOptions options = new ChromeOptions();
-            //options.AcceptInsecureCertificates = true;
+            //options.AcceptInsecureCertificates = true;3
             //ChromeDriver driver = new ChromeDriver(options);
 
             // Make 'driver' available for DI

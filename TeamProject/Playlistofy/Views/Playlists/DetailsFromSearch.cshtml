@@ -74,11 +74,11 @@
                                 <td>
                                     @if (Model.Playlist.Public)
                                     {
-                                        <h5 id="Public">Public</h5>
+                                        <h5>Public</h5>
                                     }
                                     else
                                     {
-                                        <h5 id="Private">Private</h5>
+                                        <h5>Private</h5>
                                     }
                                 </td>
                             </tr>
@@ -94,8 +94,8 @@
                                     }
                                     else if(Model.Playlist.Public)
                                     {
-                                        <h3 id="creator" >Creator</h3>
-                                        <a id="creatorLink" asp-controller="Account" asp-action="PublicUserDetails" asp-route-Id="@Model.Playlist.User.DisplayName">@Model.Playlist.User.DisplayName</a>
+                                        <h3>Creator</h3>
+                                        <a asp-controller="Account" asp-action="PublicUserDetails" asp-route-Id="@Model.Playlist.User.DisplayName">@Model.Playlist.User.DisplayName</a>
                                     }
                                     else
                                     {

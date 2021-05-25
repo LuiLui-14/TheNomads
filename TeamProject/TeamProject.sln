@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playlistofy", "Playlistofy\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playlistofy.Tests", "Playlistofy.Tests\Playlistofy.Tests.csproj", "{7527D7BC-5B78-40CE-8476-C05344C44957}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaylistofyBDDTests", "PlaylistofyBDDTests\PlaylistofyBDDTests.csproj", "{76477BFA-70AB-402D-95D5-DC654EE69151}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaylistofyBDDTests", "PlaylistofyBDDTests\PlaylistofyBDDTests.csproj", "{76477BFA-70AB-402D-95D5-DC654EE69151}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
