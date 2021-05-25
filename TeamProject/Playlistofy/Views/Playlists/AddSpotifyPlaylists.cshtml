@@ -91,7 +91,7 @@
                         </tr>
                         @foreach (var playlist in Model.SpotifyPlaylists)
                         {
-                            <tr>
+                            <tr id="CountPlaylists">
                                 <td> <a href=@("https://open.spotify.com/playlist/" + playlist.Id)> @playlist.Name </a></td>
                                 <td>
                                     <center>@playlist.TrackCount</center>
@@ -122,7 +122,7 @@
                 <td>
                     <center>@playlist.TrackCount</center>
                 </td>
-                <td> <center> <a asp-action="AddSpotifyPlaylists" asp-route-playlistID="@playlist.Id"> Add </a> </center> </td>
+                <td> <center> <a id="AddPlaylist" asp-action="AddSpotifyPlaylists" asp-route-playlistID="@playlist.Id"> Add </a> </center> </td>
             </tr>
                     }
                 }

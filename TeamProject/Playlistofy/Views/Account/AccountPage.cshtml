@@ -1,4 +1,5 @@
-﻿@model Playlistofy.Models.ViewModel.userPlaylistsTracks
+﻿@using Microsoft.VisualBasic.CompilerServices
+@model Playlistofy.Models.ViewModel.userPlaylistsTracks
 
 @{ ViewData["Title"] = "Home Page"; }
 <head>
@@ -27,7 +28,7 @@
                                     <p class="text-secondary mb-1">@Model.User.Email</p>
                                     <p class="text-secondary">Spotify ID - @Model.User.SpotifyUserId</p>
                                     <button class="btn btn-primary">Followers - @Model.User.Followers</button>
-                                    <button class="btn btn-outline-primary">Message</button>
+                                    <a class="btn btn-outline-primary" asp-controller="Account" asp-action="ReSync">ReSync with Spotify</a>
                                 </div>
                             </div>
                         </div>

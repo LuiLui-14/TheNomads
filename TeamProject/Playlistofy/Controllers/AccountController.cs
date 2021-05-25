@@ -14,10 +14,12 @@ using System;
 
 using System.Linq;
 using System.Text.Json;
+using System.Threading;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Playlistofy.Data.Abstract;
+using Playlistofy.Data.Concrete;
 using Playlistofy.Models.ViewModel;
 using Playlistofy.Utils;
-using Playlistofy.Data.Abstract;
 using SpotifyAPI.Web.Auth;
 
 namespace Playlistofy.Controllers
@@ -25,24 +27,26 @@ namespace Playlistofy.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IPlaylistofyUserRepository _pURepo;
-        private readonly IPlaylistRepository _pRepo;
-
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
-
+        private readonly IPlaylistofyUserRepository _pURepo;
+        private readonly IPlaylistRepository _pRepo;
+        private readonly ITrackRepository _tRepo;
+        private readonly IArtistRepository _arRepo;
+        private readonly IAlbumRepository _aRepo;
         private static string _spotifyClientId;
         private static string _spotifyClientSecret;
 
-        public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo)
+        public AccountController(ILogger<AccountController> logger, IConfiguration config, UserManager<IdentityUser> userManager, IPlaylistofyUserRepository pURepo, IPlaylistRepository pRepo, ITrackRepository tRepo, IAlbumRepository aRepo, IArtistRepository arRepo)
         {
             _userManager = userManager;
-            _pURepo = pURepo;
-            _pRepo = pRepo;
-
             _logger = logger;
             _config = config;
-
+            _pURepo = pURepo;
+            _pRepo = pRepo;
+            _tRepo = tRepo;
+            _aRepo = aRepo;
+            _arRepo = arRepo;
             _spotifyClientId = config["Spotify:ClientId"];
             _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
@@ -53,8 +57,8 @@ namespace Playlistofy.Controllers
             {
                 // Make sure "spotifyapi.web.oauth://token" is in your applications redirect URIs!
                 var loginRequest = new LoginRequest(
-                    new Uri("https://playlistofy.azurewebsites.net/Playlists/UploadPlaylistofyPlaylists"),
-                    /*new Uri("https://localhost:5001/Playlists/UploadPlaylistofyPlaylists"),*/
+                    new Uri("https://playlistofy.azurewebsites.net/Playlists/UploadPlaylistofyPlaylists/"),
+                    /*new Uri("https://localhost:5001/Playlists/UploadPlaylistofyPlaylists/"),*/
                     _spotifyClientId,
                     LoginRequest.ResponseType.Code
                 )
@@ -65,8 +69,7 @@ namespace Playlistofy.Controllers
                 var TempUri = loginRequest.ToUri();
                 //return TempUri;
                 // This call requires Spotify.Web.Auth
-                Response.Redirect(TempUri.AbsoluteUri);
-                //BrowserUtil.Open(TempUri);
+                BrowserUtil.Open(TempUri);
             }
 
             var viewModel = new userPlaylistsTracks();
@@ -115,6 +118,15 @@ namespace Playlistofy.Controllers
             };
             return View(viewModel);
         }
-        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+        private async Task<IdentityUser> GetCurrentUserAsync() => await _userManager.GetUserAsync(HttpContext.User);
+
+        public async Task<IActionResult> ReSync()
+        {
+            var usr = await _userManager.GetUserAsync(HttpContext.User);
+            var resync = new UserData(_config, _userManager, _pURepo, _pRepo, _tRepo, _aRepo, _arRepo, usr);
+            await resync.ReSyncPlaylistData();
+
+            return RedirectToAction("AccountPage");
+        }
     }
 }

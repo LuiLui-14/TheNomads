@@ -21,3 +21,20 @@
         </tr>
     }
 </table>
+<h1>Your Followed Playlists</h1>
+
+<table class="table table-striped table-hover table-light" width="75%">
+    <tr>
+        <td>Playlist Name</td>
+        <td class="text-center">Listen Now</td>
+        <td class="text-right">Description</td>
+    </tr>
+    @foreach (var p in Model.User.FollowedPlaylists)
+    {
+        <tr>
+            <td><a asp-controller="Playlists" asp-action="DetailsFromSearch">@p.playlist.Name</a></td>
+            <td class="text-center"><iframe src="https://open.spotify.com/embed/playlist/@p.PlaylistId" width="600" height="250" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></td>
+            <td>@p.playlist.Description</td>
+        </tr>
+    }
+</table>

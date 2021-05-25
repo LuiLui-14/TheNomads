@@ -43,5 +43,53 @@ namespace PlaylistofyBDDTests.Steps
             _driver.FindElement(By.Id("Input_Password")).SendKeys(u.Password);
             _driver.FindElement(By.Id("account")).FindElement(By.CssSelector("button[type=submit]")).Click();
         }
+
+        [When(@"the user views the page AddSpotifyPlaylist")]
+        public void GivenThatUserIsViewingTheUploadPlaylistsViewPage()
+        {
+            _driver.Navigate().GoToUrl(_hostBaseName + @"Playlists/AddSpotifyPlaylists?topPlaylists=QueryTopPlaylists");
+        }
+
+        [Then(@"the user will see their playlists as a list")]
+        public void GivenTheUsersPlaylistsOnViewPageAreAList()
+        {
+            IEnumerable<string> Elements = _driver.FindElement(By.ClassName("text-right"))
+                                               .FindElements(By.TagName("td"))
+                                               .Select(ab => ab.Text);
+            Assert.That(Elements.GetType, Is.TypeOf<IEnumerable<string>>());
+        }
+
+        [Given(@"the user is logged in")]
+        public void GivenUSerIsLoggedIn()
+        {
+            _driver.Navigate().GoToUrl(_hostBaseName + @"Identity/Account/Login");
+            IEnumerable<TestUser> users = (IEnumerable<TestUser>)_ctx["User"];
+            TestUser u = users.FirstOrDefault();
+            _driver.FindElement(By.Id("Input_Email")).SendKeys(u.UserName);
+            _driver.FindElement(By.Id("Input_Password")).SendKeys(u.Password);
+            _driver.FindElement(By.Id("account")).FindElement(By.CssSelector("button[type=submit]")).Click();
+        }
+
+        [Given(@"the user can see a list of their playlists")]
+        public void GivenTheUserCanSeeAListOfTheirPlaylists()
+        {
+            IEnumerable<string> Elements = _driver.FindElement(By.ClassName("text-right"))
+                                               .FindElements(By.TagName("td"))
+                                               .Select(ab => ab.Text);
+            Assert.That(Elements.GetType, Is.TypeOf<IEnumerable<string>>());
+        }
+
+        [When(@"the user clicks on the button named Add Playlist")]
+        public void WhenTheAddPlaylistButtonIsClicked()
+        {
+            _driver.FindElement(By.Id("AddPlaylist")).Click();
+        }
+
+        [Then(@"the user's playlist will be redirected to Spotify with their new Playlist")]
+        public void ThenUserIsRedirectedToSpotify()
+        {
+            var Title = _driver.Title;
+            Assert.That(Title, Is.EqualTo("Spotify"));
+        }
     }
 }

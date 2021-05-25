@@ -65,7 +65,8 @@ CREATE TABLE [Album]
     [Name] NVARCHAR(450),
     [Popularity] INT,
     [ReleaseDate] NVARCHAR(450),
-    [ReleaseDatePrecision] NVARCHAR(450)
+    [ReleaseDatePrecision] NVARCHAR(450),
+    [ImageUrl] NVARCHAR(450)
 )
 GO
 

@@ -33,6 +33,8 @@ namespace Playlistofy.Models
         public string ReleaseDate { get; set; }
         [StringLength(450)]
         public string ReleaseDatePrecision { get; set; }
+        [StringLength(450)]
+        public string ImageUrl { get; set; }
 
         [InverseProperty(nameof(AlbumArtistMap.Album))]
         public virtual ICollection<AlbumArtistMap> AlbumArtistMaps { get; set; }

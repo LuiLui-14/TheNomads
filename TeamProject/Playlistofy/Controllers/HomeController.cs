@@ -138,6 +138,23 @@ namespace Playlistofy.Controllers
                 UserPlaylistPlaylist.UserPlaylists = newPlaylist;
             }
 
+            if (_userManager.GetUserId(User) != null)
+            {
+                var playlists = _pRepo.GetAllPlaylistTracks(UserPlaylistPlaylist.UserPlaylists.GetEnumerator().Current);
+                var albums = new List<Album>();
+
+                foreach (var t in playlists)
+                {
+                    if (t.TrackAlbumMaps.Count < 1)
+                    {
+                        SpotifyClient spotty = getSpotifyClient.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+                        albums.Add(await _aRepo.GetAlbumFromTrack(t.Id, spotty));
+                    }
+                }
+
+                UserPlaylistPlaylist.PlaylistAlbums = albums;
+            }
+
             return View(UserPlaylistPlaylist);
             //return View(new List<Playlist>());
         }
