@@ -73,7 +73,7 @@
                             @if (Model.SpotifyPlaylists.FirstOrDefault(a => a.Name == playlist.Name) == null)
                             {
                                 <center>
-                                    <a asp-action="UploadPlaylistofyPlaylists" asp-route-code="@Model.Code" asp-route-PlaylistID="@playlist.Id"> Add </a>
+                                    <a id="AddPlaylist" asp-action="UploadPlaylistofyPlaylists" asp-route-code="@Model.Code" asp-route-PlaylistID="@playlist.Id"> Add </a>
                                 </center>
                             }
                         </td>
