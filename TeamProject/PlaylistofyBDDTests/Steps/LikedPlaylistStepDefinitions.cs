@@ -56,7 +56,7 @@ namespace PlaylistofyBDDTests.Steps
         [Given(@"that user is viewing a playlist details page")]
         public void GivenThatUserIsViewingAPlaylistDetailsPage()
         {
-            _driver.Navigate().GoToUrl(_hostBaseName + @"DetailsFromSearch/3a6jm48gwa2ydtokc5b2nisz8");
+            _driver.Navigate().GoToUrl(_hostBaseName + @"Playlists/DetailsFromSearch/3a6jm48gwa2ydtokc5b2nisz8");
         }
 
         [When(@"the like playlist button is clicked")]
