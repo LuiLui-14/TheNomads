@@ -161,16 +161,20 @@ namespace Playlistofy.Controllers
                 }
             }
             IdentityUser user = await GetCurrentUserAsync();
-            PUser us = _puRepo.GetPUserByID(user.Id);
-            
-            if (user != null && us == null)
+            PUser us = null;
+            if (user != null)
             {
-                var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
-                var _spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
-                string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(user);
-                await _puRepo.AddAsync(await getNewUser.GetANewUser(_spotifyClient, _userSpotifyId, user));
+                us = _puRepo.GetPUserByID(user.Id);
+
+                if (user != null && us == null)
+                {
+                    var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
+                    var _spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+                    string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(user);
+                    await _puRepo.AddAsync(await getNewUser.GetANewUser(_spotifyClient, _userSpotifyId, user));
+                }
             }
-            
+
             var TracksForPlaylistModel = new TracksForPlaylist
             {
                 Playlist = playlist,
