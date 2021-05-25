@@ -550,7 +550,8 @@ namespace Playlistofy.Controllers
             IdentityUser usr = await GetCurrentUserAsync();
             if (usr == null) { return RedirectToPage("/Account/Login", new { area = "Identity" }); }
             var viewModel = new UploadPlaylistTracks();
-            //if (code != null) { viewModel.Code = code; } else { return RedirectToAction("AccountPage", "Account"); }
+            if (code != null) { viewModel.Code = code; }
+            //else { return RedirectToAction("AccountPage", "Account"); }
 
             //Instantiates the Model to call it's functions - Finds current logged in user's spotify ID
             var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
