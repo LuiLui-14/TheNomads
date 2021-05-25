@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
-    <PackageReference Include="Selenium.Chrome.WebDriver" Version="85.0.0" />
     <PackageReference Include="Selenium.Firefox.WebDriver" Version="0.27.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
     <PackageReference Include="nunit" Version="3.13.0" />
@@ -15,8 +14,7 @@
     
 
     
-    <PackageReference Include="FluentAssertions" Version="5.10.3" />
-    
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />   
 
     
 

@@ -20,7 +20,7 @@
                                 }
 
                                 <div class="mt-3">
-                                    <a href=@("https://open.spotify.com/user/" + Model.Puser.SpotifyUserId)><h3>@Model.Puser.DisplayName</h3></a>
+                                    <a id="DispName" href=@("https://open.spotify.com/user/" + Model.Puser.SpotifyUserId)><h3>@Model.Puser.DisplayName</h3></a>
                                     <p class="text-secondary mb-1">@Model.Puser.Email</p>
                                     <p class="text-secondary">Spotify ID - @Model.Puser.SpotifyUserId</p>
                                     <button class="btn btn-primary">Followers - @Model.Puser.Followers</button>
@@ -118,7 +118,7 @@
                                             Liked Playlists
                                         </h4>
                                         <br />
-                                        <table class="table table-bordered table-striped table-sm">
+                                        <table class="table table-bordered table-striped table-sm" id="LikedPlaylists">
                                             @foreach (var playlist in Model.LikedPlaylists)
                                             {
                                                 <tr>
