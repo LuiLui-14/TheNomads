@@ -67,7 +67,7 @@ namespace Playlistofy.Controllers
                 return NotFound();
             }
 
-            var track = _tRepo.GetAllWithTrackMap().Include("TrackAlbumMaps").Where(i => i.Id == id).FirstOrDefault();
+            var track = _tRepo.GetAllWithTrackMap().Include("TrackAlbumMaps").FirstOrDefault(i => i.Id == id);
 
             if (track == null)
             {
