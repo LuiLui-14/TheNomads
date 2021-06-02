@@ -75,6 +75,23 @@ namespace PlaylistofyBDDTests.Features
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 3
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Id",
+                        "UserName",
+                        "Password"});
+            table2.AddRow(new string[] {
+                        "24ccdc1f-565c-42ec-80ca-8e6c0799229c",
+                        "TestNoSpotify@TestCase.DOGE",
+                        ")ddnbi5==DWqz!P"});
+#line 4
+ testRunner.Given("the following user", ((string)(null)), table2, "Given ");
+#line hidden
+        }
+        
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Query Playlists")]
         [NUnit.Framework.CategoryAttribute("mytag")]
@@ -84,7 +101,7 @@ namespace PlaylistofyBDDTests.Features
                     "mytag"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Query Playlists", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 4
+#line 9
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -104,18 +121,21 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 5
+#line 3
+this.FeatureBackground();
+#line hidden
+#line 10
  testRunner.Given("the user is logged in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 6
+#line 11
  testRunner.And("in the \"AddSpotifyPlaylist\" view page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 7
- testRunner.When("the user clicks on the button named \"Query Best Playlists\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 12
+ testRunner.When("the user clicks on the button named Browse Playlists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 8
- testRunner.Then("the page will render the top 15 most popular tracks on Spotify based on follower " +
-                        "count", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 13
+ testRunner.Then("the page will render 15 featured playlists from that user\'s spotify playlists rec" +
+                        "ommendations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -130,7 +150,7 @@ this.ScenarioInitialize(scenarioInfo);
                     "mytag"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add Playlists", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 11
+#line 16
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -150,17 +170,21 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 12
+#line 3
+this.FeatureBackground();
+#line hidden
+#line 17
  testRunner.Given("the user queried playlists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 13
+#line 18
  testRunner.And("playlists rendered into a list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 14
+#line 19
  testRunner.When("the user clicks on the button named \"Add\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 15
- testRunner.Then("the user will be able to add the playlist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 20
+ testRunner.Then("the user\'s playlist will be added and no playlists will be shown on the screen an" +
+                        "ymore", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
