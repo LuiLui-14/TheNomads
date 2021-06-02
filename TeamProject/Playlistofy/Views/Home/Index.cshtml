@@ -104,7 +104,7 @@
                             }
                         </td>
                         <td>
-                            <a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@playlist.Id">
+                            <a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@playlist.Id" asp-route-HomePage="Home">
                                 @playlist.Name
                             </a>
                         </td>
@@ -149,7 +149,7 @@
                             @*<img onload="startTimer" class="rounded-sm" alt="Album art" @foreach (var u in Model.AlbumImageUrls) {} />*@
                         </td>
 
-                        <td><a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">@p.Name</a></td>
+                        <td><a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id" asp-route-HomePage="Home">@p.Name</a></td>
                         <td>@p.Description</td>
                         <td class="text-center">@p.PlaylistTrackMaps.Count</td>
                         <td><a type="button" class="btn rounded btn-outline-primary mr-3 float-right text-right" title="goto" asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">Listen to Playlist</a></td>

@@ -184,8 +184,13 @@
             </tr>
         </table>
         <div class="centered">
-            <h4><a asp-action="UserPlaylists"><b>Back</b></a></h4>
+            @if (Model.HomePage == "Home")
+            {
+                <h4><a asp-controller="Home" asp-action="Index"><b>Back</b></a></h4>
+            }
+            else
+            {
+                <h4><a asp-action="UserPlaylists"><b>Back</b></a></h4>
+            }
         </div>
-
-
     </div>

@@ -128,7 +128,7 @@ namespace Playlistofy.Controllers
         }
 
         // GET: Playlists/Details/5
-        public async Task<IActionResult> DetailsFromSearch(string id)
+        public async Task<IActionResult> DetailsFromSearch(string id, string HomePage)
         {
             if (id == null)
             {
@@ -182,6 +182,8 @@ namespace Playlistofy.Controllers
                 Tags = words,
                 PUser = us
             };
+            if(HomePage == "Home") { TracksForPlaylistModel.HomePage = HomePage; }
+
             return View(TracksForPlaylistModel);
         }
 
