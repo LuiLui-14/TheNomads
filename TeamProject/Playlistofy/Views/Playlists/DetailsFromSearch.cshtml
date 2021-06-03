@@ -32,7 +32,7 @@
 
             @if (Model.PUser != null)
             {
-                @if (!Model.PUser.FollowedPlaylists.Where(i => i.PlaylistId == Model.Playlist.Id).Any())
+                @if (Model.PUser.FollowedPlaylists.All(i => i.PlaylistId != Model.Playlist.Id))
                 {
                     <a class="h4 button-container" asp-controller="Home" asp-action="FollowPlaylist" asp-route-Uid="@Model.PUser.Id" asp-route-pId="@Model.Playlist.Id">Follow Playlist</a> }
                 else
@@ -44,7 +44,7 @@
 
             @if (Model.PUser != null)
             {
-                @if (!Model.PUser.LikedPlaylists.Where(i => i.PlaylistId == Model.Playlist.Id).Any())
+                @if (Model.PUser.LikedPlaylists.All(i => i.PlaylistId != Model.Playlist.Id))
                 {
                     <input type="button" id="LikePlaylist" value="Like Playlist" onclick="@("window.location.href='" + @Url.Action("LikePlaylist", "Home", new { DispName = Model.PUser.DisplayName, pId = Model.Playlist.Id }) + "'");" />
                 }
