@@ -1,0 +1,166 @@
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <!-- linking font awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+		/* Whole html box designing */
+		html {
+			box-sizing: border-box;
+		}
+
+		/* Body width fixing */
+		body {
+			max-width: 100%
+		}
+
+		/* Box sizing depending on parent */
+		*,
+		*:before,
+		*:after {
+			box-sizing: inherit;
+		}
+
+		/* Styling column */
+		.column {
+			float: left;
+			width: 33%;
+			margin-bottom: 16px;
+			padding: 5px 10px;
+		}
+
+		/* Card designing */
+		.card {
+			background-color: gray;
+			border: 1px solid black;
+		}
+
+		.container {
+			padding: 0 16px;
+		}
+
+		/* Icon styling */
+		.fa {
+			margin: 10px;
+			font-size:68px;
+
+		}
+
+		.fa:hover {
+			transform: rotateY(180deg);
+			transition: transform 0.8s;
+		}
+
+		.container::after,
+		.row::after {
+			content: "";
+			clear: both;
+			display: table;
+		}
+
+		/* Button designing */
+		.button {
+			border: none;
+			padding: 8px;
+			color: white;
+			background-color: #449D44;
+			text-align: center;
+			cursor: pointer;
+			width: 100%;
+			margin-bottom: 10px;
+		}
+
+		/* Hover efect on button */
+		.button:hover {
+			background-color: green;
+		}
+
+		/* Margining first member of team */
+		#gfg {
+			float:none;
+			margin:auto;
+		}
+    </style>
+</head>
+
+<body>
+    <center>
+            <h1 style="color: slategray">Playlistofy</h1>
+            <h4 style="padding-bottom:40px; color:black">
+                (With our App, our goal is to bring people togeher and aspire to create the best and most competitive
+                playlists. Partnering with Spotify, we are bringing more features within our site that will allow
+                people to venture beyond what is currently available on Spotify)
+            </h4>
+            <h3 style="color: slategray">Western Oregon University <br />
+                (CS 460-462 Software Engineering I, II and III, Senior Capstone Course Project)
+            </h3>
+            <h4 style="color:black">We are all aspirig software engineers, about to graduate, and wrapping up our senior project - Playlistofy <br />
+                <a href="https://github.com/ApneaMan29/TheNomads">Github - Playlistofy Project</a>
+            </h4>
+
+        <!-- Other members of the team -->
+        <div class="row">
+            <div class="column">
+                <div class="card">
+                    <i class="fa fa-user-circle"
+                       style="font-size: 68px;"></i>
+                    <div class="container">
+                        <h3>Daniel McBride</h3>
+                        <h5>Software Engineer</h5>
+                        <p>
+                            Small description - summary - quote (About Yourself)
+                        </p>
+                        <a href="https://github.com/ApneaMan29">
+                            <input type="submit" value="Github Account" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="card">
+                    <i class="fa fa-user-circle"
+                       style="font-size: 68px;"></i>
+                    <div class="container">
+                        <h3>Benjamin Spencer</h3>
+                        <h5>Software Engineer</h5>
+                        <p>
+                            Small description - summary - quote (About Yourself)
+                        </p>
+                        <a href="https://github.com/Bspencer16">
+                            <input type="submit" value="Github Account" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="card">
+                    <i class="fa fa-user-circle"
+                       style="font-size: 68px;"></i>
+                    <div class="container">
+                        <h3>Luis Olvera</h3>
+                        <h5>Sofware Engineer</h5>
+                        <p>
+                            "The constant dripping of water, <br />
+                            wears away the stone"
+                        </p>
+                        <a href="https://github.com/LuiLui-14">
+                            <input type="submit" value="Github Account"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+</body>
+
+</html>
