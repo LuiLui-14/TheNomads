@@ -24,41 +24,48 @@
 <div>
     <div class="centered">
         <h1>"@Html.DisplayFor(model => model.Playlist.Name)"</h1>
-
-        <div class="centered">
-            <iframe src="https://open.spotify.com/embed/playlist/@Html.ViewData.Model.Playlist.Id" width="750" height="175" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-        </div>
         
+        @if (Model.IsPlaylistOnSpotify == true)
+        {
+            <div class="centered">
+                <iframe src="https://open.spotify.com/embed/playlist/@Html.ViewData.Model.Playlist.Id" width="750" height="175" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </div>
+        }
+        else
+        {
+            <h4>
+                The Web Player Is Not Available Because This Playlist <br/>
+                Is Only Available In Our App And Not Spotify
+            </h4>
+        }
         <div class="d-flex justify-content-between">
 
             @if (Model.PUser != null)
             {
                 @if (Model.PUser.LikedPlaylists.All(i => i.PlaylistId != Model.Playlist.Id))
                 {
-                    <input type="button" id="LikePlaylist" value="Like Playlist" onclick="@("window.location.href='" + @Url.Action("LikePlaylist", "Home", new { DispName = Model.PUser.DisplayName, pId = Model.Playlist.Id }) + "'");" />
+                    <input type="button" id="LikePlaylist" value="Like Playlist" onclick="@("window.location.href='" + @Url.Action("LikePlaylist", "Home", new {DispName = Model.PUser.DisplayName, pId = Model.Playlist.Id}) + "'");"/>
                 }
                 else
                 {
-                    <input type="button" id="UnlikePlaylist" value="Unlike Playlist" onclick="@("window.location.href='" + @Url.Action("UnlikePlaylist", "Home", new { DispName = Model.PUser.DisplayName, pId = Model.Playlist.Id }) + "'");" />
-                }}
+                    <input type="button" id="UnlikePlaylist" value="Unlike Playlist" onclick="@("window.location.href='" + @Url.Action("UnlikePlaylist", "Home", new {DispName = Model.PUser.DisplayName, pId = Model.Playlist.Id}) + "'");"/>
+                }
+            }
 
         </div>
     </div>
-        <hr />
+    <hr />
+        
         <table class="b">
             <tr>
-                <td>
+                <td class="align-top">
                     <div style="text-align:justify">
-                        <table class="b" style="table-layout:fixed">
+                        <table class="b">
                             <tr>
                                 <td>
                                     <h5>Playlist ID - @Html.DisplayFor(model => model.Playlist.Id)</h5>
                                 </td>
                             </tr>
-                            <tr></tr>
-                            <tr></tr>
-                            <tr></tr>
-                            <tr></tr>
                             <tr>
                                 <td>
                                     @if (Model.Playlist.Public)
@@ -71,31 +78,22 @@
                                     }
                                 </td>
                             </tr>
-                            <tr></tr>
-                            <tr></tr>
-                            <tr></tr>
-                            <tr></tr>
                             <tr>
                                 <td>
                                     @if (Model.Playlist.Collaborative)
                                     {
                                         <h5>Collaborative</h5>
                                     }
-                                    else if(Model.Playlist.Public)
+                                    else if (Model.Playlist.Public)
                                     {
                                         <h3>Creator</h3>
-                                        <a asp-controller="Account" asp-action="PublicUserDetails" asp-route-Id="@Model.Playlist.User.DisplayName">@Model.Playlist.User.DisplayName</a>
-                                    }
+                                        <a asp-controller="Account" asp-action="PublicUserDetails" asp-route-Id="@Model.Playlist.User.DisplayName">@Model.Playlist.User.DisplayName</a> }
                                     else
                                     {
                                         <h5>Private</h5>
                                     }
                                 </td>
                             </tr>
-                            <tr></tr>
-                            <tr></tr>
-                            <tr></tr>
-                            <tr></tr>
                             <tr>
                                 <td>
                                     <h3>Description</h3>
@@ -109,10 +107,6 @@
                                     }
                                 </td>
                             </tr>
-                            <tr></tr>
-                            <tr></tr>
-                            <tr></tr>
-                            <tr></tr>
                             <tr>
                                 <td>
                                     <h3>Tags</h3>
@@ -129,7 +123,8 @@
                         </table>
                     </div>
                 </td>
-                <td style="width:5%;">
+                <td style="width: 5%;">
+
                 </td>
                 <td>
                     <div style="text-align:left;">
@@ -160,10 +155,9 @@
                             {
                                 <tr>
                                     <td>
-                                        <center>
+                                        <div class="centered">
                                             <h4>There Are No Tracks In This Playlist</h4>
-                                            <!--<a asp-controller="Tracks" asp-action="SearchTracks" asp-route-id="@Model.Playlist.Id">Add Tracks?</a>-->
-                                        </center>
+                                        </div>
                                     </td>
                                 </tr>
                             }
@@ -172,9 +166,15 @@
                 </td>
             </tr>
         </table>
+
         <div class="centered">
-            <h4><a asp-action="UserPlaylists"><b>Back</b></a></h4>
+            @if (Model.HomePage == "Home")
+            {
+                <h4><a asp-controller="Home" asp-action="Index"><b>Back</b></a></h4>
+            }
+            else
+            {
+                <h4><a asp-action="UserPlaylists"><b>Back</b></a></h4>
+            }
         </div>
-
-
     </div>

@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -56,6 +57,7 @@ namespace Playlistofy.Controllers
             _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
 
+        [Authorize]
         public async Task<IActionResult> IndexAsync(string PlaylistIDAdded)
         {
             if (PlaylistIDAdded != null)
@@ -162,6 +164,7 @@ namespace Playlistofy.Controllers
             //return View(new List<Playlist>());
         }
 
+        [Authorize]
         public async Task<IActionResult> SpotifyProfile()
         {
             IdentityUser usr = await GetCurrentUserAsync();
@@ -249,6 +252,7 @@ namespace Playlistofy.Controllers
         //    return View("WebPlayer", viewModel);
         //}
         [HttpPost]
+        [Authorize]
         public JsonResult AutoComplete(string prefix, string searchType)
         {
             if (searchType == "Album")

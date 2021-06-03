@@ -12,5 +12,8 @@ namespace Playlistofy.Models.ViewModel
         public List<Track> Tracks { get; set; }
         public PUser PUser { get; set; }
         public List<string> Tags { get; set; }
+
+        public string HomePage { get; set; }
+        public bool IsPlaylistOnSpotify { get; set; }
     }
 }
