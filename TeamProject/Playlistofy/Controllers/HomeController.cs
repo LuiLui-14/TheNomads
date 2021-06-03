@@ -185,7 +185,7 @@ namespace Playlistofy.Controllers
         [NonAction]
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
-        public async Task<IActionResult> Privacy()
+        public async Task<IActionResult> Credits()
         {
             return View();
         }
