@@ -15,7 +15,7 @@
     @foreach (var p in Model._PlaylistsDB)
     {
         <tr>
-            <td><a asp-controller="Playlists" asp-action="DetailsFromSearch">@p.Name</a></td>
+            <td><a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@p.Id">@p.Name</a></td>
             <td class="text-center"><iframe src="https://open.spotify.com/embed/playlist/@p.Id" width="600" height="250" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></td>
             <td>@p.Description</td>
         </tr>
