@@ -22,8 +22,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
         //private SpotifyDbContext _context;
         private IConfiguration _config;
 
-        private static string _spotifyClientId = "6bb2b5250a82433891189e5784c48253";
-        private static string _spotifyClientSecret = "b7b40274492944ddbe84bbeb1b25f690";
+        private static string _spotifyClientI = "";
+        private static string _spotifyClientS = "";
 
         private static UserManager<IdentityUser> GetUserManager()
         {
@@ -59,8 +59,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
             string tempPlaylistId = "5cQGs0uECjDK381F8bRhrN";
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var Playlist = await SearchSpotify.GetPlaylist(SpotifyClient, tempPlaylistId);
 
             //Assert
@@ -77,8 +77,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
             string tempPlaylistId = "5cQGs0uECjDK381F8bRhrN";
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var Playlist = await SearchSpotify.GetPlaylist(SpotifyClient, tempPlaylistId);
 
             //Assert
@@ -95,8 +95,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
             string tempPlaylistId = "5cQGs0uECjDK381F8bRhrN";
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var Playlist = await SearchSpotify.GetPlaylist(SpotifyClient, tempPlaylistId);
 
             //Assert
@@ -114,8 +114,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
             string tempPlaylistId = "5cQGs0uECjDK381F8bRhrN";
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var Playlist = await SearchSpotify.GetPlaylist(SpotifyClient, tempPlaylistId);
 
             //Assert
@@ -132,8 +132,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
             var list = new List<Playlist>();
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var PlaylistCount = SearchSpotify.SearchPlaylists(SpotifyClient, "Summer of 69", list);
             bool isUnique = PlaylistCount.Result.Distinct().Count() == PlaylistCount.Result.Count();
 
@@ -150,8 +150,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
             var list = new List<Playlist>();
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var Playlists = await SearchSpotify.SearchPlaylists(SpotifyClient, "Summer of 69", list);
 
             var PlaylistUserIDs = new List<string>();
@@ -175,8 +175,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
             var Mangager = GetUserManager();
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
 
             //Assert
             Assert.That(SpotifyClient.Equals(SpotifyClient));
@@ -191,8 +191,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
             var list = new List<Playlist>();
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var Playlists = await SearchSpotify.SearchPlaylists(SpotifyClient, "Summer of 69", list);
 
             var truefalse = new List<bool>();
@@ -217,8 +217,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
             var list = new List<Playlist>();
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var PlaylistCount = SearchSpotify.SearchPlaylists(SpotifyClient, "Summer of 69", list);
 
             //Assert
@@ -234,8 +234,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
             var list = new List<Playlist>();
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var Playlists = await SearchSpotify.SearchPlaylists(SpotifyClient, "Summer of 69", list);
 
             var truefalse = new List<bool>();
@@ -261,8 +261,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
             string tempPlaylistId = "5cQGs0uECjDK381F8bRhrN";
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var PlaylistTracks = await SearchSpotify.GetPlaylistTracks(SpotifyClient, tempPlaylistId);
 
             //Assert
@@ -279,8 +279,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
             string tempPlaylistId = "5cQGs0uECjDK381F8bRhrN";
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var PlaylistTracks = await SearchSpotify.GetPlaylistTracks(SpotifyClient, tempPlaylistId);
 
             //Assert
@@ -297,8 +297,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
             string tempPlaylistId = "5cQGs0uECjDK381F8bRhrN";
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var PlaylistTracks = await SearchSpotify.GetPlaylistTracks(SpotifyClient, tempPlaylistId);
 
             //Assert
@@ -315,8 +315,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
             string tempPlaylistId = "5cQGs0uECjDK381F8bRhrN";
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var PlaylistTracks = await SearchSpotify.GetPlaylistTracks(SpotifyClient, tempPlaylistId);
 
             //Assert
@@ -333,8 +333,8 @@ namespace Playlistofy.Tests.SpotifyAPITests
             string tempPlaylistId = "5cQGs0uECjDK381F8bRhrN";
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var PlaylistTracks = await SearchSpotify.GetPlaylistTracks(SpotifyClient, tempPlaylistId);
 
             //Assert

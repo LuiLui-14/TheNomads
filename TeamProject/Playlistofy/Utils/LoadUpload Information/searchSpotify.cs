@@ -59,11 +59,10 @@ namespace Playlistofy.Utils
                     tempTrack.IsPlayable = item.IsPlayable;
                     tempTrack.IsLocal = item.IsLocal;
                     tempTrack.Popularity = item.Popularity;
-                    tempTrack.Uri = item.Uri;
                     tempTrack.DurationMs = item.DurationMs;
                     foreach (var artists in item.Artists)
                     {
-                        tempTrack.Href = tempTrack.Href + " " + artists.Name;
+                        tempTrack.Uri = artists.Name;
                     }
 
                     TrackList.Add(tempTrack);
@@ -120,10 +119,18 @@ namespace Playlistofy.Utils
             var newPlaylist = new Playlist();
             FullPlaylist fullplaylist = null;
 
-            fullplaylist = await spotifyClient.Playlists.Get(playlistId);
+            try
+            {
+                fullplaylist = await spotifyClient.Playlists.Get(playlistId);
+            } catch(SpotifyAPI.Web.APIException)
+            {
+                return null;
+            }
+            
 
             newPlaylist.Name = fullplaylist.Name;
             newPlaylist.Id = fullplaylist.Id;
+            Console.WriteLine(fullplaylist.Id);
             newPlaylist.Description = fullplaylist.Description;
             newPlaylist.Collaborative = getCurrentUserPlaylists.getPublic(fullplaylist.Collaborative);
             newPlaylist.Public = getCurrentUserPlaylists.getPublic(fullplaylist.Public);

@@ -23,8 +23,8 @@ namespace Playlistofy.Tests
         //private SpotifyDbContext _context;
         private IConfiguration _config;
 
-        private static string _spotifyClientId = "6bb2b5250a82433891189e5784c48253";
-        private static string _spotifyClientSecret = "b7b40274492944ddbe84bbeb1b25f690";
+        private static string _spotifyClientI = "";
+        private static string _spotifyClientS = "";
 
         private static UserManager<IdentityUser> GetUserManager()
         {
@@ -88,8 +88,8 @@ namespace Playlistofy.Tests
             var list = new List<Playlist>();
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var FeaturedPlaylists = SearchSpotify.GetTopPlaylists(SpotifyClient, list);
 
             //Assert
@@ -105,8 +105,8 @@ namespace Playlistofy.Tests
             var list = new List<Playlist>();
 
             //Act
-            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientId, _spotifyClientSecret);
-            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var SearchSpotify = new searchSpotify(Mangager, _spotifyClientI, _spotifyClientS);
+            var SpotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientI, _spotifyClientS);
             var FeaturedPlaylists = SearchSpotify.GetTopPlaylists(SpotifyClient, list);
 
             var SamePlaylists = SearchSpotify.GetTopPlaylists(SpotifyClient, FeaturedPlaylists.Result);
