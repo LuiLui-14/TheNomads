@@ -21,6 +21,7 @@ using Playlistofy.Data.Concrete;
 using Playlistofy.Models.ViewModel;
 using Playlistofy.Utils;
 using SpotifyAPI.Web.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Playlistofy.Controllers
 {
@@ -51,6 +52,7 @@ namespace Playlistofy.Controllers
             _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
 
+        [Authorize]
         public async Task<IActionResult> AccountPage(string Redirect)
         {
             if(Redirect == "redirect")

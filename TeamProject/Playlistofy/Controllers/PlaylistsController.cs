@@ -57,6 +57,7 @@ namespace Playlistofy.Controllers
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Playlists
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             if (await GetCurrentUserAsync() != null)
@@ -128,6 +129,7 @@ namespace Playlistofy.Controllers
         }
 
         // GET: Playlists/Details/5
+        [Authorize]
         public async Task<IActionResult> DetailsFromSearch(string id, string HomePage)
         {
             if (id == null)
@@ -145,17 +147,17 @@ namespace Playlistofy.Controllers
             var hashtags = _hRepo.GetAllForPlaylist(playlist.Id);
             var keywords = _kRepo.GetAllForPlaylist(playlist.Id);
             List<string> words = new List<string>();
-            foreach(Hashtag hash in hashtags)
+            foreach (Hashtag hash in hashtags)
             {
                 words.Add(hash.HashTag1);
             }
-            foreach(Keyword key in keywords)
+            foreach (Keyword key in keywords)
             {
                 words.Add(key.Keyword1);
             }
-            foreach(Track t in Tracks)
+            foreach (Track t in Tracks)
             {
-                if(t.Duration == null)
+                if (t.Duration == null)
                 {
                     t.Duration = Utils.AlgorithmicOperations.MsConversion.ConvertMsToMinSec(t.DurationMs);
                 }
@@ -182,7 +184,11 @@ namespace Playlistofy.Controllers
                 Tags = words,
                 PUser = us
             };
-            if(HomePage == "Home") { TracksForPlaylistModel.HomePage = HomePage; }
+            if (HomePage == "Home") { TracksForPlaylistModel.HomePage = HomePage; }
+            var searchPlaylist = new searchSpotify(_userManager, _spotifyClientId, _spotifyClientSecret);
+            var client = searchPlaylist.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+            var IsPlaylistThere = await searchPlaylist.GetPlaylist(client, playlist.Id);
+            if (IsPlaylistThere?.Id == null || IsPlaylistThere.Id.ToString().Length < 5) { TracksForPlaylistModel.IsPlaylistOnSpotify = false; } else { TracksForPlaylistModel.IsPlaylistOnSpotify = true; }
 
             return View(TracksForPlaylistModel);
         }
@@ -206,6 +212,7 @@ namespace Playlistofy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("Description,Name,Public,Collaborative")] Playlist playlist, string searchTerm)
         {
             if (await GetCurrentUserAsync() != null)
@@ -284,6 +291,7 @@ namespace Playlistofy.Controllers
         }
 
         // GET: Playlists/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(string id)
         {
             var usr = await GetCurrentUserAsync();
@@ -325,6 +333,7 @@ namespace Playlistofy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit([Bind("Id,Name,Public,Collaborative,Description,User")] Playlist playlist, string searchTerm)
         {
             var usr = await GetCurrentUserAsync();
@@ -703,6 +712,7 @@ namespace Playlistofy.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> WebPlayer(string id)
         {
             var viewModel = new userPlaylistsTracks();

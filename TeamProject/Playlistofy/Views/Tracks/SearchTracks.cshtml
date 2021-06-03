@@ -70,7 +70,11 @@
                                                 {
                                                     <tr>
                                                         <td><b>@track.Name</b></td>
-                                                        <td><b>@track.Href</b></td>
+                                                        @if (track.Uri.Contains("spotify:track:")) {
+                                                            <td><b>Artist Not Found</b></td>
+                                                        } else {
+                                                            <td><b>@track.Uri</b></td>
+                                                        }
                                                         <td>
                                                             <a asp-action="Delete" asp-route-TrackId="@track.Id" asp-route-PlaylistId="@Model.PlaylistId">Delete</a>
                                                         </td>
@@ -121,8 +125,8 @@
                                                     @foreach (var track in Model.Tracks)
                                                     {
                                                         <tr>
-                                                            <td><b>@track.Href</b></td>
                                                             <td><b>@track.Name</b></td>
+                                                            <td><b>@track.Uri</b></td>
                                                             <td>
                                                                 @{
                                                                     var time = Playlistofy.Utils.AlgorithmicOperations.MsConversion.ConvertMsToMinSec(track.DurationMs);
