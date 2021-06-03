@@ -28,18 +28,7 @@
         <div class="centered">
             <iframe src="https://open.spotify.com/embed/playlist/@Html.ViewData.Model.Playlist.Id" width="750" height="175" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
         </div>
-        <div class="d-flex justify-content-between">
-
-            @if (Model.PUser != null)
-            {
-                @if (Model.PUser.FollowedPlaylists.All(i => i.PlaylistId != Model.Playlist.Id))
-                {
-                    <a class="h4 button-container" asp-controller="Home" asp-action="FollowPlaylist" asp-route-Uid="@Model.PUser.Id" asp-route-pId="@Model.Playlist.Id">Follow Playlist</a> }
-                else
-                {
-                    <a class="h4 button-container text-dark" asp-controller="Home" asp-action="UnfollowPlaylist" asp-route-Uid="@Model.PUser.Id" asp-route-pId="@Model.Playlist.Id">Unfollow Playlist</a>}}
-            
-        </div>
+        
         <div class="d-flex justify-content-between">
 
             @if (Model.PUser != null)
