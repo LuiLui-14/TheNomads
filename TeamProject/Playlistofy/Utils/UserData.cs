@@ -59,6 +59,13 @@ namespace Playlistofy.Utils
                 {
                     await _pRepo.AddAsync(i);
                 }
+                var t = await _pRepo.FindByIdAsync(i.Id);
+                if (t.UserId != i.UserId)
+                {
+                    await _pRepo.UpdateAsync(i);
+                }
+
+                Thread.Sleep(75);
                 List<Track> Tracks = await getUserTracks.GetPlaylistTrack(_spotifyClient, _userSpotifyId, i.Id);
 
                 foreach (Track j in Tracks)

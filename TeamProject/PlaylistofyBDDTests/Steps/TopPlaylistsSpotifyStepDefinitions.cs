@@ -36,7 +36,7 @@ namespace PlaylistofyBDDTests.Steps
         [When(@"the user clicks on the button named Browse Playlists")]
         public void WhenTheBrowsePlaylistsButtonIsClicked()
         {
-            _driver.FindElement(By.Id("Browse Playlists")).Click();
+            _driver.FindElement(By.Id("BrowsePlaylists")).Click();
         }
 
         [Then(@"the page will render 15 featured playlists from that user's spotify playlists recommendations")]
@@ -57,7 +57,7 @@ namespace PlaylistofyBDDTests.Steps
             Assert.That(count, !Is.Null);
         }
 
-        [Given(@"the user queried playlists")]
+        
         public void GivenTheUserQuriedPlaylistsOnViewPageAreAList()
         {
             IEnumerable<string> ElementType = _driver.FindElement(By.Id("CountPlaylists"))

@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace Playlistofy.Models.ViewModel.SearchViewModels
 {
-    public class TrackSearchViewModel
+    public class PlaylistSearchViewModel
     {
-        public IEnumerable<Track> tracks { get; set; }
+        public IEnumerable<Playlist> Playlists { get; set; }
         public string SearchTerm { get; set; }
+        public bool PlaylistOrTag { get; set; }
     }
 }

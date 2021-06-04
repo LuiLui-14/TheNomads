@@ -2,7 +2,9 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Support.UI;
 using Playlistofy.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TechTalk.SpecFlow;
@@ -22,7 +24,7 @@ namespace PlaylistofyBDDTests.Steps
         // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
 
         private readonly ScenarioContext _ctx;
-        private string _hostBaseName = @"https://localhost:5001/";//https://playlistofy.azurewebsites.net/";
+        private string _hostBaseName = @"https://playlistofy.azurewebsites.net/";
         private readonly IWebDriver _driver;
 
         public LikedPlaylistStepDefinitions(ScenarioContext scenarioContext, IWebDriver driver)
@@ -60,6 +62,9 @@ namespace PlaylistofyBDDTests.Steps
         [When(@"the like playlist button is clicked")]
         public void WhenTheLikePlaylistButtonIsClicked()
         {
+            WebDriverWait _wait = new WebDriverWait(_driver, new TimeSpan(0, 1, 0));
+
+            _wait.Until(d => d.FindElement(By.Id("LikePlaylist")));
             _driver.FindElement(By.Id("LikePlaylist")).Click();
         }
 
@@ -72,6 +77,9 @@ namespace PlaylistofyBDDTests.Steps
         [Then(@"the like playlist button will change to an unlike button")]
         public void ThenTheLikePlaylistButtonWillChangeToAUnlikeButton()
         {
+            WebDriverWait _wait = new WebDriverWait(_driver, new TimeSpan(0, 1, 0));
+
+            _wait.Until(d => d.FindElement(By.Id("UnlikePlaylist")));
             IWebElement unlike = _driver.FindElement(By.Id("UnlikePlaylist"));
             Assert.That(unlike, Is.Not.Null);
         }
@@ -79,13 +87,17 @@ namespace PlaylistofyBDDTests.Steps
         [When(@"the Account page is navigated to")]
         public void WhenTheAccountPageIsNavigatedTo()
         {
-            _ctx.Pending();
+            _driver.Navigate().GoToUrl(_hostBaseName + @"Account/PublicUserDetails/Bspencer16");
         }
 
         [Then(@"there will be a liked playlist table on the page")]
         public void ThenThereWillBeALikedPlaylistTableOnThePage()
         {
-            _ctx.Pending();
+            WebDriverWait _wait = new WebDriverWait(_driver, new TimeSpan(0, 1, 0));
+
+            _wait.Until(d => d.FindElement(By.Id("LikedPlaylists")));
+            IWebElement likedList = _driver.FindElement(By.Id("LikedPlaylists"));
+            Assert.That(likedList, Is.Not.Null);
         }
 
     }

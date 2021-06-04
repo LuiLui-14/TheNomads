@@ -161,14 +161,18 @@ namespace Playlistofy.Controllers
                 }
             }
             IdentityUser user = await GetCurrentUserAsync();
-            PUser us = _puRepo.GetPUserByID(user.Id);
-            
-            if (user != null && us == null)
+            PUser us = null;
+            if (user != null)
             {
-                var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
-                var _spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
-                string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(user);
-                await _puRepo.AddAsync(await getNewUser.GetANewUser(_spotifyClient, _userSpotifyId, user));
+                us = _puRepo.GetPUserByID(user.Id);
+
+                if (user != null && us == null)
+                {
+                    var getUserPlaylists = new getCurrentUserPlaylists(_userManager, _spotifyClientId, _spotifyClientSecret);
+                    var _spotifyClient = getCurrentUserPlaylists.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
+                    string _userSpotifyId = await getUserPlaylists.GetCurrentUserId(user);
+                    await _puRepo.AddAsync(await getNewUser.GetANewUser(_spotifyClient, _userSpotifyId, user));
+                }
             }
             
             var TracksForPlaylistModel = new TracksForPlaylist
@@ -225,42 +229,45 @@ namespace Playlistofy.Controllers
                 {
                     await _pRepo.AddAsync(playlist);
 
-                    string[] list = searchTerm.Split(',',' ');
-                    List<string> kwList = list.ToList();
-                    foreach (var word in kwList)
+                    if (searchTerm != null)
                     {
-                        if(word.Length > 0)
+                        string[] list = searchTerm.Split(',', ' ');
+                        List<string> kwList = list.ToList();
+                        foreach (var word in kwList)
                         {
-                            if(word.StartsWith("#"))
+                            if (word.Length > 0)
                             {
-                                if (_hRepo.FindByHashtag(word) == null)
+                                if (word.StartsWith("#"))
                                 {
-                                    Hashtag h = new Hashtag()
+                                    if (_hRepo.FindByHashtag(word) == null)
                                     {
-                                        HashTag1 = word
-                                    };
-                                    await _hRepo.AddAsync(h);
-                                    await _hRepo.AddPlaylistHashtagMap(playlist.Id, h.Id);
+                                        Hashtag h = new Hashtag()
+                                        {
+                                            HashTag1 = word
+                                        };
+                                        await _hRepo.AddAsync(h);
+                                        await _hRepo.AddPlaylistHashtagMap(playlist.Id, h.Id);
+                                    }
+                                    else
+                                    {
+                                        await _hRepo.AddPlaylistHashtagMap(playlist.Id, _hRepo.FindByHashtag(word).Id);
+                                    }
                                 }
                                 else
                                 {
-                                    await _hRepo.AddPlaylistHashtagMap(playlist.Id, _hRepo.FindByHashtag(word).Id);
-                                }
-                            }
-                            else
-                            {
-                                if (_kRepo.FindByKeyword(word) == null)
-                                {
-                                    Keyword k = new Keyword()
+                                    if (_kRepo.FindByKeyword(word) == null)
                                     {
-                                        Keyword1 = word
-                                    };
-                                    await _kRepo.AddAsync(k);
-                                    await _kRepo.AddPlaylistKeywordMap(playlist.Id, k.Id);
-                                }
-                                else
-                                {
-                                    await _kRepo.AddPlaylistKeywordMap(playlist.Id, _kRepo.FindByKeyword(word).Id);
+                                        Keyword k = new Keyword()
+                                        {
+                                            Keyword1 = word
+                                        };
+                                        await _kRepo.AddAsync(k);
+                                        await _kRepo.AddPlaylistKeywordMap(playlist.Id, k.Id);
+                                    }
+                                    else
+                                    {
+                                        await _kRepo.AddPlaylistKeywordMap(playlist.Id, _kRepo.FindByKeyword(word).Id);
+                                    }
                                 }
                             }
                         }

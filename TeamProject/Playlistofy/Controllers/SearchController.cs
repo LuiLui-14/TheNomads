@@ -55,7 +55,13 @@ namespace Playlistofy.Controllers
         public ViewResult PlaylistSearch(string searchTerm)
         {
             var a = _pRepo.FindPlaylistsBySearch(searchTerm);
-            return View(a);
+            PlaylistSearchViewModel playlistSearchViewModel = new PlaylistSearchViewModel()
+            {
+                PlaylistOrTag = true,
+                Playlists = a,
+                SearchTerm = searchTerm
+            };
+            return View(playlistSearchViewModel);
         }
 
         public ViewResult TrackSearch(string searchTerm)
@@ -64,7 +70,7 @@ namespace Playlistofy.Controllers
             var model = new TrackSearchViewModel()
             {
                 tracks = a,
-                searchTerm = searchTerm
+                SearchTerm = searchTerm
             };
             return View(model);
         }
@@ -121,7 +127,13 @@ namespace Playlistofy.Controllers
                     }
                 }
             }
-            return View("PlaylistSearch", playlists);
+            PlaylistSearchViewModel playlistSearchViewModel = new PlaylistSearchViewModel()
+            {
+                PlaylistOrTag = false,
+                Playlists = playlists,
+                SearchTerm = searchTerm
+            };
+            return View("PlaylistSearch", playlistSearchViewModel);
         }
     }
 }

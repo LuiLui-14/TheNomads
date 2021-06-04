@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using SpotifyAPI.Web;
 using Playlistofy.Controllers;
 using Playlistofy.Models;
+using System.Threading;
 
 namespace Playlistofy.Utils
 {
@@ -64,23 +65,26 @@ namespace Playlistofy.Utils
                     var j = fullplaylist.Tracks;
                     foreach (var k in j.Items)
                     {
-                        FullTrack m = (FullTrack)k.Track;
-                        playlistTracks.Add(new Track()
+                        if (k.Track != null)
                         {
-                            DiscNumber = m.DiscNumber,
-                            DurationMs = m.DurationMs,
-                            Duration = AlgorithmicOperations.MsConversion.ConvertMsToMinSec(m.DurationMs),
-                            Explicit = m.Explicit,
-                            Href = m.Href,
-                            Id = m.Id,
-                            IsPlayable = m.IsPlayable,
-                            Name = m.Name,
-                            Popularity = m.Popularity,
-                            PreviewUrl = m.PreviewUrl,
-                            TrackNumber = m.TrackNumber,
-                            Uri = m.Uri,
-                            IsLocal = m.IsLocal
-                        }) ;
+                            FullTrack m = (FullTrack)k.Track;
+                            playlistTracks.Add(new Track()
+                            {
+                                DiscNumber = m.DiscNumber,
+                                DurationMs = m.DurationMs,
+                                Duration = AlgorithmicOperations.MsConversion.ConvertMsToMinSec(m.DurationMs),
+                                Explicit = m.Explicit,
+                                Href = m.Href,
+                                Id = m.Id,
+                                IsPlayable = m.IsPlayable,
+                                Name = m.Name,
+                                Popularity = m.Popularity,
+                                PreviewUrl = m.PreviewUrl,
+                                TrackNumber = m.TrackNumber,
+                                Uri = m.Uri,
+                                IsLocal = m.IsLocal
+                            });
+                        }
                     }
                 }
             }
@@ -136,6 +140,7 @@ namespace Playlistofy.Utils
             List<SimpleArtist> simpleArtists = _spotifyClient.Tracks.Get(TrackId).Result.Artists;
             foreach (SimpleArtist a in simpleArtists)
             {
+                Thread.Sleep(75);
                 fullArtists.Add(_spotifyClient.Artists.Get(a.Id).Result);
             }
             foreach (FullArtist a in fullArtists)
