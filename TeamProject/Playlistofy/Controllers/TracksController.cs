@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Playlistofy.Data.Abstract;
 using SpotifyAPI.Web;
 using Playlistofy.Utils.LoadUpload_Information;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Playlistofy.Controllers
 {
@@ -60,6 +61,7 @@ namespace Playlistofy.Controllers
         /// </summary>
         /// <param name="id">Track Id</param>
         /// <returns>A view of the details of the Track whos Id is inputted</returns>
+        [Authorize]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -67,7 +69,7 @@ namespace Playlistofy.Controllers
                 return NotFound();
             }
 
-            var track = _tRepo.GetAllWithTrackMap().Include("TrackAlbumMaps").Where(i => i.Id == id).FirstOrDefault();
+            var track = _tRepo.GetAllWithTrackMap().Include("TrackAlbumMaps").FirstOrDefault(i => i.Id == id);
 
             if (track == null)
             {
@@ -108,6 +110,7 @@ namespace Playlistofy.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [NonAction]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("Id,DiscNumber,DurationMs,Explicit,Href,IsPlayable,Name,Popularity,PreviewUrl,TrackNumber,Uri,IsLocal")] Track track)
         {
             if (ModelState.IsValid)
@@ -125,6 +128,7 @@ namespace Playlistofy.Controllers
         /// <param name="id">The Track Id of the Track being editted</param>
         /// <returns>An Edit view for the track being editted</returns>
         [NonAction]
+        [Authorize]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -149,6 +153,7 @@ namespace Playlistofy.Controllers
         /// <returns>An edit view of the track, or redirect to the index method</returns>
         [NonAction]
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,DiscNumber,DurationMs,Explicit,Href,IsPlayable,Name,Popularity,PreviewUrl,TrackNumber,Uri,IsLocal")] Track track)
         {
@@ -186,6 +191,7 @@ namespace Playlistofy.Controllers
         /// <param name="TrackId">The Id of the Track being Deleted</param>
         /// <param name="PlaylistId">A Playlist Id</param>
         /// <returns></returns>
+        [Authorize]
         public async Task<IActionResult> Delete(string TrackId, string PlaylistId)
         {
             if (TrackId == null)
@@ -212,9 +218,10 @@ namespace Playlistofy.Controllers
         /// <returns></returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(string TrackId, string PlaylistId)
         {
-            //The following are all deletion of maps to avoid erros and exceptions becore deleteing a track
+            //The following are all deletion of maps to avoid errors and exceptions before deleting a track
             //Removes Map for playlists and track
             await _tRepo.RemoveTrackPlaylistMap(TrackId, PlaylistId);
 
@@ -235,6 +242,7 @@ namespace Playlistofy.Controllers
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> SearchTracks(string SearchKeyword, string id, string username)
         {
             var PlaylistTracks = new userPlaylistsTracks();

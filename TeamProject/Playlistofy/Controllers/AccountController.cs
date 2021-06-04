@@ -21,6 +21,7 @@ using Playlistofy.Data.Concrete;
 using Playlistofy.Models.ViewModel;
 using Playlistofy.Utils;
 using SpotifyAPI.Web.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Playlistofy.Controllers
 {
@@ -51,14 +52,15 @@ namespace Playlistofy.Controllers
             _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
 
+        [Authorize]
         public async Task<IActionResult> AccountPage(string Redirect)
         {
             if(Redirect == "redirect")
             {
                 // Make sure "spotifyapi.web.oauth://token" is in your applications redirect URIs!
                 var loginRequest = new LoginRequest(
-                    new Uri("https://playlistofy.azurewebsites.net/Playlists/UploadPlaylistofyPlaylists"),
-                    //new Uri("https://localhost:5001/Playlists/UploadPlaylistofyPlaylists/"),
+                    //new Uri("https://playlistofy.azurewebsites.net/Playlists/UploadPlaylistofyPlaylists/"),
+                    new Uri("https://localhost:5001/Playlists/UploadPlaylistofyPlaylists/"),
                     _spotifyClientId,
                     LoginRequest.ResponseType.Code
                 )
@@ -69,6 +71,7 @@ namespace Playlistofy.Controllers
                 var TempUri = loginRequest.ToUri();
                 //return TempUri;
                 // This call requires Spotify.Web.Auth
+                //return RedirectPermanent(TempUri.AbsoluteUri);
                 BrowserUtil.Open(TempUri);
             }
 

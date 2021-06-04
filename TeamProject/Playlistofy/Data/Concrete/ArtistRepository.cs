@@ -45,21 +45,20 @@ namespace Playlistofy.Data.Concrete
 
         public ArtistTrackMap GetArtistTrackMap(string tId)
         {
-            var map = ArtistMaps.Where(i => i.TrackId == tId).FirstOrDefault();
+            var map = ArtistMaps.FirstOrDefault(i => i.TrackId == tId);
             return map;
         }
 
         public virtual async Task DeleteArtistTrackMapAsync(ArtistTrackMap ArtisttrackMap)
         {
-            if (ArtisttrackMap == null)
+            if (ArtisttrackMap != null)
             {
-                throw new Exception("Entity to delete was null");
+                ArtistMaps.Remove(ArtisttrackMap);
+                await _context.SaveChangesAsync();
             }
             else
             {
-
-                ArtistMaps.Remove(ArtisttrackMap);
-                await _context.SaveChangesAsync();
+                throw new Exception("Entity to delete was null");
             }
             return;
         }
