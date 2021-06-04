@@ -221,7 +221,7 @@ namespace Playlistofy.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteConfirmed(string TrackId, string PlaylistId)
         {
-            //The following are all deletion of maps to avoid erros and exceptions becore deleteing a track
+            //The following are all deletion of maps to avoid errors and exceptions before deleting a track
             //Removes Map for playlists and track
             await _tRepo.RemoveTrackPlaylistMap(TrackId, PlaylistId);
 
