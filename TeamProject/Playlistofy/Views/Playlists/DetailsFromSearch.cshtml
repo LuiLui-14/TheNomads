@@ -70,19 +70,19 @@
                                 <td>
                                     @if (Model.Playlist.Public)
                                     {
-                                        <h5>Public</h5>
+                                        <h5>Privacy: Public</h5>
                                     }
                                     else
                                     {
-                                        <h5>Private</h5>
+                                        <h5>Privacy: Private</h5>
                                     }
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                                <td class="border-top">
                                     @if (Model.Playlist.Collaborative)
                                     {
-                                        <h5>Collaborative</h5>
+                                        <h5>This playlist is Collaborative effort</h5>
                                     }
                                     else if (Model.Playlist.Public)
                                     {
@@ -90,14 +90,14 @@
                                         <a asp-controller="Account" asp-action="PublicUserDetails" asp-route-Id="@Model.Playlist.User.DisplayName">@Model.Playlist.User.DisplayName</a> }
                                     else
                                     {
-                                        <h5>Private</h5>
+                                        <h5>The owner of this playlist wishes to remain private</h5>
                                     }
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                                <td class="border-top">
                                     <h3>Description</h3>
-                                    @if (Model.Playlist.Description != null)
+                                    @if (Model.Playlist.Description.Length > 1)
                                     {
                                         <h5>@Model.Playlist.Description</h5>
                                     }
@@ -108,7 +108,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                                <td class="border-top">
                                     <h3>Tags</h3>
                                 </td>
                             </tr>
