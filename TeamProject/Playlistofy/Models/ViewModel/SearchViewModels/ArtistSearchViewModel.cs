@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Playlistofy.Models.ViewModel.SearchViewModels
 {
-    public class TrackSearchViewModel
+    public class ArtistSearchViewModel
     {
-        public IEnumerable<Track> tracks { get; set; }
+        public IEnumerable<Artist> Artists { get; set; }
         public string SearchTerm { get; set; }
     }
 }

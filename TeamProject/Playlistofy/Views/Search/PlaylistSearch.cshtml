@@ -1,69 +1,86 @@
-﻿@model IEnumerable<Playlistofy.Models.Playlist>
+﻿@model Playlistofy.Models.ViewModel.SearchViewModels.PlaylistSearchViewModel
 
 @{
     ViewData["Title"] = "PlaylistSearch";
 }
 
 <div class="main">
-    <h1>Playlist Search</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Public)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Collaborative)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                @if (item.Public == true)
+    @if (Model.PlaylistOrTag == true)
+    {
+        <h1>Playlist Search</h1>
+        <h3>Searching For: @Model.SearchTerm</h3>
+    }
+    else
+    {
+        <h1>Playlist by Tag Search</h1>
+        <h3>Searching For: @Model.SearchTerm</h3>
+    }
+    @if (Model.Playlists.Count() > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Playlists.FirstOrDefault().Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Playlists.FirstOrDefault().Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Playlists.FirstOrDefault().Public)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Playlists.FirstOrDefault().Collaborative)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Playlists)
                 {
-                    <td>
-                        Yes
-                    </td>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        @if (item.Public == true)
+                        {
+                            <td>
+                                Yes
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                No
+                            </td>
+                        }
+                        @if (item.Collaborative == true)
+                        {
+                            <td>
+                                Yes
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                No
+                            </td>
+                        }
+                        <td>
+                            <a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@item.Id">Details</a>
+                        </td>
+                    </tr>
                 }
-                else
-                {
-                    <td>
-                        No
-                    </td>
-                }
-                @if (item.Collaborative == true)
-                {
-                    <td>
-                        Yes
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        No
-                    </td>
-                }
-                <td>
-                    <a asp-controller="Playlists" asp-action="DetailsFromSearch" asp-route-id="@item.Id">Details</a>
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div>
+            <partial name="_EmptySearchPartial" />
+        </div>
+    }
 </div>
