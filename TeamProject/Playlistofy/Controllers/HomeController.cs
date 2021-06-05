@@ -57,7 +57,6 @@ namespace Playlistofy.Controllers
             _spotifyClientSecret = config["Spotify:ClientSecret"];
         }
 
-        [Authorize]
         public async Task<IActionResult> IndexAsync(string PlaylistIDAdded)
         {
             if (PlaylistIDAdded != null)
@@ -164,7 +163,6 @@ namespace Playlistofy.Controllers
             //return View(new List<Playlist>());
         }
 
-        [Authorize]
         public async Task<IActionResult> SpotifyProfile()
         {
             IdentityUser usr = await GetCurrentUserAsync();
@@ -252,7 +250,6 @@ namespace Playlistofy.Controllers
         //    return View("WebPlayer", viewModel);
         //}
         [HttpPost]
-        [Authorize]
         public JsonResult AutoComplete(string prefix, string searchType)
         {
             if (searchType == "Album")
