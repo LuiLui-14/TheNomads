@@ -487,44 +487,31 @@ namespace Playlistofy.Controllers
             viewModel.QueryPlaylistsConfirmation = topPlaylists;
             viewModel.SpotifyPlaylists = new List<Playlist>();
 
-            if (topPlaylists == "QueryTopPlaylists")
-            {
-                Console.WriteLine("Getting through");
-                //Creates searchSpotify folder with necessary functions to use later
-                var SearchSpotify = new searchSpotify(_userManager, _spotifyClientId, _spotifyClientSecret);
-                //Creates spotify client
-                var _spotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
-                //Search and return a list of tracks
-                var browsePlaylists = await SearchSpotify.GetTopPlaylists(_spotifyClient, viewModel.PersonalPlaylists);
-
-                viewModel.SpotifyPlaylists = browsePlaylists;
+            var AddSpotifyPlaylistsUtil = new UploadToSpotifyUtil(_userManager, _pRepo, _tRepo, usr, _spotifyClientId, _spotifyClientSecret);
+            if (topPlaylists == "QueryTopPlaylists") {
+                var getBrowse = AddSpotifyPlaylistsUtil.browsePlaylists(viewModel);
+                viewModel.SpotifyPlaylists = await getBrowse;
             }
 
-            if (playlistID != null)
-            {
+            if (playlistID != null) {
                 //Creates searchSpotify folder with necessary functions to use later
                 var SearchSpotify = new searchSpotify(_userManager, _spotifyClientId, _spotifyClientSecret);
                 //Creates spotify client
                 var _spotifyClient = SearchSpotify.makeSpotifyClient(_spotifyClientId, _spotifyClientSecret);
                 var playlist = await SearchSpotify.GetPlaylist(_spotifyClient, playlistID);
-
-                if (await _pRepo.FindByIdAsync(playlistID) == null)
-                {
+                if (await _pRepo.FindByIdAsync(playlistID) == null) {
                     playlist.UserId = _userManager.GetUserId(User);
                     await _pRepo.AddAsync(playlist);
 
                     var playlistTracks = await SearchSpotify.GetPlaylistTracks(_spotifyClient, playlistID);
-                    foreach (var track in playlistTracks)
-                    {
-                        if (await _tRepo.FindByIdAsync(track.Id) == null)
-                        {
+                    foreach (var track in playlistTracks) {
+                        if (await _tRepo.FindByIdAsync(track.Id) == null) {
                             await _tRepo.AddAsync(track);
                         }
                         await _tRepo.AddTrackPlaylistMap(track.Id, playlist.Id);
                     }
                 }
             }
-
             return View(viewModel);
         }
 
