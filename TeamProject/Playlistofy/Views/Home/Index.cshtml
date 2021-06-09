@@ -91,7 +91,8 @@
                     }
                     <tr>
                         <td>
-                            @{
+                            @if (count < Model.SearchedPlaylistsUsers.Count)
+                            {
                                 var listUser = Model.SearchedPlaylistsUsers.ElementAt(count);
                                 if (listUser.Length > 25)
                                 {
